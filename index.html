@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="kaa" data-mode="light" data-style="classic">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
+<meta name="theme-color" content="#1c1c1c">
+<title>PulCount</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Inter+Tight:wght@600;700;800&display=swap">
+<link rel="stylesheet" href="style.css">
+<script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+<!-- PULCOUNT:BODY:START -->
+<div class="blobs" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+<div class="intro" id="intro" role="presentation">
+  <div class="in-rows" aria-hidden="true"><div class="in-row"></div><div class="in-row"></div><div class="in-row"></div><div class="in-row"></div><div class="in-row"></div><div class="in-row"></div></div>
+  <div class="in-glow"></div>
+  <canvas class="in-burst" id="introBurst"></canvas>
+  <div class="in-stage">
+    <div class="in-rings"><i></i><i></i><i></i></div>
+    <div class="in-tiles"><i class="t1"></i><i class="t2"></i><i class="t3"></i><i class="t4"></i></div>
+    <div class="in-mark"><svg viewBox="0 0 118 118" fill="none"><rect x="4" y="4" width="110" height="110" rx="34" fill="#7B5CFA"/><path class="draw" d="M42 86V34h22a16 16 0 0 1 0 32H42" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><circle class="draw" cx="80" cy="82" r="7" stroke="#fff" stroke-width="5"/></svg></div>
+  </div>
+  <div class="in-word" id="introWord"></div>
+  <div class="in-count num" id="introCounter"></div>
+  <div class="in-tag" id="introTag"></div>
+  <button class="skip" id="introSkip"></button>
+  <div class="in-wipe"></div>
+</div>
+
+<main id="app">
+  <section class="view" id="v-home"></section>
+  <section class="view" id="v-stats"></section>
+  <section class="view" id="v-services"></section>
+  <section class="view" id="v-profile"></section>
+</main>
+
+<nav class="nav" id="nav" aria-label="Navigation">
+  <div class="nav-pill">
+    <span class="nav-ind" aria-hidden="true"></span>
+    <button class="nav-it" data-tab="home"><i data-lucide="house"></i><span class="lbl" data-t="Bas bet"></span></button>
+    <button class="nav-it" data-tab="stats"><i data-lucide="chart-pie"></i><span class="lbl" data-t="Statistika"></span></button>
+    <button class="nav-it" data-tab="services"><i data-lucide="layout-grid"></i><span class="lbl" data-t="Xızmetler"></span></button>
+    <button class="nav-it" data-tab="profile"><i data-lucide="user-round"></i><span class="lbl" data-t="Profil"></span></button>
+  </div>
+  <button class="nav-ai" id="aiBtn" aria-label="AI"><span class="ai-orb"><i></i><i></i><i></i><i></i></span><span class="ai-glyph"><i data-lucide="sparkles"></i></span></button>
+</nav>
+
+<div class="page" id="page" role="dialog" aria-modal="true"></div>
+<div class="overlay hide" id="overlay"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true"></div>
+<div class="toast" id="toast"></div>
+<canvas class="confetti" id="confetti"></canvas>
+<!-- PULCOUNT:BODY:END -->
+<script src="app.js"></script>
+</body>
+</html>
