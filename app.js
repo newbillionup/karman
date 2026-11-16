@@ -1,4 +1,4 @@
-/* PulCount — Qaraqalpaqsha kirim-shıǵım qosımshası
+/* KARMAN AI — Qaraqalpaqsha kirim-shıǵım qosımshası
    Jaratıwshı: Qonarbaev Damir
    HTML + CSS + JS, maǵlıwmatlar brauzerdiń localStorage ında saqlanadı. */
 'use strict';
@@ -22,7 +22,7 @@ function refreshIcons() {
 }
 
 /* ================= Transliteration: Qaraqalpaq Latın → Kiril ================= */
-const PROTECT = /(PulCount|BUSINESS|MAX|Aurora|JPG|PNG|Liquid Glass|Classic|Glass|Uzcard|Humo|Visa|Mastercard|Click|Payme|Paynet|Beeline|Ucell|Mobiuz|Uzmobile|Humans|Uzonline|Sarkor|Comnet|TPS|UzDigital|ATTO|PRO|PIN|CSV|JSON|UZS|USD|EUR|RUB|KZT|AI|ID|QR|GAI|YHXB|SMS|v\d[\d.]*)/g;
+const PROTECT = /(KARMAN AI|KARMAN|KARMAN AI|BUSINESS|MAX|Aurora|JPG|PNG|Liquid Glass|Classic|Glass|Uzcard|Humo|Visa|Mastercard|Click|Payme|Paynet|Beeline|Ucell|Mobiuz|Uzmobile|Humans|Uzonline|Sarkor|Comnet|TPS|UzDigital|ATTO|PRO|PIN|CSV|JSON|UZS|USD|EUR|RUB|KZT|AI|ID|QR|GAI|YHXB|SMS|v\d[\d.]*)/g;
 const DI = { Sh: 'Ш', SH: 'Ш', sh: 'ш', Ch: 'Ч', CH: 'Ч', ch: 'ч', Yu: 'Ю', YU: 'Ю', yu: 'ю', Ya: 'Я', YA: 'Я', ya: 'я', Yo: 'Ё', yo: 'ё' };
 const MONO = {
   'Á': 'Ә', 'á': 'ә', 'Ǵ': 'Ғ', 'ǵ': 'ғ', 'Í': 'Ы', 'ı': 'ы', 'Ń': 'Ң', 'ń': 'ң', 'Ó': 'Ө', 'ó': 'ө', 'Ú': 'Ү', 'ú': 'ү',
@@ -81,7 +81,7 @@ const parseMoney = v => +String(v || '').replace(/[^\d]/g, '') || 0;
 const hideable = s => S.hideBal ? `<span class="blurred">${s}</span>` : s;
 
 /* ================= defaults ================= */
-const PALETTE = ['#7B5CFA', '#3B3B46', '#A48BFF', '#5233E0', '#C04BE6', '#2B1B78', '#9C8FD9', '#6E6A85', '#D19BFF', '#4F46E5', '#B07CF0', '#8B5CF6'];
+const PALETTE = ['#7B5CFA', '#3B3B46', '#A48BFF', '#5233E0', '#9C85FF', '#2B1B78', '#9C85FF', '#4A4A55', '#B8A6FF', '#5B3EE6', '#8C6FFF', '#7B5CFA'];
 const CAT_ICONS = ['shopping-basket', 'car', 'zap', 'smartphone', 'heart-pulse', 'shirt', 'gamepad-2', 'graduation-cap', 'house', 'coffee', 'gift', 'ellipsis', 'briefcase', 'store', 'sparkles', 'trending-up', 'circle-plus', 'plane', 'baby', 'dumbbell', 'pill', 'fuel', 'book-open', 'film', 'wrench', 'paw-print', 'music', 'laptop', 'utensils', 'banknote'];
 function defaultCats() {
   return [
@@ -89,20 +89,20 @@ function defaultCats() {
     { id: 'transport', name: 'Transport', icon: 'car', color: '#3B3B46', type: 'expense' },
     { id: 'utility', name: 'Kommunal', icon: 'zap', color: '#A48BFF', type: 'expense' },
     { id: 'comm', name: 'Baylanıs', icon: 'smartphone', color: '#5233E0', type: 'expense' },
-    { id: 'health', name: 'Densawlıq', icon: 'heart-pulse', color: '#C04BE6', type: 'expense' },
+    { id: 'health', name: 'Densawlıq', icon: 'heart-pulse', color: '#9C85FF', type: 'expense' },
     { id: 'cloth', name: 'Kiyim-keshek', icon: 'shirt', color: '#2B1B78', type: 'expense' },
-    { id: 'fun', name: 'Kewil ashıw', icon: 'gamepad-2', color: '#9C8FD9', type: 'expense' },
-    { id: 'edu', name: 'Bilim', icon: 'graduation-cap', color: '#4F46E5', type: 'expense' },
-    { id: 'home', name: 'Turaq jay', icon: 'house', color: '#6E6A85', type: 'expense' },
-    { id: 'cafe', name: 'Kafe', icon: 'coffee', color: '#D19BFF', type: 'expense' },
-    { id: 'gift', name: 'Sawǵalar', icon: 'gift', color: '#B07CF0', type: 'expense' },
-    { id: 'other', name: 'Basqa', icon: 'ellipsis', color: '#8B8799', type: 'expense' },
+    { id: 'fun', name: 'Kewil ashıw', icon: 'gamepad-2', color: '#9C85FF', type: 'expense' },
+    { id: 'edu', name: 'Bilim', icon: 'graduation-cap', color: '#5B3EE6', type: 'expense' },
+    { id: 'home', name: 'Turaq jay', icon: 'house', color: '#4A4A55', type: 'expense' },
+    { id: 'cafe', name: 'Kafe', icon: 'coffee', color: '#B8A6FF', type: 'expense' },
+    { id: 'gift', name: 'Sawǵalar', icon: 'gift', color: '#8C6FFF', type: 'expense' },
+    { id: 'other', name: 'Basqa', icon: 'ellipsis', color: '#8A8798', type: 'expense' },
     { id: 'salary', name: 'Aylıq', icon: 'briefcase', color: '#7B5CFA', type: 'income' },
     { id: 'biz', name: 'Biznes', icon: 'store', color: '#5233E0', type: 'income' },
     { id: 'bonus', name: 'Bonus', icon: 'sparkles', color: '#A48BFF', type: 'income' },
-    { id: 'gift_in', name: 'Sawǵa', icon: 'gift', color: '#C04BE6', type: 'income' },
+    { id: 'gift_in', name: 'Sawǵa', icon: 'gift', color: '#9C85FF', type: 'income' },
     { id: 'invest', name: 'Investiciya', icon: 'trending-up', color: '#2B1B78', type: 'income' },
-    { id: 'other_in', name: 'Basqa kirim', icon: 'circle-plus', color: '#6E6A85', type: 'income' }
+    { id: 'other_in', name: 'Basqa kirim', icon: 'circle-plus', color: '#4A4A55', type: 'income' }
   ];
 }
 function seedTx() {
@@ -134,16 +134,15 @@ function seedTx() {
 function defaults(withDemo = true) {
   const now = new Date();
   return {
-    v: 1, lang: 'lat', style: 'classic', mode: 'light', elder: false, hideBal: false,
+    v: 1, lang: 'lat', style: 'classic', mode: 'dark', elder: false, hideBal: false,
     name: 'Paydalanıwshı', plan: 'pro', planUntil: null,
     wallets: [
-      { id: 'cash', name: 'Naq aqsha', icon: 'wallet', theme: 'paper', initial: withDemo ? 850000 : 0 },
-      { id: 'uzcard', name: 'Uzcard', icon: 'credit-card', theme: 'violet', initial: withDemo ? 3200000 : 0, no: '8600 •• 4414' },
-      { id: 'humo', name: 'Humo', icon: 'credit-card', theme: 'ink', initial: withDemo ? 1450000 : 0, no: '9860 •• 2207' }
+      { id: 'cash', name: 'Naqd pul', icon: 'banknote', theme: 'paper', initial: 0 },
+      { id: 'uzcard', name: 'Plastik karta', icon: 'credit-card', theme: 'violet', initial: 0 }
     ],
     cats: defaultCats(),
     tx: withDemo ? seedTx() : [],
-    budget: { total: 4500000, cats: { food: 1500000, transport: 500000, cafe: 450000, fun: 300000 } },
+    budget: withDemo ? { total: 4500000, cats: { food: 1500000, transport: 500000, cafe: 450000, fun: 300000 } } : { total: 0, cats: {} },
     goals: withDemo ? [
       { id: uid(), name: 'Jańa noutbuk', target: 9000000, saved: 3150000, icon: 'laptop' },
       { id: uid(), name: 'Sayaxat', target: 5000000, saved: 1200000, icon: 'plane' }
@@ -161,20 +160,20 @@ function defaults(withDemo = true) {
   };
 }
 
-let S = Object.assign(defaults(true), store.load() || {});
+let S = Object.assign(defaults(false), store.load() || {});
 if (!['pro', 'max'].includes(S.plan)) { S.plan = 'pro'; S.planUntil = null; }
 if (S.autoRenew === undefined) S.autoRenew = true;
 if (!Array.isArray(S.invoices)) S.invoices = [];
 if (!S.profile) S.profile = { first: S.name && S.name !== 'Paydalanıwshı' ? S.name.split(' ')[0] : '', last: S.name && S.name.includes(' ') ? S.name.split(' ').slice(1).join(' ') : '', father: '', phone: '', photo: '' };
-if (S.style === 'aurora' && S.plan !== 'max') S.style = 'glass';
+
 const save = () => store.save(S);
 const UI = { tab: 'home', statPeriod: 'month', statOffset: 0, statType: 'expense', svcQuery: '', svcSearch: false, svcGroup: 'all', homeDay: null, capSel: null, gaugeCat: 'all' };
 
 /* ================= derived data ================= */
-const catById = id => S.cats.find(c => c.id === id) || { id, name: 'Basqa', icon: 'ellipsis', color: '#8B8799', type: 'expense' };
+const catById = id => S.cats.find(c => c.id === id) || { id, name: 'Basqa', icon: 'ellipsis', color: '#8A8798', type: 'expense' };
 const walletById = id => S.wallets.find(w => w.id === id);
 const walletName = id => walletById(id) ? t(walletById(id).name) : '—';
-function walletBal(id) {
+function walletBal0(id) {
   const w = walletById(id); let b = w ? +w.initial || 0 : 0;
   for (const x of S.tx) {
     if (x.type === 'income' && x.wallet === id) b += x.amount;
@@ -198,10 +197,10 @@ function plan() {
   if (S.plan === 'max' && S.planUntil && S.planUntil < today()) {
     const w = walletById(S.planWallet) ? S.planWallet : S.wallets[0]?.id;
     if (S.autoRenew && w && walletBal(w) >= PLANS.max.price) {
-      S.tx.push({ id: uid(), type: 'expense', amount: PLANS.max.price, cat: 'other', wallet: w, date: today(), note: 'PulCount MAX (avto)', ts: Date.now() });
+      S.tx.push({ id: uid(), type: 'expense', amount: PLANS.max.price, cat: 'other', wallet: w, date: today(), note: 'KARMAN AI MAX (avto)', ts: Date.now() });
       S.planUntil = iso(addDays(fromIso(S.planUntil), 30)); if (S.planUntil < today()) S.planUntil = iso(addDays(new Date(), 30));
       setTimeout(() => toast(t('MAX tarifi avtomat jańalandı'), { icon: 'gem' }), 4200);
-    } else { S.plan = 'pro'; S.planUntil = null; if (S.style === 'aurora') S.style = 'glass'; }
+    } else { S.plan = 'pro'; S.planUntil = null;  }
     save();
   }
   return S.plan === 'max' ? 'max' : 'pro';
@@ -224,7 +223,7 @@ function notifications() {
   });
   S.goals.filter(g => g.saved >= g.target).forEach(g => out.push({ id: 'g-' + g.id, icon: 'target', title: `${t('Maqsetke jettińiz')}: ${esc(t(g.name))}`, text: money(g.target), raw: true }));
   try { hubLoad().broadcasts.slice().reverse().forEach(b => out.unshift({ id: 'bc-' + b.id, icon: 'megaphone', title: esc(t(b.title)), text: esc(t(b.text)) + ' · ' + b.date.split('-').reverse().join('.'), raw: true })); } catch (e) {}
-  out.push({ id: 'welcome', icon: 'sparkles', title: t('PulCount ǵa xosh keldińiz!'), text: t('AI tuymesin basıp, «taksi 25 mıń» dep jazıp kóriń.'), raw: true });
+  out.push({ id: 'welcome', icon: 'sparkles', title: t('KARMAN AI ǵa xosh keldińiz!'), text: t('AI tuymesin basıp, «taksi 25 mıń» dep jazıp kóriń.'), raw: true });
   return out;
 }
 const unread = () => notifications().filter(n => !S.seen.includes(n.id)).length;
@@ -234,7 +233,7 @@ function applyLook() {
   const r = document.documentElement;
   let mode = S.mode;
   if (mode === 'auto') mode = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  const aur = S.style === 'aurora' && S.plan === 'max';
+  const aur = S.style === 'aurora';
   if (aur) mode = 'dark';
   r.dataset.mode = mode; r.dataset.style = aur ? 'aurora' : (S.style === 'aurora' ? 'glass' : S.style); r.dataset.aurora = aur ? '1' : '0';
   r.dataset.tier = S.plan === 'max' ? 'max' : 'pro'; r.dataset.elder = S.elder ? '1' : '0';
@@ -413,7 +412,7 @@ function gaugeSvg(parts, w = 220) {
   parts.forEach(p => { if (p.v <= 0.005) return; const a1 = Math.min(1, a + p.v); out += `<path d="${arc(a + .012, a1 - .012)}" class="${p.cls}"/>`; a = a1; });
   return `<svg viewBox="0 0 220 112" width="100%" class="gauge" aria-hidden="true"><defs><linearGradient id="hatchP" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#C9B8FF"/><stop offset="1" stop-color="#7B5CFA" stop-opacity=".35"/></linearGradient><linearGradient id="gOn" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#6A47F2"/><stop offset="1" stop-color="#A48BFF"/></linearGradient></defs>${out}</svg>`;
 }
-function renderHome() {
+function renderHome0() {
   const el = $('#v-home'); const r = monthRange(); const wsel = S.homeWallet; const now = new Date();
   const mlist = inRange(r.a, r.b);
   const inc = sum(mlist.filter(x => wsel === 'all' || x.wallet === wsel), 'income');
@@ -754,7 +753,7 @@ function statBuckets(R, type) {
   while (s <= end) { const e = addDays(s, 6) > end ? end : addDays(s, 6); out.push({ label: `${s.getDate()}–${e.getDate()}`, full: `${s.getDate()}–${e.getDate()} ${t(MONTHS[s.getMonth()])}`, v: sum(inRange(iso(s), iso(e)), type), fut: iso(s) > today() }); s = addDays(e, 1); k++; }
   return out;
 }
-function renderStats() {
+function renderStats0() {
   const el = $('#v-stats'); const R = getRange(UI.statPeriod, UI.statOffset); const P = getRange(UI.statPeriod, UI.statOffset + 1);
   const list = inRange(R.a, R.b); const inc = sum(list, 'income'), exp = sum(list, 'expense');
   const type = UI.statType; const tot = type === 'expense' ? exp : inc;
@@ -875,7 +874,7 @@ const SVC_GROUP = { mobile: 'comm', elec: 'util', gas: 'util', water: 'util', he
 const SVC_GROUPS = [['all', 'Barlıǵı'], ['util', 'Kommunal'], ['comm', 'Baylanıs'], ['fin', 'Qarjı'], ['gov', 'Mámleket'], ['life', 'Turmıs']];
 const SVC_GNAME = { util: 'Kommunal', comm: 'Baylanıs', fin: 'Qarjı', gov: 'Mámleket', life: 'Turmıs' };
 const FX_CHG = { USD: .12, EUR: -.08, RUB: .31, KZT: -.05 };
-function renderServices() {
+function renderServices0() {
   const el = $('#v-services'); const q = toLat(UI.svcQuery.trim()); const g = UI.svcGroup || 'all';
   const shown = SERVICES.filter(s => (g === 'all' || SVC_GROUP[s.id] === g) && (!q || toLat(s.name).includes(q) || (s.prov || []).some(p => toLat(p).includes(q))));
   const recent = []; const seen = new Set();
@@ -1079,7 +1078,7 @@ function openDepositCalc() {
 }
 
 /* ================= PROFILE ================= */
-function renderProfile() {
+function renderProfile0() {
   const el = $('#v-profile'); const max = isMax(); const p = S.profile || {};
   const r = monthRange(); const l = inRange(r.a, r.b); const inc = sum(l, 'income'), exp = sum(l, 'expense');
   const rate = inc ? Math.max(0, Math.round((inc - exp) / inc * 100)) : 0;
@@ -1114,7 +1113,7 @@ function renderProfile() {
           <button id="bzCal">${ic('calendar-range')}<span>${t('Kalendar')}</span></button>
           <button id="bzFc">${ic('trending-up')}<span>${t('Prognoz')}</span></button>
         </div></section>`
-      : `<button class="max-banner" id="pfMax"><span class="mb-gem">${ic('gem')}</span><span class="mb-t"><small>${t('Jańa dárejege kóteriliń')}</small><b>PulCount MAX</b><span class="mb-f">${['Sheksiz AI', 'Biznes paneli', 'Aurora'].map(f => `<i>${t(f)}</i>`).join('')}</span></span><span class="mb-go">${ic('arrow-up-right')}</span></button>`}
+      : `<button class="max-banner" id="pfMax"><span class="mb-gem">${ic('gem')}</span><span class="mb-t"><small>${t('Jańa dárejege kóteriliń')}</small><b>KARMAN AI MAX</b><span class="mb-f">${['Sheksiz AI', 'Biznes paneli', 'Aurora'].map(f => `<i>${t(f)}</i>`).join('')}</span></span><span class="mb-go">${ic('arrow-up-right')}</span></button>`}
 
     <div class="group"><h4>${t('QARJÍ')}</h4><div class="card list">
       ${row('pfWallets', 'wallet', 'Hamyanlar', `${S.wallets.length} ${t('hamyan')} · ${grp(totalBal())} ${cur()}`)}
@@ -1135,9 +1134,9 @@ function renderProfile() {
       <div class="style-pick">
         <button class="sp ${S.style === 'classic' ? 'on' : ''}" data-style="classic"><span class="prev c"><i></i><i></i><i></i></span><span class="ell">Classic</span></button>
         <button class="sp ${S.style === 'glass' ? 'on' : ''}" data-style="glass"><span class="prev g"><i></i><i></i><i></i></span><span class="ell">Liquid Glass</span></button>
-        <button class="sp ${S.style === 'aurora' ? 'on' : ''}" data-style="aurora"><span class="prev a"><i></i><i></i><i></i>${max ? '' : `<em>${ic('lock')}</em>`}</span><span class="ell">Aurora</span></button>
+        <button class="sp ${S.style === 'aurora' ? 'on' : ''}" data-style="aurora"><span class="prev a"><i></i><i></i><i></i></span><span class="ell">Aurora</span></button>
       </div>
-      <div style="padding:4px 8px 10px"><div class="seg ${S.style === 'aurora' && max ? 'dim' : ''}">
+      <div style="padding:4px 8px 10px"><div class="seg ${S.style === 'aurora' ? 'dim' : ''}">
         <button data-mode="light" class="${S.mode === 'light' ? 'on' : ''}">${t('Jaqtı')}</button><button data-mode="dark" class="${S.mode === 'dark' ? 'on' : ''}">${t('Qarańǵı')}</button><button data-mode="auto" class="${S.mode === 'auto' ? 'on' : ''}">${t('Avtomat')}</button></div></div>
       ${sw('pfElder', 'accessibility', 'Úlkenler ushın rejim', 'Úlken jazıw hám anıq tuymeler', S.elder)}
     </div></div>
@@ -1159,9 +1158,9 @@ function renderProfile() {
       ${row('pfHelp', 'circle-help', 'Járdem hám sorawlar')}
       ${row('pfRate', 'star', 'Qosımshanı bahalaw', S.rated ? '★'.repeat(S.rated) : '')}
       ${row('pfIntro', 'play', 'Introdı qayta kóriw')}
-      ${row('pfAbout', 'info', 'Qosımsha haqqında', 'PulCount v3.0')}
+      ${row('pfAbout', 'info', 'Qosımsha haqqında', 'KARMAN AI v3.0')}
     </div></div>
-    <p class="muted" style="text-align:center;font-size:.75rem;margin:4px 0 0">PulCount · ${t('Jaratıwshı')}: ${t('Qonarbaev Damir')}</p>
+    <p class="muted" style="text-align:center;font-size:.75rem;margin:4px 0 0">KARMAN AI · ${t('Jaratıwshı')}: ${t('Qonarbaev Damir')}</p>
   `;
   $('#pfEdit').onclick = openProfileEdit; $('#pfAva').onclick = openProfileEdit;
   const aph = $('#pfAddPh'); if (aph) aph.onclick = openProfileEdit;
@@ -1173,7 +1172,7 @@ function renderProfile() {
   $('#pfDebts').onclick = openDebts; $('#pfRec').onclick = openRecurring; $('#pfBiz').onclick = openBusiness; $('#pfRep').onclick = openReport; $('#pfCal').onclick = openCalendar;
   $$('[data-style]', el).forEach(b => b.onclick = () => {
     const st = b.dataset.style;
-    if (st === 'aurora' && !isMax()) return openPlans('max');
+    
     S.style = st; save(); applyLook(); renderView();
   });
   $$('[data-mode]', el).forEach(b => b.onclick = () => { S.mode = b.dataset.mode; save(); applyLook(); renderView(); });
@@ -1286,7 +1285,7 @@ function openWalletEdit(w = null) {
   });
 }
 /* categories */
-function openCats() {
+function openCats0() {
   let type = 'expense';
   Sheet.open({
     title: t('Kategoriyalar'),
@@ -1360,7 +1359,7 @@ function openBudget() {
   });
 }
 /* goals */
-function openGoals() {
+function openGoals0() {
   Sheet.open({
     title: t('Jinaq maqsetleri'),
     html: () => `${S.goals.length ? S.goals.map(g => { const p = clamp(g.saved / g.target * 100, 0, 100); return `<div class="card tile" style="gap:10px">
@@ -1408,7 +1407,7 @@ function openGoals() {
   });
 }
 /* debts */
-function openDebts() {
+function openDebts0() {
   let tab = 'given';
   Sheet.open({
     title: t('Qarız dápteri'),
@@ -1553,13 +1552,13 @@ function openPlans(pref) {
         Sheet.open({
           title: t('Tastıyıqlaw'),
           html: () => `<div class="receipt"><span class="r-logo">${ic('gem')}</span><div class="r-amt num">${grp(P.price)}<span style="font-size:1.1rem;color:var(--muted);letter-spacing:0"> ${cur()}</span></div>
-            <div class="muted">PulCount MAX · 30 ${t('kún')}</div><hr>
+            <div class="muted">KARMAN AI MAX · 30 ${t('kún')}</div><hr>
             <div class="kv"><span>${t('Hamyan')}</span><span>${walletName(wallet)}</span></div>
             <div class="kv"><span>${t('Avto sheship alıw')}</span><span>${S.autoRenew ? t('Qosılǵan') : t('Óshirilgen')}</span></div></div>
             <div class="slider" id="slider"><div class="s-fill"></div><div class="s-txt">${t('Tólew ushın súyreń')}</div><div class="knob">${ic('chevrons-right')}</div></div>
             <div class="demo-note">${ic('shield-check')}${t('Demo rejim: summa hamyannan shıǵım retinde jazıladı')}</div>`,
           mount: e2 => slideToConfirm($('#slider', e2), () => {
-            S.tx.push({ id: uid(), type: 'expense', amount: P.price, cat: 'other', wallet, date: today(), note: 'PulCount MAX', ts: Date.now() });
+            S.tx.push({ id: uid(), type: 'expense', amount: P.price, cat: 'other', wallet, date: today(), note: 'KARMAN AI MAX', ts: Date.now() });
             S.plan = 'max'; S.planUntil = iso(addDays(new Date(), 30)); S.planWallet = wallet; save();
             Sheet.replace({
               title: '', html: () => `<div class="success"><span class="ok-c">${ic('gem')}</span><h3>${t('MAX aktivlestirildi!')}</h3><span class="status-chip biz">${ic('briefcase-business')}BUSINESS</span><div class="muted" style="margin-top:4px">${t('Statusıńız BUSINESS ke ózgerdi')}</div></div>
@@ -1576,7 +1575,7 @@ function openPlans(pref) {
 async function cancelMax() {
   if (!isMax()) return;
   if (await ask('MAX tarifin biykarlaw', 'MAX múmkinshilikleri, Aurora stili hám BUSINESS statusı óshiriledi. Tóleńgen summa qaytarılmaydı.', 'Biykarlaw', true)) {
-    S.plan = 'pro'; S.planUntil = null; S.autoRenew = false; if (S.style === 'aurora') S.style = 'glass'; save(); Page.closeAll(); renderAll();
+    S.plan = 'pro'; S.planUntil = null; S.autoRenew = false; save(); Page.closeAll(); renderAll();
   }
 }
 /* MAX: business panel */
@@ -1661,7 +1660,7 @@ function openCalendar() {
       S.recurring.forEach(p => add(iso(new Date(y, m, Math.min(p.day, nd))), { icon: 'repeat', name: t(p.name), amount: p.amount, kind: t('Turaqlı tólem'), done: p.paid === `${y}-${pad(m + 1)}` }));
       S.debts.filter(d => !d.paid).forEach(d => add(d.due, { icon: 'hand-coins', name: d.name, amount: d.amount, kind: t(d.type === 'given' ? 'Qarız qaytarıladı' : 'Qarızdı tólew') }));
       S.invoices.filter(i => !i.paid).forEach(i => add(i.due, { icon: 'file-text', name: i.client, amount: i.amount, kind: t('Hisob-faktura') }));
-      if (S.plan === 'max' && S.planUntil) add(S.planUntil, { icon: 'gem', name: 'PulCount MAX', amount: PLANS.max.price, kind: t('Tarif jańalanıwı') });
+      if (S.plan === 'max' && S.planUntil) add(S.planUntil, { icon: 'gem', name: 'KARMAN AI MAX', amount: PLANS.max.price, kind: t('Tarif jańalanıwı') });
       const txd = {}; S.tx.filter(x => x.type === 'expense' && x.date.startsWith(`${y}-${pad(m + 1)}`)).forEach(x => txd[x.date] = (txd[x.date] || 0) + x.amount);
       const evs = ev[sel] || []; const dayTx = S.tx.filter(x => x.date === sel);
       return `<div class="cal-head"><button class="circ" id="calP">${ic('chevron-left')}</button><b>${t(MONTHS[m])} ${y}</b><button class="circ" id="calN">${ic('chevron-right')}</button></div>
@@ -1694,7 +1693,7 @@ function openAds() {
   const st = { kind: 'Baner', dur: '1 ay' };
   Sheet.open({
     title: t('Reklama ushın arza'), full: true,
-    html: () => `<div class="card tile ink" style="gap:8px"><span class="chip-ic">${ic('megaphone')}</span><div style="font-weight:700">${t('Biznesińizdi PulCount paydalanıwshılarına kórsetiń')}</div>
+    html: () => `<div class="card tile ink" style="gap:8px"><span class="chip-ic">${ic('megaphone')}</span><div style="font-weight:700">${t('Biznesińizdi KARMAN AI paydalanıwshılarına kórsetiń')}</div>
         <div class="t-s" style="white-space:normal">${t('Arzanı jiberiń, biz siz benen 24 saat ishinde baylanısamız.')}</div></div>
       <div class="field"><label>${t('Kompaniya yamasa brend atı')}</label><input class="inp" id="adN" maxlength="40"></div>
       <div class="row2"><div class="field"><label>${t('Baylanıs adamı')}</label><input class="inp" id="adP" maxlength="30"></div>
@@ -1793,7 +1792,7 @@ function openHelp() {
 function openRate() {
   Sheet.open({
     title: t('Qosımshanı bahalaw'),
-    html: () => `<p class="muted" style="margin:0;text-align:center">${t('PulCount sizge unadı ma?')}</p>
+    html: () => `<p class="muted" style="margin:0;text-align:center">${t('KARMAN AI sizge unadı ma?')}</p>
       <div style="display:flex;justify-content:center;gap:8px">${[1, 2, 3, 4, 5].map(i => `<button data-star="${i}" style="color:${i <= S.rated ? 'var(--violet)' : 'var(--line)'};font-size:2rem">${ic('star')}</button>`).join('')}</div>`,
     mount: el => $$('[data-star]', el).forEach(b => b.onclick = () => { S.rated = +b.dataset.star; save(); Sheet.close(); renderView(); if (S.rated === 5) confetti(80); })
   });
@@ -1804,13 +1803,13 @@ function openAbout() {
     html: () => `<div style="display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;padding:6px 0">
         <svg viewBox="0 0 118 118" width="92" height="92"><defs><linearGradient id="ab" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#C7B6FF"/><stop offset=".5" stop-color="#7B5CFA"/><stop offset="1" stop-color="#5233E0"/></linearGradient></defs>
         <rect x="4" y="4" width="110" height="110" rx="34" fill="#7B5CFA"/><path d="M42 86V34h22a16 16 0 0 1 0 32H42" stroke="#fff" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="80" cy="82" r="7" stroke="#fff" stroke-width="5" fill="none"/></svg>
-        <div style="font-family:var(--f-display);font-weight:800;font-size:1.7rem;letter-spacing:-.03em">PulCount</div><span class="badge">${t('Versiya')} 3.0</span></div>
-      <p style="margin:0;line-height:1.55;text-align:center">${t('PulCount — tolıǵı menen qaraqalpaq tilindegi kirim-shıǵımdı esaplaw qosımshası. Ol kúndelik qarjılarıńızdı jazıp barıwǵa, byudjet dúziwge, jinaq maqsetlerine jetiwge hám AI kómekshi arqalı ápiwayı tilde operaciya qosıwǵa járdem beredi.')}</p>
+        <div style="font-family:var(--f-display);font-weight:800;font-size:1.7rem;letter-spacing:-.03em">KARMAN AI</div><span class="badge">${t('Versiya')} 3.0</span></div>
+      <p style="margin:0;line-height:1.55;text-align:center">${t('KARMAN AI — tolıǵı menen qaraqalpaq tilindegi kirim-shıǵımdı esaplaw qosımshası. Ol kúndelik qarjılarıńızdı jazıp barıwǵa, byudjet dúziwge, jinaq maqsetlerine jetiwge hám AI kómekshi arqalı ápiwayı tilde operaciya qosıwǵa járdem beredi.')}</p>
       <div class="creator">
         <span class="cr-ava">QD</span>
         <div><small>${t('Jaratıwshı')}</small><b>${t('Qonarbaev Damir')}</b></div>
       </div>
-      <p class="muted" style="text-align:center;font-size:.78rem;margin:0">© 2026 PulCount</p>`
+      <p class="muted" style="text-align:center;font-size:.78rem;margin:0">© 2026 KARMAN AI</p>`
   });
 }
 /* PIN */
@@ -1840,7 +1839,7 @@ function showLock(after) {
   if (!S.pin) { after && after(); return; }
   const lock = document.createElement('div'); lock.className = 'lock';
   let v = '';
-  lock.innerHTML = `<div class="orb"></div><h2>PulCount</h2><p class="muted" style="margin:0">${t('PIN-kodtı kirgiziń')}</p><div class="pin-dots">${'<i></i>'.repeat(4)}</div>
+  lock.innerHTML = `<div class="orb"></div><h2>KARMAN AI</h2><p class="muted" style="margin:0">${t('PIN-kodtı kirgiziń')}</p><div class="pin-dots">${'<i></i>'.repeat(4)}</div>
     <div class="keypad">${['1', '2', '3', '4', '5', '6', '7', '8', '9', '', '0', 'del'].map(k => k ? `<button class="key" data-lk="${k}">${k === 'del' ? ic('delete') : k}</button>` : '<span></span>').join('')}</div>
     <button class="link" id="lkForgot" style="margin-top:12px">${t('PIN-kodtı umıttım')}</button>`;
   document.body.appendChild(lock); refreshIcons();
@@ -1886,7 +1885,7 @@ function parseAmount(s) {
   if (/^ml(rd)|^milliard/.test(u)) v *= 1e9; else if (/^m(ln|illi)/.test(u)) v *= 1e6; else if (u) v *= 1e3;
   return Math.round(v);
 }
-function guessCat(s, type) {
+function guessCat0(s, type) {
   const order = type === 'income' ? ['gift_in', 'salary', 'bonus', 'biz', 'invest'] : ['cafe', 'food', 'transport', 'utility', 'comm', 'health', 'cloth', 'fun', 'edu', 'home', 'gift'];
   for (const c of order) if (KW.cats[c].some(k => s.includes(k)) && S.cats.some(x => x.id === c)) return c;
   // custom categories by name
@@ -1907,7 +1906,7 @@ function aiAnswer(raw) {
   const top = Object.entries(by).sort((a, b) => b[1] - a[1]);
   const amt = parseAmount(s);
   const isQ = /\?|qansha|neshe|qayda|qayerge|qanday|keńes|kenes|maslahat|balans|byudjet|budjet|analiz|esabat|statistika|kórset|korset|únem|tejew|maqset|jinaq|qarız|qariz|limit/.test(s);
-  if (/s[aá]lem|assalaw|hello|privet/.test(s) && !amt) return { text: t(`Sálem, ${S.name}! Men PulCount AI. Maǵan operaciyanı ápiwayı tilde jazıń yamasa qarjılarıńız haqqında soraw beriń.`) };
+  if (/s[aá]lem|assalaw|hello|privet/.test(s) && !amt) return { text: t(`Sálem, ${S.name}! Men KARMAN AI. Maǵan operaciyanı ápiwayı tilde jazıń yamasa qarjılarıńız haqqında soraw beriń.`) };
   if (/raxmet|rahmet|sag bol/.test(s)) return { text: t('Arzımaydı! Jáne ne járdem kerek?') };
   if (amt && !isQ) {
     const type = KW.income.some(k => s.includes(k)) ? 'income' : 'expense';
@@ -1918,7 +1917,7 @@ function aiAnswer(raw) {
     const rec = { id: uid(), type, amount: amt, cat, wallet, date, note, ts: Date.now() };
     S.tx.push(rec); save(); renderView();
     const c = catById(cat);
-    return { text: t(type === 'income' ? 'Kirim jazıldı:' : 'Shıǵım jazıldı:'), tx: rec, extra: (() => { const lim = S.budget.cats?.[cat]; if (type === 'expense' && lim) { const sp = catSpent(cat); return sp > lim ? t(`Dıqqat: «${c.name}» limiti asıldı (${short(sp)} / ${short(lim)}).`) : t(`«${c.name}» limitinen ${short(lim - sp)} swm qaldı.`); } return ''; })() };
+    return { text: '', tx: rec, extra: (() => { const lim = S.budget.cats?.[cat]; if (type === 'expense' && lim) { const sp = catSpent(cat); return sp > lim ? t(`Dıqqat: «${c.name}» limiti asıldı (${short(sp)} / ${short(lim)}).`) : t(`«${c.name}» limitinen ${short(lim - sp)} swm qaldı.`); } return ''; })() };
   }
   if (/balans|qansha pul|qaldı/.test(s)) return { text: t(`Ulıwma balansıńız: ${grp(totalBal())} swm.\n`) + S.wallets.map(w => `• ${t(w.name)}: ${grp(walletBal(w.id))} ${cur()}`).join('\n') };
   if (/bugin/.test(s)) { const te = sum(inRange(today(), today()), 'expense'), ti = sum(inRange(today(), today()), 'income'); return { text: t(`Bugin: shıǵım ${grp(te)} swm, kirim ${grp(ti)} swm.`) }; }
@@ -1952,15 +1951,11 @@ const orbHtml = (cls = '') => `<span class="orb2 ${cls}"><i></i><i></i>${ic('spa
 function openAI(prefill) {
   const msgHtml = m => {
     if (m.who === 'me') return `<div class="m-row me"><div class="msg me">${esc(m.text)}</div></div>`;
-    let x = `<div class="m-row bot"><span class="m-ava">${ic('sparkles')}</span><div class="msg bot">${esc(m.text).replace(/\n/g, '<br>')}`;
+    let x = `<div class="m-row bot"><span class="m-ava">${ic('sparkles')}</span><div class="msg bot ${m.tx && !m.text ? 'bare' : ''}">${esc(m.text).replace(/\n/g, '<br>')}`;
     if (m.tx) {
       const tx = S.tx.find(z => z.id === m.tx.id);
       if (tx) {
-        const c = catById(tx.cat);
-        x += `<div class="tx-rcpt"><div class="tr-top"><span class="ci" style="background:${c.color}">${ic(c.icon)}</span><span class="badge ${tx.type === 'income' ? '' : 'ink'}">${t(tx.type === 'income' ? 'Kirim' : 'Shıǵım')}</span></div>
-          <div class="amt num">${tx.type === 'income' ? '+' : '−'}${grp(tx.amount)} <small>${cur()}</small></div>
-          <div class="meta"><span>${ic('tag')}${esc(t(c.name))}</span><span>${ic('wallet')}${walletName(tx.wallet)}</span><span>${ic('calendar')}${dayLabel(tx.date)}</span></div>
-          <div class="act"><button class="tr-b" data-aedit="${tx.id}">${ic('pencil')}${t('Ózgertiw')}</button><button class="tr-b dark" data-aundo="${tx.id}">${ic('undo-2')}${t('Biykarlaw')}</button></div></div>`;
+        x += kmRcpt(tx);
       } else x += `<div class="tx-rcpt off"><small>${t('Bul operaciya biykarlandı')}</small></div>`;
     }
     if (m.extra) x += `<div class="m-extra">${ic('info')}<span>${esc(m.extra)}</span></div>`;
@@ -1970,14 +1965,14 @@ function openAI(prefill) {
     ['receipt', 'Operaciya jazıw', 'Taksi 25 mıń', 'v'], ['chart-pie', 'Analiz', 'Eń kóp qayda jumsadım?', 'k'],
     ['lightbulb', 'Keńes alıw', 'Keńes ber', 'l'], ['wallet', 'Balans', 'Balansım qansha?', 'w']
   ];
-  const welcome = () => `<div class="welcome">${orbHtml('big')}<h3>${t('Sálem')}, <span>${esc(t(firstName()))}</span>!</h3><p class="muted">${t('Men PulCount AI. Operaciyanı ápiwayı jazıń yamasa qarjılarıńız haqqında soraw beriń.')}</p>
+  const welcome = () => `<div class="welcome">${orbHtml('big')}<h3>${t('Sálem')}, <span>${esc(t(firstName()))}</span>!</h3><p class="muted">${t('Men KARMAN AI. Operaciyanı ápiwayı jazıń yamasa qarjılarıńız haqqında soraw beriń.')}</p>
     <div class="cap-grid">${caps.map(([i, a, ex, cl]) => `<button class="cap ${cl}" data-sg="${ex}"><span class="ci2">${ic(i)}</span><span><b>${t(a)}</b><small>«${t(ex)}»</small></span></button>`).join('')}</div></div>`;
   const sugg = ['Taksi 25 mıń', 'Bazar 180 000 naq', 'Aylıq 6,5 mln keldi', 'Bul ay qansha jumsadım?', 'Byudjet jaǵdayı', 'Maqsetlerim'];
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   const left = () => isMax() ? t('Sheksiz') : `${t('Búgin qaldı')}: ${30 - (S.aiCount.d === today() ? S.aiCount.n : 0)}`;
   Page.open({
     raw: true, noRefresh: true,
-    head: `<div class="ai-top"><span id="aiOrb">${orbHtml()}</span><div style="min-width:0"><b>PulCount AI</b><small><span class="live"></span><span id="aiLeft" class="ell">${t('Onlayn')} · ${left()}</span></small></div></div>`,
+    head: `<div class="ai-top"><span id="aiOrb">${orbHtml()}</span><div style="min-width:0"><b>KARMAN AI</b><small><span class="live"></span><span id="aiLeft" class="ell">${t('Onlayn')} · ${left()}</span></small></div></div>`,
     right: `<button class="pg-btn" id="aiClear" aria-label="clear">${ic('rotate-ccw')}</button>`,
     html: () => `<div class="chat" id="chat">${S.ai.length ? S.ai.map(msgHtml).join('') : welcome()}</div>
       <div class="ai-sugg">${sugg.map(s => `<button data-sg="${s}">${t(s)}</button>`).join('')}</div>
@@ -1985,8 +1980,7 @@ function openAI(prefill) {
     mount: el => {
       const chat = $('#chat', el); const scroll = () => chat.scrollTop = chat.scrollHeight; scroll();
       const bindMsgs = () => {
-        $$('[data-aundo]', chat).forEach(b => b.onclick = () => { S.tx = S.tx.filter(x => x.id !== b.dataset.aundo); save(); renderView(); chat.innerHTML = S.ai.map(msgHtml).join(''); refreshIcons(); bindMsgs(); });
-        $$('[data-aedit]', chat).forEach(b => b.onclick = () => { const x = S.tx.find(z => z.id === b.dataset.aedit); if (x) openTx(x.type, null, x); });
+        kmBindRcpt(chat, () => { chat.innerHTML = S.ai.map(msgHtml).join(''); refreshIcons(); bindMsgs(); });
         $$('.welcome [data-sg]', chat).forEach(b => b.onclick = () => send(t(b.dataset.sg)));
       };
       const send = txt => {
@@ -2047,7 +2041,7 @@ function runIntro(after) {
   $('#introTag', I).textContent = t('Kirim-shıǵımıńız endi bir qolda');
   $('#introSkip', I).textContent = t('Ótkerip jiberiw');
   // scramble word
-  const W = 'PulCount', CH = '0123456789+−₽$%PULCOUNT'; const wEl = $('#introWord', I);
+  const W = 'KARMAN', CH = '0123456789+−₽$%KARMN'; const wEl = $('#introWord', I);
   wEl.innerHTML = W.split('').map((c, i) => `<span class="${i >= 3 ? 'v' : ''}">${c}</span>`).join('');
   const spans = $$('span', wEl); const t0 = performance.now() + 1500;
   (function scr(now) {
@@ -2088,7 +2082,7 @@ function hubDefault() {
   return {
     v: 1,
     promos: [
-      { id: 'demo-max', title: 'PulCount MAX', text: 'BUSINESS statusı, sheksiz AI, Biznes paneli hám Aurora stili — barlıǵı bir tarifte.', cta: 'Tolıǵıraq', action: 'plans', phone: '', link: '', color: '#7B5CFA', image: '', active: true, order: 1, created: today(), demo: true },
+      { id: 'demo-max', title: 'KARMAN AI MAX', text: 'BUSINESS statusı, sheksiz AI, Biznes paneli hám Aurora stili — barlıǵı bir tarifte.', cta: 'Tolıǵıraq', action: 'plans', phone: '', link: '', color: '#7B5CFA', image: '', active: true, order: 1, created: today(), demo: true },
       { id: 'demo-slot', title: 'Reklama ornı', text: 'Bul jerde sizdiń biznesińiz turıwı múmkin. Arza qaldırıń — biz siz benen baylanısamız.', cta: 'Arza qaldırıw', action: 'apply', phone: '', link: '', color: '#1c1c1c', image: '', active: true, order: 2, created: today(), demo: true }
     ],
     stats: {}, applications: [], broadcasts: [], prices: { pro: 19900, max: 499000 }, rates: { USD: 12850, EUR: 13920, RUB: 132, KZT: 25.4 },
@@ -2116,7 +2110,7 @@ function activePromos() {
 function promoArt(p, big) {
   return p.image ? `<img src="${p.image}" alt="">` : `<span class="pa-art ${big ? 'big' : ''}" style="background:${p.color || '#7B5CFA'}"><b>${esc((p.title || 'P').trim().slice(0, 1).toUpperCase())}</b></span>`;
 }
-function storiesRow() {
+function storiesRow() { return '';
   const list = activePromos(); const seen = S.seenPromos || [];
   return `<div class="stories hscroll" aria-label="Reklamalar">
     <button class="sto add" id="stoAdd"><span class="sto-ring"><span class="sto-in">${ic('plus')}</span></span><small>${t('Reklama beriw')}</small></button>
@@ -2177,11 +2171,568 @@ function promoContact(p, host, resume) {
   const cp = $('#scCopy', box); if (cp) cp.onclick = () => copyText(p.phone);
   $('#scBack', box).onclick = () => { box.remove(); resume(); };
 }
-function launchAds() { setTimeout(() => { if (activePromos().length) openStories(0); }, 250); }
+function launchAds() { /* reklama óshirilgen */ }
 window.addEventListener('storage', e => {
   if (e.key === KEY && e.newValue) { try { S = Object.assign(defaults(false), JSON.parse(e.newValue)); } catch (er) {} applyLook(); renderView(); }
   if (e.key === HUBKEY) { applyHub(); renderView(); }
 });
+
+
+/* =====================================================================
+   KARMAN AI — admin talapları (v4)
+   ===================================================================== */
+(function kmMigrate() {
+  if (!S.km4) {
+    S.km4 = true; S.mode = 'dark';
+    S.wallets.forEach(w => { if (w.id === 'cash' && /naq/i.test(w.name)) { w.name = 'Naqd pul'; w.icon = 'banknote'; } if (w.id === 'uzcard' && w.name === 'Uzcard' && !S.tx.length) w.name = 'Plastik karta'; });
+  }
+  if (!Array.isArray(S.widgets)) S.widgets = ['month', 'pending', 'plan', 'fx', 'wallets', 'recent'];
+  if (!Array.isArray(S.wHidden)) S.wHidden = [];
+  if (!S.learn) S.learn = {};
+  if (!Array.isArray(S.cgroups)) S.cgroups = [];
+  if (!S.km3c) { S.km3c = true; const ok = ['#7B5CFA', '#3B3B46', '#A48BFF', '#5233E0', '#2B1B78', '#1C1C1C', '#5B3EE6', '#9C85FF', '#B8A6FF', '#8C6FFF', '#4A4A55', '#8A8798'];
+    S.cats.forEach((c, i) => { if (!ok.includes(String(c.color).toUpperCase()) && !ok.includes(c.color)) c.color = ok[i % ok.length]; }); (S.cgroups || []).forEach((g, i) => g.color = ok[i % 3]); }
+  save();
+})();
+const KM_COL = ['#7B5CFA', '#1C1C1C', '#D9CFFF', '#5B3EE6', '#4A4A55', '#B8A6FF', '#2B1B78', '#8A8798', '#9C85FF', '#33333D', '#EDE8FF', '#6E52E8'];
+const kmD = c => S.mode === 'dark' ? ({ '#1C1C1C': '#F4F3F8', '#33333D': '#CFCFD6', '#4A4A55': '#A9A9B1', '#3B3B46': '#B4B4BC', '#2B1B78': '#C7B6FF', '#8A8798': '#E6E3EE' }[String(c).toUpperCase()] || c) : c;
+const kmLight = c => ['#D9CFFF', '#B8A6FF', '#EDE8FF', '#9C85FF', '#8A8798', '#F4F3F8', '#CFCFD6', '#A9A9B1', '#B4B4BC', '#C7B6FF', '#E6E3EE'].includes(c);
+const KM_WCOL = ['#7B5CFA', '#8A8798', '#B8A6FF', '#4A4A55', '#5B3EE6', '#D9CFFF'];
+const MON3 = ['Yan', 'Fev', 'Mar', 'Apr', 'May', 'Iyun', 'Iyul', 'Avg', 'Sen', 'Okt', 'Noy', 'Dek'];
+const hhmm = ts => { if (!ts) return ''; const d = new Date(ts); return pad(d.getHours()) + ':' + pad(d.getMinutes()); };
+const debtUZS = d => Math.round((d.amount || 0) * (RATES[d.cur || 'UZS'] || 1));
+
+/* hamyan balansı: tólenbegen qarızlar da esapqa alınadı */
+function walletBal(id) {
+  let b = walletBal0(id);
+  for (const d of S.debts) if (!d.paid && d.wallet === id) b += d.type === 'taken' ? debtUZS(d) : -debtUZS(d);
+  return b;
+}
+/* AI úyreniwi: paydalanıwshı dúzetken kategoriyalar */
+const kmKey = s => toLat(String(s || '')).replace(/[0-9.,]+/g, ' ').replace(/\b(mıń|min|ming|mln|million|swm|so'm|som|naq|karta|kartadan|keshe|bugin)\b/g, ' ').trim().split(/\s+/).filter(w => w.length > 2);
+function guessCat(s, type) {
+  for (const w of kmKey(s)) { const c = S.learn[type + ':' + w]; if (c && S.cats.some(x => x.id === c)) return c; }
+  return guessCat0(s, type);
+}
+function kmLearn(tx) { kmKey(tx.note).slice(0, 3).forEach(w => S.learn[tx.type + ':' + w] = tx.cat); }
+
+/* ---------- valyuta kursı (cbu.uz, kúnine bir ret) ---------- */
+function kmFxApply() { if (!S.fx || !S.fx.r) return; Object.entries(S.fx.r).forEach(([c, v]) => { RATES[c] = v.r; FX_CHG[c] = v.d; }); }
+function kmFxLoad(force) {
+  kmFxApply();
+  if (!force && S.fx && S.fx.day === today()) return;
+  fetch('https://cbu.uz/uz/arkhiv-kursov-valyut/json/').then(r => r.json()).then(list => {
+    const r = {}; list.forEach(x => { if (['USD', 'EUR', 'RUB', 'KZT', 'CNY', 'GBP', 'TRY', 'KGS'].includes(x.Ccy)) r[x.Ccy] = { r: +x.Rate / (+x.Nominal || 1), d: +x.Diff || 0, n: x.CcyNm_UZ }; });
+    if (r.USD) { S.fx = { day: today(), r, at: Date.now() }; save(); kmFxApply(); if (UI.tab === 'home') renderView(); }
+  }).catch(() => {});
+}
+const FX_META = { USD: ['AQSH dolları', '#7B5CFA'], EUR: ['Evro', '#5B3EE6'], RUB: ['Rossiya rublı', '#1C1C1C'], KZT: ['Qazaq teńgesi', '#5B3EE6'], CNY: ['Qıtay yuanı', '#3B3B46'], GBP: ['Funt sterling', '#7B5CFA'], TRY: ['Túrk lirası', '#1C1C1C'], KGS: ['Qırǵız somı', '#1C1C1C'] };
+const fxNum = v => v >= 100 ? grp(v) + ',' + String(Math.round(v * 100) % 100).padStart(2, '0') : String(Math.round(v * 100) / 100).replace('.', ',');
+function fxRow(c) {
+  const [nm, col] = FX_META[c] || [c, '#4A4A55']; const d = FX_CHG[c] || 0;
+  return `<button class="row fx-r" data-fx="${c}"><span class="fx-flag" style="background:${col}">${c.slice(0, 2)}</span>
+    <span class="r-t"><div class="ell">${t(nm)}</div><small>${c} → UZS</small></span>
+    <span class="fx-v"><b class="num">${fxNum(RATES[c] || 0)} UZS</b><small class="num ${d >= 0 ? 'up' : 'dn'}">${d >= 0 ? '▲' : '▼'} ${String(Math.abs(Math.round(d * 100) / 100)).replace('.', ',')}</small></span></button>`;
+}
+function openFxAll() {
+  Page.open({
+    title: t('Valyuta kursları'), sub: S.fx ? `${t('MB kursı')} · ${S.fx.day.split('-').reverse().join('.')}` : t('Demo kurs'),
+    right: `<button class="pg-btn" id="fxRe" aria-label="refresh">${ic('refresh-cw')}</button>`,
+    html: () => `<div class="card list">${Object.keys(FX_META).filter(c => RATES[c]).map(fxRow).join('')}</div>
+      <button class="btn pri" id="fxConv">${ic('arrow-left-right')}${t('Valyuta konvertorı')}</button>`,
+    mount: el => { $$('[data-fx]', el).forEach(b => b.onclick = () => openFx(b.dataset.fx)); $('#fxConv').onclick = () => openFx('USD'); $('#fxRe').onclick = () => { kmFxLoad(true); toast(t('Kurslar jańalanıp atır'), { icon: 'refresh-cw' }); setTimeout(() => Page.refresh(), 1500); }; }
+  });
+}
+if (!RATES.CNY) { RATES.CNY = 1780; RATES.GBP = 16300; RATES.TRY = 375; RATES.KGS = 148; }
+
+/* ---------- BAS BET ---------- */
+const WIDGETS = {
+  month: ['calendar-range', 'Usı ay'], pending: ['clock', 'Kútilip atırǵan esaplar'], plan: ['target', 'Maqset hám qarızlar'],
+  fx: ['banknote', 'Valyuta kursları'], wallets: ['wallet', 'Hamyanlarım'], recent: ['receipt', 'Sońǵı esabatlar']
+};
+function kmCatChips(list, type) {
+  const by = {}; list.filter(x => x.type === type).forEach(x => by[x.cat] = (by[x.cat] || 0) + x.amount);
+  const rows = Object.entries(by).sort((a, b) => b[1] - a[1]).slice(0, 4);
+  if (!rows.length) return `<span class="muted um-none">${t('Ele operaciya joq')}</span>`;
+  return rows.map(([c, v]) => { const ct = catById(c); return `<span class="um-chip"><i style="background:${ct.color}">${ic(ct.icon)}</i><span class="ell">${esc(t(ct.name))}</span><b class="num">${hideable(short(v))}</b></span>`; }).join('');
+}
+function renderHome() {
+  const el = $('#v-home'); const now = new Date(); const r = monthRange(); const wsel = S.homeWallet;
+  const mlist = inRange(r.a, r.b).filter(x => wsel === 'all' || x.wallet === wsel);
+  const inc = sum(mlist, 'income'), exp = sum(mlist, 'expense');
+  const bal = wsel === 'all' ? totalBal() : walletBal(wsel);
+  const prevR = monthRange(new Date(now.getFullYear(), now.getMonth() - 1, 1));
+  const prevDays = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+  const pEnd = iso(new Date(now.getFullYear(), now.getMonth() - 1, Math.min(now.getDate(), prevDays)));
+  const plist = inRange(prevR.a, pEnd).filter(x => wsel === 'all' || x.wallet === wsel);
+  const pInc = sum(plist, 'income'), pExp = sum(plist, 'expense');
+  const pc = (a, b) => b ? Math.round((a - b) / b * 100) : (a ? 100 : 0);
+  const dExp = pc(exp, pExp), dInc = pc(inc, pInc);
+  const bud = S.budget.total || 0; const dim = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate(); const daysLeft = dim - now.getDate() + 1;
+  const perDay = Math.max(0, Math.floor(((bud || inc) - exp) / daysLeft)); const monthLeft = (bud || inc) - exp;
+  const n = unread(); const ym = today().slice(0, 7);
+  const recs = S.recurring.filter(p => p.paid !== ym);
+  const dGiven = S.debts.filter(d => !d.paid && d.type === 'given'), dTaken = S.debts.filter(d => !d.paid && d.type === 'taken');
+  const pendIn = dGiven.reduce((a, d) => a + debtUZS(d), 0), pendOut = recs.reduce((a, p) => a + p.amount, 0) + dTaken.reduce((a, d) => a + debtUZS(d), 0);
+  const goal = S.goals[0];
+  const W = {
+    month: () => `<div class="sec-h"><h3>${t('Usı ay')}</h3><small class="muted">${t(MONTHS[now.getMonth()])} ${now.getFullYear()}</small></div>
+      <div class="um">
+        <button class="card um-c" data-st="income"><div class="um-h"><span class="um-ic in">${ic('arrow-down-left')}</span><span>${t('Kirim')}</span><span class="chip-delta ${dInc >= 0 ? 'up' : ''} num">${dInc >= 0 ? '+' : ''}${dInc}%</span></div>
+          <div class="um-v num ell">${hideable(grp(inc))} <i>${cur()}</i></div><div class="um-chips">${kmCatChips(mlist, 'income')}</div></button>
+        <button class="card um-c" data-st="expense"><div class="um-h"><span class="um-ic out">${ic('arrow-up-right')}</span><span>${t('Shıǵım')}</span><span class="chip-delta ${dExp > 0 ? '' : 'up'} num">${dExp >= 0 ? '+' : ''}${dExp}%</span></div>
+          <div class="um-v num ell">${hideable(grp(exp))} <i>${cur()}</i></div><div class="um-chips">${kmCatChips(mlist, 'expense')}</div></button>
+      </div><small class="muted um-note">${t('% — ótken aydıń usı kúnine salıstırǵanda')}</small>`,
+    pending: () => `<div class="sec-h"><h3>${t('Kútilip atırǵan esaplar')}</h3></div>
+      <div class="card list">
+        <button class="row" id="hPendIn"><span class="r-ic in">${ic('arrow-down-left')}</span><span class="r-t"><div>${t('Kútilip atırǵan kirimler')}</div><small>${dGiven.length} ${t('qarız qaytarılıwı kerek')}</small></span><b class="num pos">${hideable('+' + short(pendIn))}</b></button>
+        <button class="row" id="hPendOut"><span class="r-ic out">${ic('arrow-up-right')}</span><span class="r-t"><div>${t('Kútilip atırǵan shıǵımlar')}</div><small>${recs.length + dTaken.length} ${t('tólem')}</small></span><b class="num neg">${hideable('−' + short(pendOut))}</b></button>
+      </div>`,
+    plan: () => `<div class="km-two">
+      <button class="pt lav" id="hGoal"><span class="tag">${t('Maqset')}</span><b class="pt-h ell">${goal ? esc(t(goal.name)) : t('Maqset qosıń')}</b>
+        ${goal ? `<span class="pt-t num">${Math.min(100, Math.round(goal.saved / goal.target * 100))}% · ${short(goal.saved)}</span><span class="bar"><i style="width:${clamp(goal.saved / goal.target * 100, 0, 100)}%"></i></span>` : `<span class="pt-t">${ic('plus')}</span>`}</button>
+      <button class="pt ink" id="hDebt"><span class="tag">${t('Qarızlar')}</span>
+        <span class="pt-avs">${[...dGiven, ...dTaken].slice(0, 3).map(d => `<i>${esc(initials(d.name))}</i>`).join('')}${!(dGiven.length + dTaken.length) ? `<i>${ic('check')}</i>` : ''}</span>
+        <span class="pt-t">${dGiven.length + dTaken.length} ${t('aktiv qarız')}</span></button></div>`,
+    fx: () => `<div class="sec-h"><h3>${t('Valyuta kursları')} <span class="badge">3</span></h3><button class="link" id="hFxAll">${t('Barlıǵı')}${ic('arrow-up-right')}</button></div>
+      <div class="card list">${['RUB', 'USD', 'EUR'].map(fxRow).join('')}</div>`,
+    wallets: () => `<div class="sec-h"><h3>${t('Hamyanlarım')}</h3><button class="link" id="hWallets">${t('Basqarıw')}${ic('arrow-up-right')}</button></div>
+      <div class="km-wl">${S.wallets.map(w => `<button class="card km-w ${S.homeWallet === w.id ? 'sel' : ''}" data-w="${w.id}"><span class="w-ic t-${w.theme}">${ic(w.icon)}</span><span style="min-width:0"><small class="ell">${esc(t(w.name))}</small><b class="num ell">${hideable(grp(walletBal(w.id)))}</b></span></button>`).join('')}
+        <button class="card km-w add" id="hAddW">${ic('plus')}<small>${t('Hamyan qosıw')}</small></button></div>`,
+    recent: () => { const l = [...S.tx].sort((a, b) => b.date.localeCompare(a.date) || (b.ts || 0) - (a.ts || 0)).slice(0, 6);
+      return `<div class="sec-h"><h3>${t('Sońǵı esabatlar')}</h3>${l.length ? `<button class="link" id="hAll">${t('Barlıǵı')}${ic('arrow-up-right')}</button>` : ''}</div>
+      ${l.length ? `<div class="card tx-list">${l.map(txRow).join('')}</div>` : `<div class="card empty"><span class="e-ic">${ic('receipt')}</span><span>${t('Ele esabatlar joq. Tómendegi + túymesin basıp birinshisin qosıń')}</span>
+        <span class="empty-acts"><button class="btn ink sm" data-q="expense">${ic('minus')}${t('Shıǵım')}</button><button class="btn ghost sm" data-q="income">${ic('plus')}${t('Kirim')}</button></span></div>`}`; }
+  };
+  el.innerHTML = `
+  <header class="topbar">
+    <button class="ava-btn" id="hAvatar" aria-label="profile">${avatarHtml()}</button>
+    <div class="who"><div class="name ell">${t('Sálem')}, ${esc(t(firstName()))}</div><div class="hello ell">${t('Bugin')} ${now.getDate()} ${t(MONTHS[now.getMonth()])}</div></div>
+    <button class="icon-btn" id="hSearch" aria-label="search">${ic('search')}</button>
+    <button class="icon-btn" id="hBell" aria-label="notifications">${ic('bell')}${n ? '<span class="dot"></span>' : ''}</button>
+  </header>
+  <section class="bal">
+    <div class="bal-top">
+      <button class="pill-sel" id="hWallet"><span class="ell">${wsel === 'all' ? t('Barlıq hamyanlar') : walletName(wsel)}</span>${ic('chevron-down')}</button>
+      <button class="bal-eye" id="hEye" aria-label="hide">${ic(S.hideBal ? 'eye-off' : 'eye')}</button>
+    </div>
+    <div class="bal-label">${t('Ulıwma balans')}</div>
+    <div class="bal-amt num">${hideable(grp(bal))}<small>,00</small><em>${cur()}</em></div>
+    <div class="bal-meta"><span class="chip-delta ${dExp > 0 ? 'up' : ''} num">${ic(dExp > 0 ? 'trending-up' : 'trending-down')}${dExp > 0 ? '+' : ''}${dExp}%</span><span class="ell">${t('shıǵım, ótken ayǵa salıstırǵanda')}</span></div>
+    <div class="bal-acts">
+      <button class="ba" data-q="income"><span>${t('Kirim')}</span><b>${ic('arrow-down-left')}</b></button>
+      <button class="ba mid" data-q="transfer" aria-label="transfer">${ic('arrow-left-right')}</button>
+      <button class="ba" data-q="expense"><b>${ic('arrow-up-right')}</b><span>${t('Shıǵım')}</span></button>
+    </div>
+  </section>
+  <section class="card month km-mini"><div class="m-foot">
+    <span><small>${t('Kirim')}</small><b class="num pos">${hideable('+' + short(inc))}</b></span>
+    <span><small>${t('Shıǵım')}</small><b class="num neg">${hideable('−' + short(exp))}</b></span>
+    <span><small>${t('Aylıq')}</small><b class="num">${hideable((monthLeft < 0 ? "−" : "") + short(Math.abs(monthLeft)))}</b></span></div></section>
+  ${S.widgets.filter(w => W[w] && !S.wHidden.includes(w)).map(w => W[w]()).join('')}
+  <button class="km-wset" id="hWset">${ic('layers')}${t('Vidjet sazlamaları')}</button>`;
+  const on = (s, f) => { const b = $(s, el); if (b) b.onclick = f; };
+  on('#hAvatar', () => setTab('profile')); on('#hEye', () => { S.hideBal = !S.hideBal; save(); renderView(); });
+  on('#hBell', openNotifs); on('#hSearch', () => openAllTx(true)); on('#hWallet', pickHomeWallet);
+  $$('[data-q]', el).forEach(b => b.onclick = () => { const q = b.dataset.q; q === 'transfer' ? openTransfer() : openTx(q); });
+  $$('[data-st]', el).forEach(b => b.onclick = () => { UI.stT = b.dataset.st; setTab('stats'); });
+  on('#hPendIn', openDebts); on('#hPendOut', () => recs.length ? openRecurring() : openDebts());
+  on('#hGoal', openGoals); on('#hDebt', openDebts); on('#hFxAll', openFxAll);
+  $$('[data-fx]', el).forEach(b => b.onclick = () => openFx(b.dataset.fx));
+  on('#hWallets', openWallets); on('#hAddW', () => openWalletEdit()); on('#hAll', () => openAllTx());
+  $$('[data-w]', el).forEach(b => b.onclick = () => { S.homeWallet = S.homeWallet === b.dataset.w ? 'all' : b.dataset.w; save(); renderView(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+  on('#hWset', openWidgets);
+  bindTx(el);
+}
+
+/* ---------- Vidjet sazlamaları ---------- */
+function openWidgets() {
+  Page.open({
+    title: t('Vidjet sazlamaları'), sub: t('Tártibin ózgertiw ushın ≡ belgisin súyreń'),
+    html: () => `<div class="card list wg-list" id="wgL">${S.widgets.map(w => { const off = S.wHidden.includes(w); return `<div class="row wg ${off ? 'off' : ''}" data-wg="${w}">
+        <button class="wg-x ${off ? 'add' : ''}" data-wt="${w}" aria-label="toggle">${ic(off ? 'plus' : 'x')}</button>
+        <span class="r-ic">${ic(WIDGETS[w][0])}</span><span class="r-t"><div class="ell">${t(WIDGETS[w][1])}</div></span>
+        <span class="wg-h" aria-label="drag">${ic('grip-horizontal')}</span></div>`; }).join('')}</div>
+      <button class="btn ghost" id="wgReset">${ic('rotate-ccw')}${t('Baslanǵısh tártip')}</button>`,
+    mount: el => {
+      $$('[data-wt]', el).forEach(b => b.onclick = () => { const w = b.dataset.wt; S.wHidden = S.wHidden.includes(w) ? S.wHidden.filter(x => x !== w) : [...S.wHidden, w]; save(); renderView(); });
+      $('#wgReset').onclick = () => { S.widgets = ['month', 'pending', 'plan', 'fx', 'wallets', 'recent']; S.wHidden = []; save(); renderView(); };
+      const L = $('#wgL', el);
+      $$('.wg-h', el).forEach(h => h.addEventListener('pointerdown', e => {
+        e.preventDefault(); const row = h.closest('.wg'); const y0 = e.clientY; let moved = 0; row.classList.add('drag'); h.setPointerCapture(e.pointerId);
+        const mv = ev => {
+          const dy = ev.clientY - y0 - moved; row.style.transform = `translateY(${dy}px)`;
+          const H = row.offsetHeight;
+          if (dy > H * .6 && row.nextElementSibling) { L.insertBefore(row.nextElementSibling, row); moved += H; row.style.transform = `translateY(${ev.clientY - y0 - moved}px)`; vib(6); }
+          else if (dy < -H * .6 && row.previousElementSibling) { L.insertBefore(row, row.previousElementSibling); moved -= H; row.style.transform = `translateY(${ev.clientY - y0 - moved}px)`; vib(6); }
+        };
+        const up = () => { h.removeEventListener('pointermove', mv); h.removeEventListener('pointerup', up); h.removeEventListener('pointercancel', up); row.classList.remove('drag'); row.style.transform = '';
+          S.widgets = $$('.wg', L).map(r => r.dataset.wg); save(); renderView(); };
+        h.addEventListener('pointermove', mv); h.addEventListener('pointerup', up); h.addEventListener('pointercancel', up);
+      }));
+    }
+  });
+}
+
+/* ---------- STATISTIKA (Hisobchi kórinisi) ---------- */
+function kmSmooth(p) {
+  if (p.length < 2) return p.length ? `M${p[0][0]},${p[0][1]}` : '';
+  let d = `M${p[0][0].toFixed(1)},${p[0][1].toFixed(1)}`;
+  for (let i = 0; i < p.length - 1; i++) {
+    const p0 = p[i - 1] || p[i], p1 = p[i], p2 = p[i + 1], p3 = p[i + 2] || p2;
+    const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6], c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
+    d += ` C${c1[0].toFixed(1)},${c1[1].toFixed(1)} ${c2[0].toFixed(1)},${c2[1].toFixed(1)} ${p2[0].toFixed(1)},${p2[1].toFixed(1)}`;
+  }
+  return d;
+}
+function kmLine(series, labels, opt = {}) {
+  series = series.map(x => ({ ...x, c: kmD(x.c) }));
+  const Wd = 330, Hd = 170, L = 6, Rt = 46, T = 10, B = 24; const w = Wd - L - Rt, h = Hd - T - B;
+  const all = series.flatMap(s => s.v); let mx = Math.max(0, ...all), mn = Math.min(0, ...all);
+  if (opt.sym) { const m = Math.max(Math.abs(mx), Math.abs(mn)) || 1; mx = m; mn = -m; }
+  if (mx === mn) mx = mn + 1;
+  const n = labels.length; const X = i => L + (n < 2 ? w / 2 : i * w / (n - 1)); const Y = v => T + (mx - v) / (mx - mn) * h;
+  const ticks = [...Array(5)].map((_, i) => mn + (mx - mn) * i / 4);
+  const step = Math.max(1, Math.ceil(n / 6));
+  let svg = `<svg class="km-line" viewBox="0 0 ${Wd} ${Hd}" preserveAspectRatio="none"><defs>${series.map((s, k) => `<linearGradient id="lg${opt.id}${k}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${s.c}" stop-opacity=".45"/><stop offset="1" stop-color="${s.c}" stop-opacity="0"/></linearGradient>`).join('')}</defs>`;
+  svg += ticks.map(v => `<line x1="${L}" x2="${L + w}" y1="${Y(v)}" y2="${Y(v)}" class="gl"/><text x="${Wd - 2}" y="${Y(v) + 3}" text-anchor="end" class="ax">${short(Math.abs(v)).replace(' ', '')}</text>`).join('');
+  series.forEach((s, k) => {
+    const pts = s.v.map((v, i) => [X(i), Y(v)]); const d = kmSmooth(pts); const y0 = Y(opt.sym ? 0 : Math.max(mn, 0));
+    svg += `<path d="${d} L${X(n - 1)},${y0} L${X(0)},${y0} Z" fill="url(#lg${opt.id}${k})" ${opt.sym && s.neg ? `transform="scale(1,-1) translate(0,${-2 * y0})"` : ''} style="${opt.sym && s.neg ? 'display:none' : ''}"/>`;
+    if (opt.sym && s.neg) svg += `<path d="${d} L${X(n - 1)},${y0} L${X(0)},${y0} Z" fill="${s.c}" fill-opacity=".22"/>`;
+    svg += `<path d="${d}" fill="none" stroke="${s.c}" stroke-width="2.2" stroke-linecap="round"/>`;
+  });
+  svg += labels.map((l, i) => i % step === 0 || i === n - 1 ? `<text x="${clamp(X(i), 14, L + w - 10)}" y="${Hd - 6}" text-anchor="middle" class="ax">${l}</text>` : '').join('');
+  return svg + '</svg>';
+}
+function kmPie(parts, cols, label, total) {
+  cols = cols.map(kmD);
+  const tot = parts.reduce((a, p) => a + p, 0) || 1; const cx = 186, cy = 100; let a = -Math.PI / 2; let out = '';
+  parts.forEach((v, i) => {
+    const ang = v / tot * Math.PI * 2; const r = Math.max(56, 86 - Math.min(i, 6) * 4); const mid = a + ang / 2; const ox = Math.cos(mid) * 3, oy = Math.sin(mid) * 3;
+    if (ang >= Math.PI * 2 - 1e-6) out += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${cols[i]}"/>`;
+    else { const x1 = cx + ox + r * Math.cos(a), y1 = cy + oy + r * Math.sin(a), x2 = cx + ox + r * Math.cos(a + ang), y2 = cy + oy + r * Math.sin(a + ang);
+      out += `<path d="M${cx + ox},${cy + oy} L${x1.toFixed(1)},${y1.toFixed(1)} A${r},${r} 0 ${ang > Math.PI ? 1 : 0} 1 ${x2.toFixed(1)},${y2.toFixed(1)} Z" fill="${cols[i]}" stroke="var(--card-solid)" stroke-width="1.5"/>`; }
+    const pc = v / tot * 100; if (pc >= 6) out += `<text x="${(cx + ox + Math.cos(mid) * r * .64).toFixed(1)}" y="${(cy + oy + Math.sin(mid) * r * .64 + 4).toFixed(1)}" text-anchor="middle" class="pl ${kmLight(cols[i]) ? 'dk' : ''}">${(Math.round(pc * 10) / 10).toString().replace('.', ',')}%</text>`;
+    a += ang;
+  });
+  if (!parts.length) out = `<circle cx="${cx}" cy="${cy}" r="70" fill="none" stroke="var(--violet-soft)" stroke-width="22"/>`;
+  return `<div class="km-pie"><svg viewBox="0 0 300 200">${out}</svg><div class="pie-lbl"><small>${t(label)}</small><b class="num">${hideable(grp(total))} <i>uzs</i></b></div></div>`;
+}
+function kmRange() {
+  const R = getRange(UI.statPeriod, UI.statOffset); const a = fromIso(R.a); const bb = R.b > today() ? today() : R.b; const b = fromIso(bb);
+  const lbl = UI.statPeriod === 'year' ? R.label : a.getMonth() === b.getMonth() ? `${a.getDate()}–${b.getDate()} ${t(MON3[a.getMonth()])} ${a.getFullYear()}` : `${a.getDate()} ${t(MON3[a.getMonth()])} – ${b.getDate()} ${t(MON3[b.getMonth()])}`;
+  return { ...R, end: bb, lbl };
+}
+function renderStats() {
+  const el = $('#v-stats'); const R = kmRange();
+  UI.stT = UI.stT || 'expense'; UI.stW = UI.stW || 'all'; UI.stWT = UI.stWT || 'expense'; UI.stD = UI.stD || 'all';
+  if (!UI.stBW) UI.stBW = S.wallets.map(w => w.id);
+  const base = inRange(R.a, R.b); const list = base.filter(x => UI.stW === 'all' || x.wallet === UI.stW);
+  const tps = UI.stT === 'all' ? ['income', 'expense'] : [UI.stT];
+  const by = {}; list.filter(x => tps.includes(x.type)).forEach(x => by[x.cat] = (by[x.cat] || 0) + x.amount);
+  const rows = Object.entries(by).sort((a, b) => b[1] - a[1]); const tot = rows.reduce((a, r) => a + r[1], 0);
+  // kúnler
+  const days = []; for (let d = fromIso(R.a); iso(d) <= R.end; d = addDays(d, 1)) days.push(iso(d));
+  const yearMode = UI.statPeriod === 'year';
+  const pts = yearMode ? [...Array(fromIso(R.end).getMonth() + 1)].map((_, m) => `${R.y}-${pad(m + 1)}-${pad(new Date(R.y, m + 1, 0).getDate())}`) : days;
+  const lbls = yearMode ? pts.map(p => t(MON3[+p.slice(5, 7) - 1])) : pts.map(p => `${t(MON3[+p.slice(5, 7) - 1]).toLowerCase()} ${+p.slice(8)}`);
+  const balAt = (wid, d) => { const w = walletById(wid); let b = +w.initial || 0; for (const x of S.tx) { if (x.date > d) continue; if (x.type === 'income' && x.wallet === wid) b += x.amount; else if (x.type === 'expense' && x.wallet === wid) b -= x.amount; else if (x.type === 'transfer') { if (x.wallet === wid) b -= x.amount; if (x.to === wid) b += x.amount; } } return b; };
+  const balSeries = S.wallets.map((w, i) => ({ id: w.id, c: KM_WCOL[i % KM_WCOL.length], v: pts.map(d => balAt(w.id, d)) })).filter(s => UI.stBW.includes(s.id));
+  const prevOf = p => yearMode ? p.slice(0, 7) + '-01' : p;
+  const dsum = (type) => pts.map(p => base.filter(x => x.type === type && x.date >= prevOf(p) && x.date <= p).reduce((a, x) => a + x.amount, 0));
+  const ieSeries = [{ c: '#7B5CFA', v: dsum('income') }, { c: '#8A8798', v: dsum('expense').map(v => -v), neg: true }];
+  // hamyanlar boyınsha
+  const wby = S.wallets.map((w, i) => ({ w, c: KM_WCOL[i % KM_WCOL.length], v: sum(base.filter(x => x.wallet === w.id), UI.stWT) })).filter(x => x.v > 0).sort((a, b) => b.v - a.v);
+  const wtot = wby.reduce((a, x) => a + x.v, 0);
+  // limitler
+  const lims = Object.entries(S.budget.cats || {}).filter(([, v]) => v > 0);
+  // qarızlar
+  const dl = S.debts.filter(d => !d.paid && (UI.stD === 'all' || (UI.stD === 'taken' ? d.type === 'taken' : d.type === 'given')));
+  const dTaken = dl.filter(d => d.type === 'taken').reduce((a, d) => a + debtUZS(d), 0), dGiven = dl.filter(d => d.type === 'given').reduce((a, d) => a + debtUZS(d), 0);
+  const dParts = UI.stD === 'all' ? [dGiven, dTaken].filter(v => v) : dl.map(debtUZS);
+  const dCols = UI.stD === 'all' ? [dGiven ? '#7B5CFA' : null, dTaken ? '#1C1C1C' : null].filter(Boolean) : dl.map((_, i) => KM_COL[i % KM_COL.length]);
+  const seg = (k, val, opts) => `<div class="seg km-seg">${opts.map(([v, l]) => `<button data-${k}="${v}" class="${val === v ? 'on' : ''}">${t(l)}</button>`).join('')}</div>`;
+  const wchips = (k, sel, multi) => `<div class="km-chips">${multi ? '' : `<button class="kc ${sel === 'all' ? 'on' : ''}" data-${k}="all">${ic('layers')}UZS</button><i class="kc-sep"></i>`}${S.wallets.map((w, i) => `<button class="kc ${multi ? (sel.includes(w.id) ? 'on' : '') : (sel === w.id ? 'on' : '')}" data-${k}="${w.id}" style="--kc:${KM_WCOL[i % KM_WCOL.length]}">${ic(w.icon)}${esc(t(w.name))}</button>`).join('')}</div>`;
+  const info = `<span class="km-i">${ic('info')}</span>`;
+  const PR = getRange(UI.statPeriod, UI.statOffset + 1); const pTot = inRange(PR.a, PR.b).filter(x => (UI.stW === 'all' || x.wallet === UI.stW) && tps.includes(x.type)).reduce((a, x) => a + x.amount, 0);
+  const dPc = pTot ? Math.round((tot - pTot) / pTot * 100) : 0;
+  const mWord = UI.statPeriod === 'year' ? String(R.y) : UI.statPeriod === 'month' ? t(MONTHS[R.d.getMonth()]) : t('Hápte');
+  el.innerHTML = `
+  <div class="page-head"><div><h1 class="page-title">${t('Statistika')}</h1><p>${t('Qarjılarıńız qay jerge ketip atır')}</p></div>
+    <button class="icon-btn" id="stAllTx" aria-label="list">${ic('list')}</button></div>
+  <div class="seg">${[['week', 'Hápte'], ['month', 'Ay'], ['year', 'Jıl']].map(([k, l]) => `<button data-p="${k}" class="${UI.statPeriod === k ? 'on' : ''}">${t(l)}</button>`).join('')}</div>
+  <section class="mcard">
+    <div class="mc-top"><span class="mc-pill">${list.filter(x => tps.includes(x.type)).length} ${t('operaciya')}</span>
+      <span class="mc-nav"><button id="stPrev" aria-label="prev">${ic('chevron-left')}</button><button id="stNext" aria-label="next" ${UI.statOffset <= 0 ? 'disabled' : ''}>${ic('chevron-right')}</button></span></div>
+    <div class="mc-per">${R.lbl}</div>
+    <div class="mc-sum num">${hideable(grp(tot))}<i>${cur()}</i></div>
+    <div class="mc-delta">${pTot ? `<b class="num">${dPc > 0 ? '+' : ''}${dPc}%</b> ${t('aldınǵı dáwirge salıstırǵanda')}` : t('Aldınǵı dáwir boyınsha maǵlıwmat joq')}</div>
+    <div class="mc-word" style="font-size:${Math.min(112, Math.round(560 / mWord.length))}px" aria-hidden="true">${mWord}</div>
+  </section>
+
+  <section class="card km-sc"><h4>${t('Kategoriyalar boyınsha')}${info}</h4>${wchips('sw', UI.stW)}
+    ${kmPie(rows.map(r => r[1]), rows.map((_, i) => KM_COL[i % KM_COL.length]), UI.stT === 'income' ? 'ulıwma kirim' : UI.stT === 'expense' ? 'ulıwma shıǵım' : 'ulıwma aylanıs', tot)}
+    ${seg('stt', UI.stT, [['all', 'Barlıǵı'], ['income', 'Kirim'], ['expense', 'Shıǵım']])}
+    ${rows.length ? `<div class="km-rows">${rows.map(([c, v], i) => { const ct = catById(c); const col = KM_COL[i % KM_COL.length]; const lim = S.budget.cats?.[c]; return `<button class="km-cr" data-cat="${c}" style="--cc:${kmD(col)}"><span class="cr-n ell">${ic(ct.icon)}${esc(t(ct.name))}</span>${lim ? `<span class="cr-l num">${Math.round(v / lim * 100)}%</span>` : ''}<b class="num">${hideable(grp(v))} uzs</b><small class="num">${(Math.round(v / tot * 1000) / 10).toString().replace('.', ',')}%</small>${ic('chevron-down')}</button>`; }).join('')}</div>`
+      : `<div class="km-empty">${t('Bul aralıqta maǵlıwmat joq')}</div>`}
+  </section>
+
+  <section class="card km-sc"><h4>${t('Balanslar halatı')}${info}</h4>${wchips('sb', UI.stBW, true)}
+    ${balSeries.length ? kmLine(balSeries, lbls, { id: 'b' }) : `<div class="km-empty">${t('Hamyan saylań')}</div>`}</section>
+
+  <section class="card km-sc"><h4>${t('Balanslar boyınsha kirim-shıǵım')}${info}</h4>
+    <div class="km-leg"><span style="--kc:#7B5CFA">${t('Kirim')}</span><span style="--kc:#8A8798">${t('Shıǵım')}</span></div>
+    ${kmLine(ieSeries, lbls, { id: 'ie', sym: true })}</section>
+
+  <section class="card km-sc"><h4>${t('Balanslar boyınsha')}${info}</h4>
+    ${kmPie(wby.map(x => x.v), wby.map(x => x.c), UI.stWT === 'income' ? 'Kirim' : 'Shıǵım', wtot)}
+    ${seg('swt', UI.stWT, [['income', 'Kirim'], ['expense', 'Shıǵım']])}
+    ${wby.length ? `<div class="km-rows">${wby.map(x => `<div class="km-cr" style="--cc:${x.c}"><span class="cr-n ell">${ic(x.w.icon)}${esc(t(x.w.name))}</span><b class="num">${hideable(grp(x.v))} uzs</b><small class="num">${(Math.round(x.v / wtot * 1000) / 10).toString().replace('.', ',')}%</small></div>`).join('')}</div>` : `<div class="km-empty">${t('Bul aralıqta maǵlıwmat joq')}</div>`}</section>
+
+  <section class="card km-sc"><h4>${t('Aylıq limitler')}${info}</h4>
+    ${lims.length ? lims.map(([c, lim]) => { const ct = catById(c); const sp = catSpent(c); const p = Math.round(sp / lim * 100); return `<div class="km-lim"><div class="kl-t"><span class="ell" style="color:${ct.color}">${ic(ct.icon)}${esc(t(ct.name))}</span><span class="num">${grp(sp)} / ${grp(lim)} uzs <b>${p}%</b></span></div><div class="kl-b"><i style="width:${clamp(p, 0, 100)}%;background:${p > 100 ? '#1C1C1C' : p > 80 ? '#5B3EE6' : '#7B5CFA'}"></i></div></div>`; }).join('') : `<div class="km-empty">${t('Limit ornatılmaǵan')}</div>`}
+    <button class="btn ghost sm" id="stLim">${ic('sliders-horizontal')}${t('Limitlerdi sazlaw')}</button></section>
+
+  <section class="card km-sc"><h4>${t('Alıs-berisler')}${info}</h4>
+    ${kmPie(dParts, dCols, 'qarız parqı', Math.abs(dTaken - dGiven))}
+    ${seg('sd', UI.stD, [['all', 'Qarızlar'], ['taken', 'Alınǵan'], ['given', 'Berilgen']])}
+    ${UI.stD === 'all' ? `<div class="km-rows"><div class="km-cr" style="--cc:#1C1C1C"><span class="cr-n">${ic('arrow-down-left')}${t('Qarız alındı')}</span><b class="num">+${grp(dTaken)} uzs</b><small class="num">${dTaken + dGiven ? Math.round(dTaken / (dTaken + dGiven) * 100) : 0}%</small></div>
+      <div class="km-cr" style="--cc:#7B5CFA"><span class="cr-n">${ic('arrow-up-right')}${t('Qarız berildi')}</span><b class="num">−${grp(dGiven)} uzs</b><small class="num">${dTaken + dGiven ? Math.round(dGiven / (dTaken + dGiven) * 100) : 0}%</small></div></div>`
+      : dl.length ? `<div class="km-rows">${dl.map((d, i) => `<div class="km-cr" style="--cc:${KM_COL[i % KM_COL.length]}"><span class="cr-n ell">${ic('user')}${esc(d.name)}</span><b class="num">${grp(d.amount)} ${d.cur || 'uzs'}</b></div>`).join('')}</div>` : `<div class="km-empty">${t('Qarız joq')}</div>`}
+  </section>`;
+  $('#stPrev').onclick = () => { UI.statOffset++; renderView(); };
+  $('#stNext').onclick = () => { if (UI.statOffset > 0) { UI.statOffset--; renderView(); } };
+  $$('[data-p]', el).forEach(b => b.onclick = () => { UI.statPeriod = b.dataset.p; UI.statOffset = 0; renderView(); });
+  $('#stAllTx').onclick = () => openAllTx();
+  $$('[data-sw]', el).forEach(b => b.onclick = () => { UI.stW = b.dataset.sw; renderView(); });
+  $$('[data-sb]', el).forEach(b => b.onclick = () => { const id = b.dataset.sb; UI.stBW = UI.stBW.includes(id) ? UI.stBW.filter(x => x !== id) : [...UI.stBW, id]; renderView(); });
+  $$('[data-stt]', el).forEach(b => b.onclick = () => { UI.stT = b.dataset.stt; renderView(); });
+  $$('[data-swt]', el).forEach(b => b.onclick = () => { UI.stWT = b.dataset.swt; renderView(); });
+  $$('[data-sd]', el).forEach(b => b.onclick = () => { UI.stD = b.dataset.sd; renderView(); });
+  $$('[data-cat]', el).forEach(b => b.onclick = () => openCatTx(b.dataset.cat, R));
+  $('#stLim').onclick = openBudget;
+}
+
+/* ---------- KATEGORIYALAR (gruppalar) ---------- */
+const KM_EMOJI = {"k_f1": "🍱", "k_f2": "🛒", "k_f3": "🍔", "k_f4": "🥤", "k_f5": "☕", "k_f6": "🏪", "k_f7": "🛵", "k_m1": "💸", "k_m2": "📤", "k_m3": "🏦", "k_m4": "💹", "k_m5": "🏛️", "k_m6": "💱", "k_m7": "📈", "k_m8": "🛡️", "k_m9": "🧾", "k_t1": "🚕", "k_t2": "⛽", "k_t3": "🚙", "k_t4": "🚌", "k_t5": "🔧", "k_o1": "📦", "k_o2": "❓", "k_o3": "👤", "k_o4": "🔄", "k_o5": "⚠️", "k_o6": "🎯", "k_i1": "💰", "k_i2": "💪", "k_i3": "🏷️", "k_i4": "🎯", "k_i5": "🔑", "k_i6": "🪙", "k_i7": "💵", "k_l1": "🎁", "k_l2": "🤝", "k_l3": "🎭", "k_l4": "🏃", "k_l5": "✈️", "k_l6": "🎬", "k_l7": "🐾", "k_l8": "🎨", "k_l9": "🤲", "k_w1": "🏢", "k_w2": "👥", "k_w3": "📢", "k_w4": "🖥️", "k_w5": "🚚", "k_w6": "💻", "k_w7": "📁", "k_h1": "🏠", "k_h2": "🧾", "k_h3": "🌍", "k_h4": "💡", "k_d1": "🩺", "k_d2": "🧴", "k_d3": "💊", "k_d4": "💇", "k_s1": "🛍️", "k_s2": "👕", "k_s3": "📱", "k_s4": "🛋️", "k_s5": "💍", "k_s6": "🧸", "k_s7": "📦", "k_e1": "📞", "k_e2": "📚", "k_e3": "🔁", "k_e4": "💻", "k_c1": "🧒", "k_c2": "🏫", "k_c3": "🧸", "k_c4": "👪"};
+const KM_GEMOJI = {"food": "🍽️", "fin": "📊", "tr": "🚗", "oth": "⚙️", "inc": "💵", "life": "🎉", "biz": "💼", "home": "🏠", "hl": "❤️", "shop": "🛍️", "edu": "🎓", "fam": "👨‍👩‍👧"};
+const KM_IEMOJI = {"shopping-basket": "🧺", "car": "🚗", "zap": "⚡", "smartphone": "📱", "heart-pulse": "❤️", "shirt": "👕", "gamepad-2": "🎮", "graduation-cap": "🎓", "house": "🏠", "coffee": "☕", "gift": "🎁", "ellipsis": "📦", "briefcase": "💼", "store": "🏪", "sparkles": "✨", "trending-up": "📈", "circle-plus": "➕", "utensils": "🍽️", "plane": "✈️", "baby": "🧒", "heart": "❤️", "target": "🎯", "laptop": "💻", "folder": "📁", "circle-user": "👤", "wallet": "👛", "book-open": "📚", "music": "🎵", "dumbbell": "🏋️", "pill": "💊", "bus": "🚌", "fuel": "⛽", "phone": "📞", "tag": "🏷️", "coins": "🪙", "banknote": "💵"};
+const catEmoji = c => KM_EMOJI[c.id] || KM_IEMOJI[c.icon] || '🏷️';
+const KM_GROUPS = [["food", "Azıq-awqat", "utensils", "#7B5CFA", "expense", [["f1", "Ulıwma", "utensils"], ["f2", "Bazar hám dúkan", "shopping-cart"], ["f3", "Sırtta awqatlanıw", "utensils"], ["f4", "Ishimlikler", "coffee"], ["f5", "Kofe", "coffee"], ["f6", "Dúkan", "store"], ["f7", "Awqat jetkeriw", "truck"]], ["food", "cafe"]], ["fin", "Finans hám minnetlemeler", "percent", "#1C1C1C", "expense", [["m1", "Qarızlar", "banknote"], ["m2", "Pul awdarıw", "send"], ["m3", "Kredit hám nasiya", "landmark"], ["m4", "Finans operaciyaları", "trending-up"], ["m5", "Mámleket tólewleri", "landmark"], ["m6", "Valyuta ayırbaslaw", "arrow-left-right"], ["m7", "Jıynaq hám investiciya", "trending-up"], ["m8", "Qamsızlandırıw", "shield"], ["m9", "Salıqlar", "receipt"]], []], ["tr", "Transport", "car", "#5B3EE6", "expense", [["t1", "Taksi", "car"], ["t2", "Janılǵı hám gaz", "fuel"], ["t3", "Ulıwma", "car"], ["t4", "Jol kira (avtobus)", "bus"], ["t5", "Mashina qárejetleri", "wrench"]], ["transport"]], ["oth", "Basqalar", "ellipsis", "#2B1B78", "expense", [["o1", "Basqa qárejetler", "ellipsis"], ["o2", "Anıqlanbaǵan", "circle-help"], ["o3", "Jeke qárejetler", "user"], ["o4", "Balanstı ózgertiw", "refresh-cw"], ["o5", "Kútilmegen qárejetler", "triangle-alert"], ["o6", "Maqsetli qárejetler", "target"]], ["other"]], ["inc", "Dáramatlar", "trending-up", "#9C85FF", "income", [["i1", "Basqa dáramatlar", "coins"], ["i2", "Miynet dáramatları", "briefcase"], ["i3", "Sawda dáramatları", "tag"], ["i4", "Biznes dáramatları", "target"], ["i5", "Ijara dáramatları", "key-round"], ["i6", "Keshbek hám qaytım", "coins"], ["i7", "Aylıq hám avans", "banknote"]], ["salary", "biz", "bonus", "gift_in", "invest", "other_in"]], ["life", "Turmıs tárzi", "sparkles", "#4A4A55", "expense", [["l1", "Sawǵa hám sıylıqlar", "gift"], ["l2", "Xızmetler", "users"], ["l3", "Oyın-kúlki", "smile"], ["l4", "Sport", "dumbbell"], ["l5", "Sayaxat", "plane"], ["l6", "Muzıka hám kino", "music"], ["l7", "Haywanlar", "paw-print"], ["l8", "Hobbi", "sparkles"], ["l9", "Qayırqomlıq", "heart"]], ["fun", "gift"]], ["biz", "Biznes hám jumıs", "briefcase", "#7B5CFA", "expense", [["w1", "Ofis", "building-2"], ["w2", "Xızmetkerler", "users"], ["w3", "Marketing", "megaphone"], ["w4", "Úskeneler", "laptop"], ["w5", "Logistika", "truck"], ["w6", "Programmalar", "laptop"], ["w7", "Biznes basqa", "folder"]], []], ["home", "Úy-jay hám kommunal", "house", "#1C1C1C", "expense", [["h1", "Úy-jay qárejetleri", "house"], ["h2", "Kommunal tólewler", "receipt"], ["h3", "Jer", "globe"], ["h4", "Energiya únemlew", "lightbulb"]], ["home", "utility"]], ["hl", "Densawlıq hám kútim", "heart", "#5B3EE6", "expense", [["d1", "Densawlıq", "stethoscope"], ["d2", "Jeke kútim", "heart"], ["d3", "Dári-dármaq", "pill"], ["d4", "Salon hám gózzallıq", "sparkles"]], ["health"]], ["shop", "Xaridlar", "shopping-cart", "#2B1B78", "expense", [["s1", "Ulıwma", "shopping-cart"], ["s2", "Kiyim-kenshek", "shirt"], ["s3", "Elektronika hám texnika", "smartphone"], ["s4", "Úy buyımları", "store"], ["s5", "Aksessuar hám zergerlik", "gem"], ["s6", "Oyınshıqlar", "smile"], ["s7", "Onlayn xaridlar", "shopping-cart"]], ["cloth"]], ["edu", "Bilim hám baylanıs", "graduation-cap", "#9C85FF", "expense", [["e1", "Baylanıs hám media", "phone"], ["e2", "Oqıw hám rawajlanıw", "book-open"], ["e3", "Jazılıwlar", "repeat"], ["e4", "Kompyuter", "laptop"]], ["comm", "edu"]], ["fam", "Shańaraq, balalar, úy", "baby", "#4A4A55", "expense", [["c1", "Balalar", "baby"], ["c2", "Mektep", "school"], ["c3", "Bala-baqsha", "smile"], ["c4", "Shańaraq", "users"]], []]];
+(function kmCleanGroups() { if (S.kmCg3) return; S.kmCg3 = true; S.cgroups = (S.cgroups || []).filter(g => S.cats.some(c => c.grp === g.id)); save(); })();
+(function kmSeedCats() {
+  if (S.kmCats2) return; S.kmCats2 = true;
+  KM_GROUPS.forEach(([gid, , , col, type, cats, defs]) => {
+    defs.forEach(id => { const c = S.cats.find(x => x.id === id); if (c) c.bg = gid; });
+    cats.forEach(([cid, name, icon]) => { const id = 'k_' + cid; if (!S.cats.some(c => c.id === id)) S.cats.push({ id, name, icon, color: col, type, bg: gid }); });
+  });
+  save();
+})();
+function openCats() {
+  UI.cType = UI.cType || 'expense'; UI.cOpen = UI.cOpen || { mine: true }; UI.cq = ''; UI.cView = UI.cView || S.catView || 'icon'; if (UI.cView === 'fill') UI.cView = 'icon';
+  const tile = c => { const lim = c.type === 'expense' ? S.budget.cats?.[c.id] : 0; const p = lim ? clamp(catSpent(c.id) / lim * 100, 0, 100) : 0;
+    return `<button class="cg-t ${UI.cView === 'fill' ? 'fill' : ''}" data-ce="${c.id}" style="--tc:${c.color}">${lim ? `<i class="cg-lim" style="height:${p}%"></i>` : ''}<span class="cg-ti ${UI.cView === 'emoji' ? 'em' : ''}">${UI.cView === 'emoji' ? catEmoji(c) : ic(c.icon)}</span><small class="ell2">${esc(t(c.name))}</small></button>`; };
+  const body = () => {
+    const q = toLat(UI.cq || ''); const match = c => !q || toLat(t(c.name)).includes(q) || toLat(c.name).includes(q);
+    const cats = S.cats;
+    const userGroups = S.cgroups;
+    const bgIds = new Set(KM_GROUPS.map(g => g[0]));
+    const mine = cats.filter(c => !(c.bg && bgIds.has(c.bg)) && !userGroups.some(g => g.id === c.grp));
+    const grp = (id, name, icon, color, list, own) => { const open = UI.cOpen[id] || !!q; const l = list.filter(match); if (q && !l.length) return '';
+      return `<div class="card cg ${open ? 'open' : ''}"><div class="cg-h" data-cg="${id}"><span class="cg-ic ${UI.cView === 'emoji' ? 'em' : ''}" style="background:${color}">${UI.cView === 'emoji' ? (KM_GEMOJI[id] || (id === 'mine' ? '👤' : '📁')) : ic(icon)}</span><span class="r-t"><div class="ell">${esc(t(name))}</div><small>${l.length} ${t('kategoriya')}</small></span>
+        <button class="cg-m" data-cgm="${id}" data-own="${own ? 1 : 0}" aria-label="menu">${ic('ellipsis')}</button><span class="cg-ch">${ic(open ? 'chevron-up' : 'chevron-down')}</span></div>
+      ${open ? `<div class="cg-grid">${l.map(tile).join('')}<button class="cg-t add" data-cadd="${id}">${ic('plus')}<small>${t('Qosıw')}</small></button></div>`
+        : `<div class="cg-dots">${l.slice(0, 6).map(c => `<i style="--tc:${color}" class="${UI.cView === 'emoji' ? 'em' : ''}">${UI.cView === 'emoji' ? catEmoji(c) : ic(c.icon)}</i>`).join('')}${l.length > 6 ? `<i class="more">+${l.length - 6}</i>` : ''}</div>`}</div>`; };
+    return `<label class="km-search">${ic('search')}<input id="cQ" placeholder="${t('Izlew')}" value="${esc(UI.cq || '')}"></label>
+      <div class="card cg-view"><span>${t('Kórinis')}</span><div class="seg">${[['icon', 'Ikonka'], ['emoji', 'Emoji']].map(([v, l]) => `<button data-cv="${v}" class="${UI.cView === v ? 'on' : ''}">${t(l)}</button>`).join('')}</div></div>
+      <small class="cg-cap">${t('Meniń gruppalarım')}</small>
+      ${grp('mine', 'Jeke kategoriyalar', 'circle-user', '#7B5CFA', mine, true)}
+      ${userGroups.map(g => grp(g.id, g.name, 'folder', g.color || '#5B3EE6', cats.filter(c => c.grp === g.id), true)).join('')}
+      <button class="cg-new" id="cgNew"><span>${ic('plus')}</span><span class="r-t"><div>${t('Jańa gruppa')}</div><small>${t('Kategoriyalarıńızdı óz gruppańızǵa jıynań')}</small></span></button>
+      <small class="cg-cap">${t('KARMAN AI gruppaları')}</small>
+      ${KM_GROUPS.map(([id, name, icon, color]) => grp(id, name, icon, color, cats.filter(c => c.bg === id && !c.grp), false)).join('')}`;
+  };
+  const addIn = g => { const before = new Set(S.cats.map(c => c.id)); UI.cOpen[g] = true; const kg = KM_GROUPS.find(x => x[0] === g); openCatEdit(null, kg ? kg[4] : 'expense');
+    const iv = setInterval(() => { const nw = S.cats.find(c => !before.has(c.id)); if (nw) { if (KM_GROUPS.some(x => x[0] === g)) { nw.bg = g; nw.color = KM_GROUPS.find(x => x[0] === g)[3]; } else if (g !== 'mine') nw.grp = g; save(); clearInterval(iv); Page.refresh(); } else if (!Sheet.stack.length) clearInterval(iv); }, 300); };
+  const groupForm = (g = null) => Sheet.open({ title: g ? t('Gruppanı ózgertiw') : t('Jańa gruppa'),
+    html: () => `<div class="field"><label>${t('Gruppa atı')}</label><input class="inp" id="gNm" maxlength="24" value="${g ? esc(g.name) : ''}" placeholder="${t('Mısalı: Balalar')}"></div>
+      <div class="field"><label>${t('Reń')}</label><div class="chips">${['#7B5CFA', '#5B3EE6', '#2B1B78', '#9C85FF', '#1C1C1C', '#4A4A55'].map(c => `<button class="chip" data-gc="${c}" style="width:38px;height:38px;padding:0;background:${c};${(g ? g.color : '#7B5CFA') === c ? 'outline:3px solid var(--violet);outline-offset:2px' : ''}"></button>`).join('')}</div></div>
+      <button class="btn pri" id="gOk">${t(g ? 'Saqlaw' : 'Jaratıw')}</button>`,
+    mount: e2 => { let col = g ? g.color : '#7B5CFA'; $$('[data-gc]', e2).forEach(b => b.onclick = () => { col = b.dataset.gc; $$('[data-gc]', e2).forEach(x => x.style.outline = x === b ? '3px solid var(--violet)' : ''); });
+      $('#gOk').onclick = () => { const n = $('#gNm').value.trim(); if (!n) return toast(t('Atın jazıń'), { icon: 'circle-alert' }); if (g) { g.name = n; g.color = col; } else { const id = 'cg' + uid(); S.cgroups.push({ id, name: n, color: col }); UI.cOpen[id] = true; } save(); Sheet.close(); Page.refresh(); }; } });
+  Page.open({
+    title: t('Kategoriyalar'),
+    html: () => `<div id="kmCats">${body()}</div>`,
+    mount: el => {
+      const q = $('#cQ', el); q.oninput = () => { UI.cq = q.value; const pos = q.selectionStart; Page.refresh(); const q2 = $('#cQ'); q2.focus(); q2.setSelectionRange(pos, pos); };
+      $$('[data-cv]', el).forEach(b => b.onclick = () => { UI.cView = S.catView = b.dataset.cv; save(); Page.refresh(); });
+      $$('[data-cg]', el).forEach(b => b.onclick = e => { if (e.target.closest('[data-cgm]')) return; UI.cOpen[b.dataset.cg] = !UI.cOpen[b.dataset.cg]; Page.refresh(); });
+      $$('[data-cgm]', el).forEach(b => b.onclick = e => { e.stopPropagation(); const id = b.dataset.cgm; const own = b.dataset.own === '1'; const ug = S.cgroups.find(g => g.id === id);
+        Sheet.open({ title: t('Gruppa'), html: () => `<div class="card list">
+            <button class="row" data-mm="add"><span class="r-ic">${ic('plus')}</span><span class="r-t"><div>${t('Kategoriya qosıw')}</div></span></button>
+            ${ug ? `<button class="row" data-mm="edit"><span class="r-ic">${ic('pencil')}</span><span class="r-t"><div>${t('Ataw hám reńin ózgertiw')}</div></span></button>
+            <button class="row" data-mm="del"><span class="r-ic">${ic('trash-2')}</span><span class="r-t"><div>${t('Gruppanı óshiriw')}</div></span></button>` : ''}</div>`,
+          mount: e3 => $$('[data-mm]', e3).forEach(m => m.onclick = async () => { const a = m.dataset.mm; Sheet.close();
+            if (a === 'add') setTimeout(() => addIn(id), 250);
+            if (a === 'edit') setTimeout(() => groupForm(ug), 250);
+            if (a === 'del' && await ask('Gruppanı óshiriw', 'Gruppa óshiriledi, kategoriyalar «Jeke kategoriyalar» ǵa ótedi.', 'Óshiriw', true)) { S.cats.forEach(c => { if (c.grp === id) delete c.grp; }); S.cgroups = S.cgroups.filter(g => g.id !== id); save(); Page.refresh(); } }) }); });
+      $$('[data-ce]', el).forEach(b => b.onclick = () => openCatEdit(S.cats.find(c => c.id === b.dataset.ce)));
+      $$('[data-cadd]', el).forEach(b => b.onclick = () => addIn(b.dataset.cadd));
+      $('#cgNew', el).onclick = () => groupForm();
+    }
+  });
+}
+
+/* ---------- QARIZLAR ---------- */
+function openDebtNew(type = 'given') {
+  const st = { type, cur: 'UZS', wallet: S.wallets[0]?.id || '', sms: false };
+  Page.open({
+    title: t('Qarız jaratıw'),
+    html: () => `<div class="seg km-seg2"><button data-nt="given" class="${st.type === 'given' ? 'on' : ''}">${ic('arrow-up-right')}${t('Beriw')}</button><button data-nt="taken" class="${st.type === 'taken' ? 'on' : ''}">${ic('arrow-down-left')}${t('Alıw')}</button></div>
+      <div class="field"><label>${t('Atı')} <span class="cnt" id="dCnt">0/32</span></label><div class="inp-w"><input class="inp" id="dN" maxlength="32" placeholder="${t('Kimge / kimnen')}" autocomplete="off"><button class="inp-b" id="dCt" aria-label="contacts">${ic('contact')}</button></div></div>
+      <div class="field"><label>${t('Telefon nomeri')}</label><div class="inp-w"><span class="inp-pre">+998</span><input class="inp ph" id="dP" inputmode="tel" placeholder="90 123 45 67"></div></div>
+      <div class="field"><label>${t('Summa')}</label><div class="km-amt"><input class="num money" id="dA" inputmode="numeric" placeholder="0" autocomplete="off"><select id="dC">${['UZS', 'USD', 'EUR', 'RUB'].map(c => `<option>${c}</option>`).join('')}</select></div></div>
+      <div class="field"><label>${t('Hamyan')}</label><div class="chips">${S.wallets.map((w, i) => `<button class="chip ${i === 0 ? 'on' : ''}" data-dw="${w.id}">${ic(w.icon)}${esc(t(w.name))}</button>`).join('')}<button class="chip" data-dw="">${ic('circle-off')}${t('Hamyansız')}</button></div></div>
+      <div class="row2"><div class="field"><label>${t('Qashannan')}</label><input class="inp" type="date" id="dF" value="${today()}"></div><div class="field"><label>${t('Qashanǵa shekem')}</label><input class="inp" type="date" id="dD" value="${iso(addDays(new Date(), 30))}"></div></div>
+      <div class="field"><label>${t('Táriyp')}</label><div class="inp-w"><textarea class="inp ta" id="dT" maxlength="200" placeholder="${t('Qosımsha maǵlıwmat')}"></textarea><button class="inp-b" id="dMic" aria-label="mic">${ic('mic')}</button></div></div>
+      <button class="card row km-sms" id="dSms" role="switch"><span class="r-ic">${ic('message-square-text')}</span><span class="r-t"><div>${t('SMS xabarlama')}</div><small>${t('Adamǵa qarız haqqında SMS jiberiw')}</small></span><span class="switch" id="dSw"></span></button>
+      <button class="btn pri" id="dOk">${ic('check')}${t('Jaratıw')}</button>`,
+    mount: el => {
+      const A = $('#dA', el); A.addEventListener('input', () => { const v = parseMoney(A.value); A.value = v ? grp(v) : ''; A.style.fontSize = A.value.length > 11 ? '1.9rem' : ''; });
+      $('#dN', el).addEventListener('input', e => $('#dCnt', el).textContent = `${e.target.value.length}/32`);
+      $('#dP', el).addEventListener('input', e => e.target.value = fmtPhone(e.target.value));
+      $$('[data-nt]', el).forEach(b => b.onclick = () => { st.type = b.dataset.nt; $$('[data-nt]', el).forEach(x => x.classList.toggle('on', x === b)); });
+      $$('[data-dw]', el).forEach(b => b.onclick = () => { st.wallet = b.dataset.dw; $$('[data-dw]', el).forEach(x => x.classList.toggle('on', x === b)); });
+      $('#dC', el).onchange = e => st.cur = e.target.value;
+      $('#dSms', el).onclick = () => { st.sms = !st.sms; $('#dSw', el).classList.toggle('on', st.sms); };
+      $('#dCt', el).onclick = async () => {
+        if (!('contacts' in navigator && navigator.contacts.select)) return toast(t('Bul brauzerde kontaktlar ashılmaydı'), { icon: 'contact' });
+        try { const [c] = await navigator.contacts.select(['name', 'tel'], { multiple: false }); if (c) { $('#dN', el).value = (c.name && c.name[0] || '').slice(0, 32); if (c.tel && c.tel[0]) $('#dP', el).value = fmtPhone(c.tel[0].replace(/\D/g, '').replace(/^998/, '')); } } catch (e) {}
+      };
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition; const mic = $('#dMic', el);
+      mic.onclick = () => { if (!SR) return toast(t('Mikrofon islemedi. Tekst penen jazıń.'), { icon: 'mic-off' }); try { const r = new SR(); r.lang = 'uz-UZ'; mic.classList.add('rec'); r.onresult = e => { $('#dT', el).value += (($('#dT', el).value ? ' ' : '') + e.results[0][0].transcript); }; r.onend = () => mic.classList.remove('rec'); r.start(); } catch (e) { mic.classList.remove('rec'); } };
+      $('#dOk', el).onclick = () => {
+        const n = $('#dN', el).value.trim(), a = parseMoney(A.value); if (!n || !a) return toast(t('Atı hám summanı kirgiziń'), { icon: 'circle-alert' });
+        const phone = $('#dP', el).value.replace(/\D/g, '');
+        const d = { id: uid(), name: n, phone, amount: a, cur: st.cur, wallet: st.wallet, type: st.type, date: $('#dF', el).value || today(), due: $('#dD', el).value || today(), note: $('#dT', el).value.trim(), sms: st.sms, paid: false };
+        S.debts.push(d); save(); Page.back(); renderView(); toast(t('Qarız jaratıldı'), { icon: 'check' });
+        if (st.sms && phone.length >= 9) { const body = `${t('Sálem')}, ${n}! ${st.type === 'given' ? t('Sizge berilgen qarız') : t('Sizden alınǵan qarız')}: ${grp(a)} ${st.cur}. ${t('Qaytarıw sánesi')}: ${d.due.split('-').reverse().join('.')}. — KARMAN AI`; location.href = `sms:+998${phone}?body=${encodeURIComponent(body)}`; }
+      };
+    }
+  });
+}
+function openDebts() {
+  UI.dTab = UI.dTab || 'given';
+  Page.open({
+    title: t('Qarızlar'),
+    right: `<button class="pg-btn" id="dAdd" aria-label="add">${ic('plus')}</button>`,
+    html: () => {
+      const tab = UI.dTab; const list = S.debts.filter(d => d.type === tab).sort((a, b) => a.paid - b.paid || (a.due || '').localeCompare(b.due || ''));
+      const tot = list.filter(d => !d.paid).reduce((a, d) => a + debtUZS(d), 0);
+      return `<div class="seg"><button data-dt="given" class="${tab === 'given' ? 'on' : ''}">${t('Berilgen')}</button><button data-dt="taken" class="${tab === 'taken' ? 'on' : ''}">${t('Alınǵan')}</button></div>
+        <div class="card tile ${tab === 'given' ? 'violet' : 'ink'}"><div class="t-h">${t(tab === 'given' ? 'Maǵan qaytarılıwı kerek' : 'Men qaytarıwım kerek')}</div><div class="t-v num">${grp(tot)} ${cur()}</div></div>
+        ${list.length ? `<div class="card list">${list.map(d => { const diff = Math.round((fromIso(d.due) - fromIso(today())) / 864e5); return `<div class="row" style="${d.paid ? 'opacity:.5' : ''}">
+          <span class="avatar" style="width:40px;height:40px;font-size:.8rem;box-shadow:none">${esc(initials(d.name))}</span>
+          <span class="r-t"><div class="ell">${esc(d.name)}</div><small class="ell">${d.paid ? t('Qaytarıldı') : `${d.due.split('-').reverse().join('.')} · ${diff < 0 ? t('múddeti ótti') : diff + ' ' + t('kún qaldı')}`}${d.phone ? ' · +998 ' + fmtPhone(d.phone) : ''}</small>${d.note ? `<small class="ell">${esc(d.note)}</small>` : ''}</span>
+          <span style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><b class="num" style="font-size:.88rem;white-space:nowrap">${grp(d.amount)} ${d.cur && d.cur !== 'UZS' ? d.cur : ''}</b>
+          <span style="display:flex;gap:4px">${d.phone && !d.paid ? `<a class="badge" href="tel:+998${d.phone}" aria-label="call">${ic('phone')}</a>` : ''}${d.paid ? `<button class="badge" data-ddel="${d.id}">${t('Óshiriw')}</button>` : `<button class="badge ink" data-dpay="${d.id}">${t('Qaytarıldı')}</button>`}</span></span></div>`; }).join('')}</div>`
+        : `<div class="card empty"><span class="e-ic">${ic('hand-coins')}</span>${t('Bul bólimde qarız joq')}</div>`}
+        <button class="btn pri" id="dNew">${ic('plus')}${t('Qarız jaratıw')}</button>`;
+    },
+    mount: el => {
+      $$('[data-dt]', el).forEach(b => b.onclick = () => { UI.dTab = b.dataset.dt; Page.refresh(); });
+      $$('[data-dpay]', el).forEach(b => b.onclick = () => { const d = S.debts.find(x => x.id === b.dataset.dpay); d.paid = true; save(); renderView(); });
+      $$('[data-ddel]', el).forEach(b => b.onclick = () => { S.debts = S.debts.filter(x => x.id !== b.dataset.ddel); save(); renderView(); });
+      $('#dNew', el).onclick = $('#dAdd', el).onclick = () => openDebtNew(UI.dTab);
+    }
+  });
+}
+
+/* ---------- MAQSETLER (Qaldı / Kún qaldı / Ayına) ---------- */
+function openGoals() {
+  Page.open({
+    title: t('Maqsetler'),
+    right: `<button class="pg-btn" id="gAdd" aria-label="add">${ic('plus')}</button>`,
+    html: () => `${S.goals.length ? S.goals.map(g => { const p = clamp(g.saved / g.target * 100, 0, 100); const left = Math.max(0, g.target - g.saved);
+        const dl = g.due ? Math.round((fromIso(g.due) - fromIso(today())) / 864e5) : null; const months = dl != null ? Math.max(1, Math.ceil(dl / 30.4)) : null;
+        return `<div class="card tile" style="gap:12px">
+        <div style="display:flex;align-items:center;gap:12px"><span class="chip-ic" style="width:44px;height:44px">${ic(g.icon)}</span>
+          <div style="flex:1;min-width:0"><div style="font-weight:700" class="ell">${esc(t(g.name))}</div><small class="muted num">${grp(g.saved)} / ${grp(g.target)} ${cur()}</small></div>
+          <b class="num" style="font-family:var(--f-display);font-size:1.15rem">${Math.round(p)}%</b></div>
+        <div class="bar"><i style="width:${p}%"></i></div>
+        <div class="g-st"><span><small>${t('Qaldı')}</small><b class="num">${short(left)}</b></span><span><small>${t('Kún qaldı')}</small><b class="num">${dl == null ? '—' : Math.max(0, dl)}</b></span><span><small>${t('Ayına')}</small><b class="num">${months && left ? short(Math.ceil(left / months)) : '—'}</b></span></div>
+        <div class="row2"><button class="btn ghost sm" data-gdel="${g.id}" style="width:100%">${ic('trash-2')}${t('Óshiriw')}</button><button class="btn pri sm" data-gadd="${g.id}" style="width:100%">${ic('plus')}${t('Qosıw')}</button></div></div>`; }).join('')
+      : `<div class="card empty"><span class="e-ic">${ic('target')}</span>${t('Ele maqset joq. Ármanıńız ushın jinawdı baslań!')}</div>`}
+      <button class="btn ink" id="gNew">${ic('plus')}${t('Jańa maqset')}</button>`,
+    mount: el => {
+      const nw = () => Sheet.open({
+        title: t('Jańa maqset'),
+        html: () => `<div class="field"><label>${t('Maqset atı')}</label><input class="inp" id="gN" placeholder="${t('Mısalı: Mashina')}" maxlength="26"></div>
+          <div class="field"><label>${t('Kerekli summa')} (${cur()})</label>${moneyInput('gT')}</div>
+          <div class="field"><label>${t('Qashanǵa shekem')}</label><input class="inp" type="date" id="gD" value="${iso(addDays(new Date(), 182))}"></div>
+          <div class="field"><label>${t('Belgi')}</label><div class="chips">${['target', 'laptop', 'plane', 'car', 'house', 'graduation-cap', 'gift', 'smartphone', 'baby', 'heart'].map((i, k) => `<button class="chip ${k === 0 ? 'on' : ''}" data-gi="${i}">${ic(i)}</button>`).join('')}</div></div>
+          <button class="btn pri" id="gOk">${t('Saqlaw')}</button>`,
+        mount: e2 => { bindMoney(e2); let icon = 'target';
+          $$('[data-gi]', e2).forEach(b => b.onclick = () => { icon = b.dataset.gi; $$('[data-gi]', e2).forEach(x => x.classList.toggle('on', x === b)); });
+          $('#gOk').onclick = () => { const n = $('#gN').value.trim(), tg = parseMoney($('#gT').value); if (!n || !tg) return toast(t('Barlıq maydanlardı toltırıń'), { icon: 'circle-alert' }); S.goals.push({ id: uid(), name: n, target: tg, saved: 0, icon, due: $('#gD').value || '' }); save(); Sheet.close(); renderView(); }; }
+      });
+      $('#gNew', el).onclick = $('#gAdd', el).onclick = nw;
+      $$('[data-gadd]', el).forEach(b => b.onclick = () => { const g = S.goals.find(x => x.id === b.dataset.gadd);
+        Sheet.open({ title: t('Maqsetke qosıw'),
+          html: () => `<div class="field"><label>${t('Summa')} (${cur()})</label>${moneyInput('gA')}</div>
+            <div class="chips">${[50000, 100000, 500000, 1000000].map(v => `<button class="chip" data-gq="${v}">+${short(v)}</button>`).join('')}</div>
+            <div class="field"><label>${t('Qaysı hamyannan alınadı')}</label><select class="inp" id="gW"><option value="">${t('Hamyannan almaw')}</option>${S.wallets.map(w => `<option value="${w.id}">${esc(t(w.name))} — ${grp(walletBal(w.id))}</option>`).join('')}</select></div>
+            <button class="btn pri" id="gAOk">${t('Qosıw')}</button>`,
+          mount: e3 => { bindMoney(e3); $$('[data-gq]', e3).forEach(q => q.onclick = () => $('#gA').value = grp(+q.dataset.gq));
+            $('#gAOk').onclick = () => { const a = parseMoney($('#gA').value); if (!a) return toast(t('Muǵdardı kirgiziń'), { icon: 'circle-alert' });
+              const w = $('#gW').value; if (w) S.tx.push({ id: uid(), type: 'expense', amount: a, cat: 'other', wallet: w, date: today(), note: `${t('Jinaq')}: ${g.name}`, ts: Date.now() });
+              const was = g.saved >= g.target; g.saved += a; save(); Sheet.close(); renderView(); if (!was && g.saved >= g.target) { confetti(140); toast(t('Maqsetke jettińiz!'), { icon: 'party-popper', ms: 3500 }); } }; } }); });
+      $$('[data-gdel]', el).forEach(b => b.onclick = async () => { if (await ask('Maqsetti óshiriw', 'Bul maqset óshiriledi.', 'Óshiriw', true)) { S.goals = S.goals.filter(x => x.id !== b.dataset.gdel); save(); renderView(); } });
+    }
+  });
+}
+
+/* ---------- PROFIL: Maqsetler | Qarızlar ---------- */
+function kmPlanTiles() {
+  const g = S.goals; const d = S.debts.filter(x => !x.paid);
+  const gs = g.reduce((a, x) => a + x.saved, 0), gt = g.reduce((a, x) => a + x.target, 0);
+  return `<div class="km-two sv-two">
+    <button class="pt lav" id="svG2"><span class="tag">${ic('target')}${t('Maqsetler')}</span><b class="pt-h num ell">${g.length ? Math.round(gs / (gt || 1) * 100) + '%' : ic('plus')}</b><span class="pt-t">${g.length} ${t('maqset')}</span>${g.length ? `<span class="bar"><i style="width:${clamp(gs / (gt || 1) * 100, 0, 100)}%"></i></span>` : ''}</button>
+    <button class="pt ink" id="svD2"><span class="tag">${ic('hand-coins')}${t('Qarızlar')}</span><b class="pt-h num ell">${short(d.reduce((a, x) => a + debtUZS(x), 0))}</b><span class="pt-t">${d.length} ${t('aktiv qarız')}</span></button></div>`;
+}
+function renderServices() {
+  renderServices0();
+  const el = $('#v-services'); const anchor = $('.grp-chips', el);
+  if (anchor) anchor.insertAdjacentHTML('beforebegin', `<div class="sec-h"><h3>${t('Maqsetler hám qarızlar')}</h3></div>` + kmPlanTiles());
+  const a = $('#svG2'), b = $('#svD2'); if (a) a.onclick = openGoals; if (b) b.onclick = openDebts;
+  refreshIcons();
+}
+function renderProfile() { renderProfile0(); }
+
+/* ---------- AI chat: Hisobchi kórinisindegi karta ---------- */
+function kmRcpt(tx) {
+  const c = catById(tx.cat); const inc = tx.type === 'income';
+  return `<div class="km-rc" data-rc="${tx.id}">
+    <div class="rc-top"><span class="ci" style="background:${c.color}">${ic(c.icon)}</span>
+      <div class="rc-mid"><b class="ell">${esc(t(c.name))}</b><div class="rc-nw"><input class="rc-note" data-rnote="${tx.id}" value="${esc(tx.note || '')}" placeholder="${t('Izoh')}" maxlength="60"><button class="rc-ok" data-rok="${tx.id}" aria-label="ok">${ic('check')}</button></div></div>
+      <b class="rc-amt num ${inc ? 'in' : 'out'}">${inc ? '+' : '−'}${grp(tx.amount)}</b></div>
+    <div class="rc-pills"><button data-rw="${tx.id}">${ic(walletById(tx.wallet)?.icon || 'wallet')}<span class="ell">${walletName(tx.wallet)}</span>${ic('chevron-down')}</button><button data-rcat="${tx.id}">${ic(c.icon)}<span class="ell">${esc(t(c.name))}</span>${ic('chevron-down')}</button></div>
+    <div class="rc-foot"><span class="ell">${walletName(tx.wallet)} ${t('balansı')}: <b class="num">${grp(walletBal(tx.wallet))}</b> · ${hhmm(tx.ts) || dayLabel(tx.date)}</span><button class="rc-del" data-rdel="${tx.id}" aria-label="delete">${ic('trash-2')}</button></div></div>`;
+}
+function kmBindRcpt(root, rerender) {
+  const find = id => S.tx.find(z => z.id === id);
+  $$('[data-rdel]', root).forEach(b => b.onclick = async () => { if (await ask('Operaciyanı óshiriw', 'Bul operaciya óshiriledi.', 'Óshiriw', true)) { S.tx = S.tx.filter(x => x.id !== b.dataset.rdel); save(); renderView(); rerender(); } });
+  $$('[data-rnote]', root).forEach(i => { i.oninput = () => i.closest('.rc-nw').classList.add('ed'); i.onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); $(`[data-rok="${i.dataset.rnote}"]`, root).click(); } }; });
+  $$('[data-rok]', root).forEach(b => b.onclick = () => { const x = find(b.dataset.rok); if (!x) return; x.note = $(`[data-rnote="${x.id}"]`, root).value.trim(); kmLearn(x); save(); renderView(); b.closest('.rc-nw').classList.remove('ed'); toast(t('Saqlandı'), { icon: 'check' }); });
+  $$('[data-rw]', root).forEach(b => b.onclick = () => { const x = find(b.dataset.rw); if (!x) return;
+    Sheet.open({ title: t('Hamyan'), html: () => `<div class="card list">${S.wallets.map(w => `<button class="row" data-pw="${w.id}"><span class="r-ic">${ic(w.icon)}</span><span class="r-t"><div>${esc(t(w.name))}</div><small class="num">${grp(walletBal(w.id))} ${cur()}</small></span>${x.wallet === w.id ? ic('check') : ''}</button>`).join('')}</div>`,
+      mount: e => $$('[data-pw]', e).forEach(p => p.onclick = () => { x.wallet = p.dataset.pw; save(); Sheet.close(); renderView(); rerender(); }) }); });
+  $$('[data-rcat]', root).forEach(b => b.onclick = () => { const x = find(b.dataset.rcat); if (!x) return;
+    Sheet.open({ title: t('Kategoriya'), html: () => `<div class="cg-grid sheet-g">${S.cats.filter(c => c.type === x.type).map(c => `<button class="cg-t ${x.cat === c.id ? 'on' : ''}" data-pc="${c.id}"><span style="color:${c.color}">${ic(c.icon)}</span><small class="ell2">${esc(t(c.name))}</small></button>`).join('')}</div>`,
+      mount: e => $$('[data-pc]', e).forEach(p => p.onclick = () => { x.cat = p.dataset.pc; kmLearn(x); save(); Sheet.close(); renderView(); rerender(); toast(t('AI eslep qaldı'), { icon: 'sparkles' }); }) }); });
+}
+kmFxLoad();
 
 /* ================= boot ================= */
 function boot() {
