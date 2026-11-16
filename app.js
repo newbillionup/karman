@@ -1857,7 +1857,7 @@ function showLock(after) {
 
 /* ================= AI ================= */
 const KW = {
-  income: ['ayliq', 'aylıq', 'zarplata', 'oklad', 'kirim', 'keldi', 'tústi', 'tusti', 'aldım', 'aldim', 'bonus', 'premiya', 'sıylıq', 'dáramat', 'daramat', 'tabıs', 'satdım', 'sattım', 'qaytardı', 'qaytardi', 'tapdım', 'tapqanım', 'dividend', 'kelip tústi'],
+  income: ['oylik', 'oldim', 'avans', 'tushdi', 'keldi', 'ayliq', 'aylıq', 'zarplata', 'oklad', 'kirim', 'keldi', 'tústi', 'tusti', 'aldım', 'aldim', 'bonus', 'premiya', 'sıylıq', 'dáramat', 'daramat', 'tabıs', 'satdım', 'sattım', 'qaytardı', 'qaytardi', 'tapdım', 'tapqanım', 'dividend', 'kelip tústi'],
   cats: {
     food: ['nan', 'azıq', 'aziq', 'awqat', 'bazar', 'market', 'korzinka', 'makro', 'gósh', 'gosh', 'miywe', 'sút', 'sut', 'produkt', 'shay', 'qant', 'un ', 'kartoshka', 'magazin', 'dúkan', 'dukan', 'ovqat'],
     transport: ['taksi', 'taxi', 'avtobus', 'benzin', 'metan', 'propan', 'marshrut', 'yandex', 'mashina', 'transport', 'poezd', 'avia', 'bilet', 'jol haqı', 'remont mashina'],
@@ -1870,7 +1870,7 @@ const KW = {
     home: ['ijara', 'kvartira', 'úy ', 'remont', 'mebel', 'arenda'],
     cafe: ['kafe', 'restoran', 'kofe', 'coffee', 'fastfud', 'lavash', 'burger', 'pizza', 'shashlık', 'shashlik', 'túslik', 'tuslik', 'samsa', 'palaw'],
     gift: ['sawǵa', 'sawga', 'tuwılǵan kún', 'toy', 'gúl', 'gul '],
-    salary: ['aylıq', 'ayliq', 'zarplata', 'oklad'],
+    salary: ['aylıq', 'ayliq', 'oylik', 'avans', 'zarplata', 'oklad'],
     bonus: ['bonus', 'premiya', 'sıylıq'],
     biz: ['satdım', 'sattım', 'biznes', 'klient', 'buyırtpa', 'buyirtpa', 'zakaz'],
     gift_in: ['sawǵa aldım', 'sawga aldim'],
@@ -1879,6 +1879,7 @@ const KW = {
 };
 function parseAmount(s) {
   s = s.replace(/(\d)[\s ](?=\d{3}\b)/g, '$1');
+  s = s.replace(/\b\d{1,3}(?:[.,]\d{3})+(?![.,]?\d)/g, m => m.replace(/[.,]/g, ''));
   const m = s.match(/(\d+(?:[.,]\d+)?)\s*(mlrd|milliard|mln|million|millon|mıń|miń|ming|min|myn|mng|k)?(?!\p{L})/iu);
   if (!m) return 0;
   let v = parseFloat(m[1].replace(',', '.')); const u = (m[2] || '').toLowerCase();
@@ -1973,7 +1974,7 @@ function openAI(prefill) {
   Page.open({
     raw: true, noRefresh: true,
     head: `<div class="ai-top"><span id="aiOrb">${orbHtml()}</span><div style="min-width:0"><b>KARMAN AI</b><small><span class="live"></span><span id="aiLeft" class="ell">${t('Onlayn')} · ${left()}</span></small></div></div>`,
-    right: `<button class="pg-btn" id="aiClear" aria-label="clear">${ic('rotate-ccw')}</button>`,
+    right: `<span class="ai-hr"><button class="pg-btn" id="aiCal" aria-label="calendar">${ic('calendar-days')}</button><button class="pg-btn" id="aiClear" aria-label="clear">${ic('rotate-ccw')}</button></span>`,
     html: () => `<div class="chat" id="chat">${S.ai.length ? S.ai.map(msgHtml).join('') : welcome()}</div>
       <div class="ai-sugg">${sugg.map(s => `<button data-sg="${s}">${t(s)}</button>`).join('')}</div>
       <form class="ai-bar" id="aiF"><input id="aiI" placeholder="${t('Jazıń: taksi 25 mıń...')}" autocomplete="off">${SR ? `<button type="button" class="mic" id="aiMic" aria-label="mic">${ic('mic')}</button>` : ''}<button class="send" aria-label="send">${ic('arrow-up')}</button></form>`,
@@ -2001,6 +2002,8 @@ function openAI(prefill) {
       bindMsgs();
       $('#aiF').onsubmit = e => { e.preventDefault(); send($('#aiI').value); };
       $$('.ai-sugg [data-sg]', el).forEach(b => b.onclick = () => send(t(b.dataset.sg)));
+      kmWordHints(el);
+      $('#aiCal').onclick = () => kmDayCal();
       $('#aiClear').onclick = () => { S.ai = []; save(); chat.innerHTML = welcome(); refreshIcons(); bindMsgs(); };
       const mic = $('#aiMic');
       if (mic) mic.onclick = () => {
@@ -2186,8 +2189,9 @@ window.addEventListener('storage', e => {
     S.km4 = true; S.mode = 'dark';
     S.wallets.forEach(w => { if (w.id === 'cash' && /naq/i.test(w.name)) { w.name = 'Naqd pul'; w.icon = 'banknote'; } if (w.id === 'uzcard' && w.name === 'Uzcard' && !S.tx.length) w.name = 'Plastik karta'; });
   }
-  if (!Array.isArray(S.widgets)) S.widgets = ['month', 'pending', 'plan', 'fx', 'wallets', 'recent'];
+  if (!Array.isArray(S.widgets)) S.widgets = ['month', 'pending', 'plan', 'fx', 'recent'];
   if (!Array.isArray(S.wHidden)) S.wHidden = [];
+  S.widgets = S.widgets.filter(w => w !== 'wallets');
   if (!S.learn) S.learn = {};
   if (!Array.isArray(S.cgroups)) S.cgroups = [];
   if (!S.km3c) { S.km3c = true; const ok = ['#7B5CFA', '#3B3B46', '#A48BFF', '#5233E0', '#2B1B78', '#1C1C1C', '#5B3EE6', '#9C85FF', '#B8A6FF', '#8C6FFF', '#4A4A55', '#8A8798'];
@@ -2248,13 +2252,13 @@ if (!RATES.CNY) { RATES.CNY = 1780; RATES.GBP = 16300; RATES.TRY = 375; RATES.KG
 /* ---------- BAS BET ---------- */
 const WIDGETS = {
   month: ['calendar-range', 'Usı ay'], pending: ['clock', 'Kútilip atırǵan esaplar'], plan: ['target', 'Maqset hám qarızlar'],
-  fx: ['banknote', 'Valyuta kursları'], wallets: ['wallet', 'Hamyanlarım'], recent: ['receipt', 'Sońǵı esabatlar']
+  fx: ['banknote', 'Valyuta kursları'], recent: ['receipt', 'Sońǵı esabatlar']
 };
 function kmCatChips(list, type) {
   const by = {}; list.filter(x => x.type === type).forEach(x => by[x.cat] = (by[x.cat] || 0) + x.amount);
-  const rows = Object.entries(by).sort((a, b) => b[1] - a[1]).slice(0, 4);
+  const rows = Object.entries(by).sort((a, b) => b[1] - a[1]).slice(0, 8);
   if (!rows.length) return `<span class="muted um-none">${t('Ele operaciya joq')}</span>`;
-  return rows.map(([c, v]) => { const ct = catById(c); return `<span class="um-chip"><i style="background:${ct.color}">${ic(ct.icon)}</i><span class="ell">${esc(t(ct.name))}</span><b class="num">${hideable(short(v))}</b></span>`; }).join('');
+  return rows.map(([c, v]) => { const ct = catById(c); return `<span class="um-chip" title="${esc(t(ct.name))}">${ic(ct.icon)}<b class="num">${hideable(grp(v))}</b><i>uzs</i></span>`; }).join('');
 }
 function renderHome() {
   const el = $('#v-home'); const now = new Date(); const r = monthRange(); const wsel = S.homeWallet;
@@ -2268,6 +2272,9 @@ function renderHome() {
   const pInc = sum(plist, 'income'), pExp = sum(plist, 'expense');
   const pc = (a, b) => b ? Math.round((a - b) / b * 100) : (a ? 100 : 0);
   const dExp = pc(exp, pExp), dInc = pc(inc, pInc);
+  const yIso = iso(addDays(now, -1)); const dl0 = S.tx.filter(x => x.type === 'expense' && (wsel === 'all' || x.wallet === wsel));
+  const tdExp = dl0.filter(x => x.date === today()).reduce((a, x) => a + x.amount, 0), ydExp = dl0.filter(x => x.date === yIso).reduce((a, x) => a + x.amount, 0);
+  const dDay = pc(tdExp, ydExp);
   const bud = S.budget.total || 0; const dim = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate(); const daysLeft = dim - now.getDate() + 1;
   const perDay = Math.max(0, Math.floor(((bud || inc) - exp) / daysLeft)); const monthLeft = (bud || inc) - exp;
   const n = unread(); const ym = today().slice(0, 7);
@@ -2276,17 +2283,19 @@ function renderHome() {
   const pendIn = dGiven.reduce((a, d) => a + debtUZS(d), 0), pendOut = recs.reduce((a, p) => a + p.amount, 0) + dTaken.reduce((a, d) => a + debtUZS(d), 0);
   const goal = S.goals[0];
   const W = {
-    month: () => `<div class="sec-h"><h3>${t('Usı ay')}</h3><small class="muted">${t(MONTHS[now.getMonth()])} ${now.getFullYear()}</small></div>
+    month: () => `<div class="sec-h"><h3>${t('Usı ay')}</h3><button class="link" id="hMonAll">${t('Barlıǵı')}${ic('chevron-right')}</button></div>
       <div class="um">
-        <button class="card um-c" data-st="income"><div class="um-h"><span class="um-ic in">${ic('arrow-down-left')}</span><span>${t('Kirim')}</span><span class="chip-delta ${dInc >= 0 ? 'up' : ''} num">${dInc >= 0 ? '+' : ''}${dInc}%</span></div>
-          <div class="um-v num ell">${hideable(grp(inc))} <i>${cur()}</i></div><div class="um-chips">${kmCatChips(mlist, 'income')}</div></button>
-        <button class="card um-c" data-st="expense"><div class="um-h"><span class="um-ic out">${ic('arrow-up-right')}</span><span>${t('Shıǵım')}</span><span class="chip-delta ${dExp > 0 ? '' : 'up'} num">${dExp >= 0 ? '+' : ''}${dExp}%</span></div>
-          <div class="um-v num ell">${hideable(grp(exp))} <i>${cur()}</i></div><div class="um-chips">${kmCatChips(mlist, 'expense')}</div></button>
-      </div><small class="muted um-note">${t('% — ótken aydıń usı kúnine salıstırǵanda')}</small>`,
+        <button class="card um-c in" data-st="income"><div class="um-row"><div class="um-l"><div class="um-v num">${hideable(grp(inc))}<i>uzs</i></div><small>${t('kirim')}</small></div>
+          <div class="um-r"><b class="num">${dInc > 0 ? '+' : ''}${dInc}%</b><small>${t(MONTHS[(now.getMonth() + 11) % 12])}ǵa salıstırǵanda</small></div></div>
+          <div class="um-chips">${kmCatChips(mlist, 'income')}</div></button>
+        <button class="card um-c out" data-st="expense"><div class="um-row"><div class="um-l"><div class="um-v num">${hideable(grp(exp))}<i>uzs</i></div><small>${t('shıǵım')}</small></div>
+          <div class="um-r"><b class="num">${dExp > 0 ? '+' : ''}${dExp}%</b><small>${t(MONTHS[(now.getMonth() + 11) % 12])}ǵa salıstırǵanda</small></div></div>
+          <div class="um-chips">${kmCatChips(mlist, 'expense')}</div></button>
+      </div>`,
     pending: () => `<div class="sec-h"><h3>${t('Kútilip atırǵan esaplar')}</h3></div>
-      <div class="card list">
-        <button class="row" id="hPendIn"><span class="r-ic in">${ic('arrow-down-left')}</span><span class="r-t"><div>${t('Kútilip atırǵan kirimler')}</div><small>${dGiven.length} ${t('qarız qaytarılıwı kerek')}</small></span><b class="num pos">${hideable('+' + short(pendIn))}</b></button>
-        <button class="row" id="hPendOut"><span class="r-ic out">${ic('arrow-up-right')}</span><span class="r-t"><div>${t('Kútilip atırǵan shıǵımlar')}</div><small>${recs.length + dTaken.length} ${t('tólem')}</small></span><b class="num neg">${hideable('−' + short(pendOut))}</b></button>
+      <div class="km-two pend">
+        <button class="card pd in" id="hPendIn"><b class="num">${hideable(grp(pendIn))}</b><small><em>${t('kirim')}</em> ${t('kútilmekte...')}</small><span class="pd-bar"><i style="width:${pendIn + pendOut ? Math.round(pendIn / (pendIn + pendOut) * 100) : 0}%"></i><span>${dGiven.length} ${t('dana')}</span></span></button>
+        <button class="card pd out" id="hPendOut"><b class="num">${hideable(grp(pendOut))}</b><small><em>${t('shıǵım')}</em> ${t('kútilmekte...')}</small><span class="pd-bar"><i style="width:${pendIn + pendOut ? Math.round(pendOut / (pendIn + pendOut) * 100) : 0}%"></i><span>${recs.length + dTaken.length} ${t('dana')}</span></span></button>
       </div>`,
     plan: () => `<div class="km-two">
       <button class="pt lav" id="hGoal"><span class="tag">${t('Maqset')}</span><b class="pt-h ell">${goal ? esc(t(goal.name)) : t('Maqset qosıń')}</b>
@@ -2318,13 +2327,17 @@ function renderHome() {
     </div>
     <div class="bal-label">${t('Ulıwma balans')}</div>
     <div class="bal-amt num">${hideable(grp(bal))}<small>,00</small><em>${cur()}</em></div>
-    <div class="bal-meta"><span class="chip-delta ${dExp > 0 ? 'up' : ''} num">${ic(dExp > 0 ? 'trending-up' : 'trending-down')}${dExp > 0 ? '+' : ''}${dExp}%</span><span class="ell">${t('shıǵım, ótken ayǵa salıstırǵanda')}</span></div>
+    <div class="bal-meta"><span class="chip-delta ${dDay > 0 ? 'up' : ''} num">${ic(dDay > 0 ? 'trending-up' : 'trending-down')}${dDay > 0 ? '+' : ''}${dDay}%</span><span class="ell">${t('shıǵım, keshegi kúnge salıstırǵanda')}</span></div>
     <div class="bal-acts">
       <button class="ba" data-q="income"><span>${t('Kirim')}</span><b>${ic('arrow-down-left')}</b></button>
       <button class="ba mid" data-q="transfer" aria-label="transfer">${ic('arrow-left-right')}</button>
       <button class="ba" data-q="expense"><b>${ic('arrow-up-right')}</b><span>${t('Shıǵım')}</span></button>
     </div>
   </section>
+  <div class="km-wrow">
+    <button class="wr-add" id="hWAdd" aria-label="add">${ic('plus')}</button>
+    ${S.wallets.map(w => `<button class="wr-c t-${w.theme} ${S.homeWallet === w.id ? 'sel' : ''}" data-w="${w.id}"><span class="wr-n">${ic(w.icon)}<span class="ell">${esc(t(w.name))}</span></span><b class="num ell">${hideable(grp(walletBal(w.id)))}<i>uzs</i></b></button>`).join('')}
+  </div>
   <section class="card month km-mini"><div class="m-foot">
     <span><small>${t('Kirim')}</small><b class="num pos">${hideable('+' + short(inc))}</b></span>
     <span><small>${t('Shıǵım')}</small><b class="num neg">${hideable('−' + short(exp))}</b></span>
@@ -2341,7 +2354,7 @@ function renderHome() {
   $$('[data-fx]', el).forEach(b => b.onclick = () => openFx(b.dataset.fx));
   on('#hWallets', openWallets); on('#hAddW', () => openWalletEdit()); on('#hAll', () => openAllTx());
   $$('[data-w]', el).forEach(b => b.onclick = () => { S.homeWallet = S.homeWallet === b.dataset.w ? 'all' : b.dataset.w; save(); renderView(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
-  on('#hWset', openWidgets);
+  on('#hWset', openWidgets); on('#hWAdd', () => openWalletEdit()); on('#hMonAll', () => setTab('stats'));
   bindTx(el);
 }
 
@@ -2356,19 +2369,19 @@ function openWidgets() {
       <button class="btn ghost" id="wgReset">${ic('rotate-ccw')}${t('Baslanǵısh tártip')}</button>`,
     mount: el => {
       $$('[data-wt]', el).forEach(b => b.onclick = () => { const w = b.dataset.wt; S.wHidden = S.wHidden.includes(w) ? S.wHidden.filter(x => x !== w) : [...S.wHidden, w]; save(); renderView(); });
-      $('#wgReset').onclick = () => { S.widgets = ['month', 'pending', 'plan', 'fx', 'wallets', 'recent']; S.wHidden = []; save(); renderView(); };
+      $('#wgReset').onclick = () => { S.widgets = ['month', 'pending', 'plan', 'fx', 'recent']; S.wHidden = []; save(); renderView(); };
       const L = $('#wgL', el);
       $$('.wg-h', el).forEach(h => h.addEventListener('pointerdown', e => {
-        e.preventDefault(); const row = h.closest('.wg'); const y0 = e.clientY; let moved = 0; row.classList.add('drag'); h.setPointerCapture(e.pointerId);
+        e.preventDefault(); const row = h.closest('.wg'); const y0 = e.clientY; let moved = 0; row.classList.add('drag');
         const mv = ev => {
           const dy = ev.clientY - y0 - moved; row.style.transform = `translateY(${dy}px)`;
           const H = row.offsetHeight;
           if (dy > H * .6 && row.nextElementSibling) { L.insertBefore(row.nextElementSibling, row); moved += H; row.style.transform = `translateY(${ev.clientY - y0 - moved}px)`; vib(6); }
-          else if (dy < -H * .6 && row.previousElementSibling) { L.insertBefore(row, row.previousElementSibling); moved -= H; row.style.transform = `translateY(${ev.clientY - y0 - moved}px)`; vib(6); }
+          else if (dy < -H * .6 && row.previousElementSibling) { L.insertBefore(row.previousElementSibling, row.nextElementSibling); moved -= H; row.style.transform = `translateY(${ev.clientY - y0 - moved}px)`; vib(6); }
         };
-        const up = () => { h.removeEventListener('pointermove', mv); h.removeEventListener('pointerup', up); h.removeEventListener('pointercancel', up); row.classList.remove('drag'); row.style.transform = '';
+        const up = () => { window.removeEventListener('pointermove', mv); window.removeEventListener('pointerup', up); window.removeEventListener('pointercancel', up); row.classList.remove('drag'); row.style.transform = '';
           S.widgets = $$('.wg', L).map(r => r.dataset.wg); save(); renderView(); };
-        h.addEventListener('pointermove', mv); h.addEventListener('pointerup', up); h.addEventListener('pointercancel', up);
+        window.addEventListener('pointermove', mv); window.addEventListener('pointerup', up); window.addEventListener('pointercancel', up);
       }));
     }
   });
@@ -2713,12 +2726,70 @@ function renderProfile() { renderProfile0(); }
 /* ---------- AI chat: Hisobchi kórinisindegi karta ---------- */
 function kmRcpt(tx) {
   const c = catById(tx.cat); const inc = tx.type === 'income';
-  return `<div class="km-rc" data-rc="${tx.id}">
-    <div class="rc-top"><span class="ci" style="background:${c.color}">${ic(c.icon)}</span>
-      <div class="rc-mid"><b class="ell">${esc(t(c.name))}</b><div class="rc-nw"><input class="rc-note" data-rnote="${tx.id}" value="${esc(tx.note || '')}" placeholder="${t('Izoh')}" maxlength="60"><button class="rc-ok" data-rok="${tx.id}" aria-label="ok">${ic('check')}</button></div></div>
-      <b class="rc-amt num ${inc ? 'in' : 'out'}">${inc ? '+' : '−'}${grp(tx.amount)}</b></div>
-    <div class="rc-pills"><button data-rw="${tx.id}">${ic(walletById(tx.wallet)?.icon || 'wallet')}<span class="ell">${walletName(tx.wallet)}</span>${ic('chevron-down')}</button><button data-rcat="${tx.id}">${ic(c.icon)}<span class="ell">${esc(t(c.name))}</span>${ic('chevron-down')}</button></div>
-    <div class="rc-foot"><span class="ell">${walletName(tx.wallet)} ${t('balansı')}: <b class="num">${grp(walletBal(tx.wallet))}</b> · ${hhmm(tx.ts) || dayLabel(tx.date)}</span><button class="rc-del" data-rdel="${tx.id}" aria-label="delete">${ic('trash-2')}</button></div></div>`;
+  return `<div class="km-rc2" data-rc="${tx.id}">
+    <div class="km-rc">
+      <div class="rc-h"><b class="rc-amt num ${inc ? 'in' : 'out'}">${inc ? '+' : '−'}${grp(tx.amount)} <i>uzs</i></b><button class="rc-del" data-rdel="${tx.id}" aria-label="delete">${ic('trash-2')}</button></div>
+      <div class="rc-nw"><input class="rc-note" data-rnote="${tx.id}" value="${esc(tx.note || '')}" placeholder="${t('Izoh jazıń')}" maxlength="80"><span class="rc-pen" aria-hidden="true">${ic('pencil')}</span><button class="rc-ok" data-rok="${tx.id}" aria-label="ok">${ic('check')}</button></div>
+      <div class="rc-foot"><span class="ell">${walletName(tx.wallet)} ${t('balansı')}: <b class="num">${grp(walletBal(tx.wallet))} uzs</b></span><span class="num">${hhmm(tx.ts) || dayLabel(tx.date)}</span></div>
+    </div>
+    <div class="rc-pills"><button data-rw="${tx.id}"><span class="ell">${walletName(tx.wallet)}</span>${ic('chevrons-up-down')}</button><button data-rcat="${tx.id}">${ic(c.icon)}<span class="ell">${esc(t(c.name))}</span>${ic('chevrons-up-down')}</button></div></div>`;
+}
+/* AI chat: aldın jazılǵan sózlerdi eslep qalıw hám usınıs etiw */
+function kmVocab() {
+  const v = {};
+  const add = (text, type, w8) => String(text || '').split(/[^\p{L}'ʼ‘’-]+/u).forEach(w => {
+    w = w.replace(/^['ʼ‘’-]+|['ʼ‘’-]+$/g, ''); if (w.length < 3) return; const k = w.toLowerCase();
+    if (/^(mıń|min|ming|mln|million|swm|som|so'm|uzs|sum|keldi|aldım|aldim|oldim)$/.test(k)) return;
+    const e = v[k] || (v[k] = { w, n: 0, inc: 0, exp: 0 }); e.n += w8; if (type === 'income') e.inc += w8; else if (type === 'expense') e.exp += w8; e.w = w;
+  });
+  S.tx.forEach(x => add(x.note, x.type, 2));
+  S.ai.forEach(m => { if (m.who === 'me') { const r = S.ai[S.ai.indexOf(m) + 1]; const tx = r && r.tx && (S.tx.find(z => z.id === r.tx.id) || r.tx.snap); add(m.text, tx ? tx.type : null, 1); } });
+  return v;
+}
+function kmWordHints(el) {
+  const inp = $('#aiI', el); const sug = $('.ai-sugg', el); if (!inp || !sug) return;
+  const box = document.createElement('div'); box.className = 'ai-words'; sug.after(box);
+  let vocab = null;
+  const render = () => {
+    const m = inp.value.match(/([\p{L}'ʼ‘’-]{1,})$/u); const pre = m ? m[1].toLowerCase() : '';
+    if (pre.length < 2) { box.innerHTML = ''; box.classList.remove('on'); return; }
+    vocab = vocab || kmVocab();
+    const list = Object.entries(vocab).filter(([k]) => k.startsWith(pre) && k !== pre).sort((a, b) => b[1].n - a[1].n).slice(0, 6);
+    if (!list.length) { box.innerHTML = ''; box.classList.remove('on'); return; }
+    box.classList.add('on');
+    box.innerHTML = list.map(([k, e]) => { return `<button type="button" class="aw" data-aw="${esc(e.w)}">${ic('history')}${esc(e.w)}</button>`; }).join('');
+    refreshIcons();
+    $$('[data-aw]', box).forEach(b => b.onmousedown = b.ontouchstart = ev => { ev.preventDefault();
+      inp.value = inp.value.replace(/([\p{L}'ʼ‘’-]{1,})$/u, b.dataset.aw) + ' '; inp.focus(); render(); });
+  };
+  inp.addEventListener('input', render);
+  inp.closest('form').addEventListener('submit', () => { vocab = null; setTimeout(render, 0); });
+}
+function kmDayCal(sel) {
+  const st = { m: sel ? fromIso(sel) : new Date(), d: sel || today() }; st.m = new Date(st.m.getFullYear(), st.m.getMonth(), 1);
+  const WD = ['Du', 'Si', 'Sá', 'Pi', 'Ju', 'Sh', 'Ek'];
+  Sheet.open({
+    title: t('Kúnler boyınsha esap'),
+    html: () => {
+      const y = st.m.getFullYear(), mo = st.m.getMonth(); const dim = new Date(y, mo + 1, 0).getDate(); const off = (new Date(y, mo, 1).getDay() + 6) % 7;
+      const dayExp = d => S.tx.filter(x => x.date === d && x.type === 'expense').reduce((a, x) => a + x.amount, 0);
+      const days = [...Array(dim)].map((_, i) => iso(new Date(y, mo, i + 1)));
+      const max = Math.max(1, ...days.map(dayExp));
+      const list = S.tx.filter(x => x.date === st.d).sort((a, b) => (b.ts || 0) - (a.ts || 0));
+      const de = sum(list, 'expense'), di = sum(list, 'income');
+      return `<div class="dc-nav"><button class="pg-btn" id="dcP">${ic('chevron-left')}</button><b>${t(MONTHS[mo])} ${y}</b><button class="pg-btn" id="dcN">${ic('chevron-right')}</button></div>
+        <div class="dc-grid">${WD.map(w => `<span class="dc-w">${t(w)}</span>`).join('')}${'<span></span>'.repeat(off)}${days.map(d => { const v = dayExp(d); const fut = d > today();
+          return `<button class="dc-d ${d === st.d ? 'on' : ''} ${d === today() ? 'td' : ''} ${fut ? 'fut' : ''}" data-dd="${d}" ${fut ? 'disabled' : ''}><b>${+d.slice(8)}</b>${v ? `<small class="num">${short(v).replace(' ', '')}</small><i style="opacity:${.25 + .75 * v / max}"></i>` : ''}</button>`; }).join('')}</div>
+        <div class="card dc-sum"><div><small>${dayLabel(st.d)}</small><b class="num">−${grp(de)} <i>uzs</i></b><span>${t('jumsalǵan')}</span></div><div class="dc-in"><small>${t('Kirim')}</small><b class="num">+${grp(di)}</b></div></div>
+        ${list.length ? `<div class="card tx-list">${list.map(txRow).join('')}</div>` : `<div class="km-empty">${t('Bul kúni operaciya joq')}</div>`}`;
+    },
+    mount: el => {
+      $('#dcP', el).onclick = () => { st.m = new Date(st.m.getFullYear(), st.m.getMonth() - 1, 1); Sheet.refresh(); };
+      $('#dcN', el).onclick = () => { st.m = new Date(st.m.getFullYear(), st.m.getMonth() + 1, 1); Sheet.refresh(); };
+      $$('[data-dd]', el).forEach(b => b.onclick = () => { st.d = b.dataset.dd; vib(6); Sheet.refresh(); });
+      bindTx(el);
+    }
+  });
 }
 function kmRcptOff(r) {
   const x = r && r.snap; if (!x) return `<div class="km-rc off"><div class="rc-off-h">${ic('undo-2')}${t('Bul operaciya biykarlandı')}</div></div>`;
