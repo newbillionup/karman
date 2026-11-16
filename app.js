@@ -1956,7 +1956,7 @@ function openAI(prefill) {
       const tx = S.tx.find(z => z.id === m.tx.id);
       if (tx) {
         x += kmRcpt(tx);
-      } else x += `<div class="tx-rcpt off"><small>${t('Bul operaciya biykarlandı')}</small></div>`;
+      } else x += kmRcptOff(m.tx);
     }
     if (m.extra) x += `<div class="m-extra">${ic('info')}<span>${esc(m.extra)}</span></div>`;
     return x + '</div></div>';
@@ -2720,9 +2720,19 @@ function kmRcpt(tx) {
     <div class="rc-pills"><button data-rw="${tx.id}">${ic(walletById(tx.wallet)?.icon || 'wallet')}<span class="ell">${walletName(tx.wallet)}</span>${ic('chevron-down')}</button><button data-rcat="${tx.id}">${ic(c.icon)}<span class="ell">${esc(t(c.name))}</span>${ic('chevron-down')}</button></div>
     <div class="rc-foot"><span class="ell">${walletName(tx.wallet)} ${t('balansı')}: <b class="num">${grp(walletBal(tx.wallet))}</b> · ${hhmm(tx.ts) || dayLabel(tx.date)}</span><button class="rc-del" data-rdel="${tx.id}" aria-label="delete">${ic('trash-2')}</button></div></div>`;
 }
+function kmRcptOff(r) {
+  const x = r && r.snap; if (!x) return `<div class="km-rc off"><div class="rc-off-h">${ic('undo-2')}${t('Bul operaciya biykarlandı')}</div></div>`;
+  const c = catById(x.cat); const inc = x.type === 'income';
+  return `<div class="km-rc off"><div class="rc-off-h">${ic('undo-2')}${t('Biykarlandı')}${r.at ? ' · ' + hhmm(r.at) : ''}</div>
+    <div class="rc-top"><span class="ci" style="background:${c.color}">${ic(c.icon)}</span>
+      <div class="rc-mid"><b class="ell">${esc(t(c.name))}</b><small class="ell">${esc(x.note || '')}</small></div>
+      <b class="rc-amt num"><s>${inc ? '+' : '−'}${grp(x.amount)}</s></b></div>
+    <div class="rc-foot"><span class="ell">${walletName(x.wallet)} · ${dayLabel(x.date)}</span><button class="rc-back" data-rback="${x.id}">${ic('rotate-ccw')}${t('Qaytarıw')}</button></div></div>`;
+}
 function kmBindRcpt(root, rerender) {
   const find = id => S.tx.find(z => z.id === id);
-  $$('[data-rdel]', root).forEach(b => b.onclick = async () => { if (await ask('Operaciyanı óshiriw', 'Bul operaciya óshiriledi.', 'Óshiriw', true)) { S.tx = S.tx.filter(x => x.id !== b.dataset.rdel); save(); renderView(); rerender(); } });
+  $$('[data-rdel]', root).forEach(b => b.onclick = async () => { const id = b.dataset.rdel; if (await ask('Operaciyanı biykarlaw', 'Bul operaciya biykarlanadı. Keyin qaytarıwǵa boladı.', 'Biykarlaw', true)) { const tx = find(id); S.ai.forEach(m => { if (m.tx && m.tx.id === id) { m.tx.snap = { ...tx }; m.tx.at = Date.now(); } }); S.tx = S.tx.filter(x => x.id !== id); save(); renderView(); rerender(); } });
+  $$('[data-rback]', root).forEach(b => b.onclick = () => { const id = b.dataset.rback; const m = S.ai.find(m => m.tx && m.tx.id === id && m.tx.snap); if (!m) return; S.tx.push(m.tx.snap); delete m.tx.snap; delete m.tx.at; save(); renderView(); rerender(); toast(t('Operaciya qaytarıldı'), { icon: 'rotate-ccw' }); });
   $$('[data-rnote]', root).forEach(i => { i.oninput = () => i.closest('.rc-nw').classList.add('ed'); i.onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); $(`[data-rok="${i.dataset.rnote}"]`, root).click(); } }; });
   $$('[data-rok]', root).forEach(b => b.onclick = () => { const x = find(b.dataset.rok); if (!x) return; x.note = $(`[data-rnote="${x.id}"]`, root).value.trim(); kmLearn(x); save(); renderView(); b.closest('.rc-nw').classList.remove('ed'); toast(t('Saqlandı'), { icon: 'check' }); });
   $$('[data-rw]', root).forEach(b => b.onclick = () => { const x = find(b.dataset.rw); if (!x) return;
