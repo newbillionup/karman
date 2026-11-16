@@ -1501,7 +1501,7 @@ html{font-size:15px}
 @keyframes twinkle{from{opacity:.35}to{opacity:.9}}
 @media (prefers-reduced-motion:reduce){:root[data-aurora="1"] .blobs *,:root[data-aurora="1"] .blobs::before{animation:none}}
 /* oyna kartalar — iOS kórinisi */
-:root[data-aurora="1"] :is(.card,.km-w,.tile,.um-c,.km-sc,.cg,.km-mini,.cg-view,.km-search,.pf,.shop-card,.tt,.sv-sum,.fx-list,.pt.lav,.pt.ink,.mcard,.cg-new){
+:root[data-aurora="1"] :is(.card,.km-w,.tile,.um-c,.km-sc,.cg,.km-mini,.cg-view,.km-search,.pf,.shop-card,.tt,.fx-list,.pt.lav,.pt.ink,.mcard,.cg-new){
   background:var(--aur-sheen),rgba(255,255,255,.055)!important;border:1px solid rgba(255,255,255,.13)!important;
   -webkit-backdrop-filter:blur(30px) saturate(190%);backdrop-filter:blur(30px) saturate(190%);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 0 0 .5px rgba(255,255,255,.04),0 24px 50px -28px rgba(0,0,0,.95)!important;color:var(--fg)}
@@ -1556,3 +1556,52 @@ html{font-size:15px}
 .cg-ic.em{background:var(--card-2)!important;font-size:1.35rem;box-shadow:none;border:1px solid var(--line)}
 .cg-dots i.em{background:var(--card-2)!important;font-size:.85rem}
 .cg-t.add{border:1.5px dashed color-mix(in srgb,var(--violet) 40%,transparent)!important;color:var(--violet);background:transparent!important}
+/* v4.5 AI karta: qosımsha maǵlıwmat quti ishinde, biykarlanǵan karta */
+.msg.bot.bare{display:flex;flex-direction:column;gap:6px;min-width:0}
+.msg.bot.bare .m-extra{margin:0;padding:9px 12px;border-radius:14px;background:var(--card);border:1px solid var(--line);color:var(--muted);font-size:.74rem;line-height:1.35;overflow-wrap:anywhere}
+.msg.bot.bare .m-extra span{min-width:0}
+.km-rc{max-width:100%;box-sizing:border-box;overflow:hidden}
+.km-rc.off{opacity:.85;border-style:dashed}
+.km-rc.off .ci{filter:grayscale(1);opacity:.6}
+.km-rc.off .rc-mid small{display:block;font-size:.74rem;color:var(--muted)}
+.km-rc.off .rc-amt{color:var(--muted)}
+.rc-off-h{display:flex;align-items:center;gap:6px;font-size:.72rem;font-weight:700;color:var(--violet)}
+.rc-off-h svg{width:13px;height:13px}
+.rc-back{display:inline-flex;align-items:center;gap:5px;padding:6px 10px;border-radius:10px;background:var(--violet-soft);color:var(--violet);font-size:.72rem;font-weight:700;flex:none}
+.rc-back svg{width:13px;height:13px}
+:root[data-aurora="1"] .msg.bot.bare .m-extra{background:var(--aur-sheen),rgba(255,255,255,.06);border-color:rgba(255,255,255,.13)}
+/* Aurora: xızmetler bólimi artındaǵı tórtmúyeshli quti joq */
+:root[data-aurora="1"] .sv-sum{background:transparent!important;border:0!important;box-shadow:none!important;-webkit-backdrop-filter:none;backdrop-filter:none}
+
+/* ===== NAVBAR v5: barlıq sózler kórinedi, aktiv belgi — kishi pill ===== */
+.nav-pill{height:68px;padding:6px;border-radius:28px}
+.nav-ind{top:6px;left:6px;height:56px;width:calc((100% - 12px) / 4);place-items:start center}
+.nav-ind::before,:root[data-elder="1"] .nav-ind::before{width:58px;height:32px;border-radius:16px;margin-top:3px;background:var(--grad-v);box-shadow:0 8px 18px -8px rgba(91,62,230,.9),inset 0 1px 0 rgba(255,255,255,.35)}
+.nav-it{height:56px;gap:5px;justify-content:flex-start;padding-top:9px;color:#8A8798}
+.nav-it svg{width:20px;height:20px}
+.nav-it .lbl,:root[data-elder="1"] .nav-it .lbl{display:block;max-height:none;opacity:1;font-size:10px;font-weight:700;letter-spacing:-.01em;line-height:1;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nav-it.on,:root[data-mode="dark"] .nav-it.on{color:var(--violet)}
+.nav-it.on svg{color:#fff}
+.nav-it.on .lbl{font-weight:800}
+:root[data-mode="dark"] .nav-it.on{color:#C7B6FF}
+.nav-ai{width:68px;height:68px;border-radius:24px}
+.nav-ai::after{border-radius:24px}
+
+/* ===== NAVBAR v6: aktiv bólim — ikonka + atı bar uzın pill (referens boyınsha) ===== */
+.nav{gap:10px;align-items:center}
+.nav-pill{display:flex;align-items:center;gap:2px;height:64px;padding:7px;border-radius:999px}
+.nav-ind{display:none}
+.nav-it,:root[data-elder="1"] .nav-it{flex:1 1 0;flex-direction:row;justify-content:center;align-items:center;gap:8px;height:50px;padding:0 10px;border-radius:999px;color:#8A8798;
+  transition:flex-grow .5s var(--spring),background .3s,color .3s,box-shadow .3s}
+:root[data-mode="dark"] .nav-it{color:#9C99AA}
+.nav-it svg{width:22px;height:22px;flex:none}
+.nav-it .lbl,:root[data-elder="1"] .nav-it .lbl{display:none}
+.nav-it.on,:root[data-mode="dark"] .nav-it.on{flex-grow:2.6;background:var(--grad-v);color:#fff;box-shadow:0 10px 22px -10px rgba(91,62,230,.9),inset 0 1px 0 rgba(255,255,255,.3)}
+.nav-it.on svg{color:#fff}
+.nav-it.on .lbl,:root[data-elder="1"] .nav-it.on .lbl{display:block;font-size:13px;font-weight:700;letter-spacing:-.01em;line-height:1;opacity:1;max-height:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;animation:lblIn .4s var(--ease)}
+@keyframes lblIn{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
+.nav-ai,.nav-ai::after{width:64px;height:64px;border-radius:50%}
+.nav-it,:root[data-elder="1"] .nav-it{flex:0 0 46px;padding:0;transition:flex-basis .5s var(--spring),background .3s,color .3s,box-shadow .3s}
+.nav-it.on,:root[data-mode="dark"] .nav-it.on{flex:1 1 auto;padding:0 14px 0 12px;gap:7px}
+.nav-it.on .lbl,:root[data-elder="1"] .nav-it.on .lbl{font-size:12.5px;text-overflow:clip}
+.nav-pill{justify-content:space-between}
