@@ -194,16 +194,7 @@ function streak() {
 }
 const PLANS = { pro: { name: 'PRO', price: 19900, icon: 'zap' }, max: { name: 'MAX', price: 499000, icon: 'gem' } };
 function plan() {
-  if (S.plan === 'max' && S.planUntil && S.planUntil < today()) {
-    const w = walletById(S.planWallet) ? S.planWallet : S.wallets[0]?.id;
-    if (S.autoRenew && w && walletBal(w) >= PLANS.max.price) {
-      S.tx.push({ id: uid(), type: 'expense', amount: PLANS.max.price, cat: 'other', wallet: w, date: today(), note: 'Qarjı AI MAX (avto)', ts: Date.now() });
-      S.planUntil = iso(addDays(fromIso(S.planUntil), 30)); if (S.planUntil < today()) S.planUntil = iso(addDays(new Date(), 30));
-      setTimeout(() => toast(t('MAX tarifi avtomat jańalandı'), { icon: 'gem' }), 4200);
-    } else { S.plan = 'pro'; S.planUntil = null;  }
-    save();
-  }
-  return S.plan === 'max' ? 'max' : 'pro';
+  return 'max'; // tarifler alıp taslandı — barlıq múmkinshilikler hámmege ashıq
 }
 const isMax = () => plan() === 'max';
 const isPro = () => true;
@@ -337,9 +328,34 @@ const Page = {
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && !Sheet.stack.length && Page.stack.length) Page.back(); });
 function displayName() { const p = S.profile || {}; const n = [p.first, p.last].filter(Boolean).join(' '); return n || 'Paydalanıwshı'; }
 function firstName() { const p = S.profile || {}; return p.first || 'Paydalanıwshı'; }
+function kmModel(g, uid0 = '') {
+  const id = 'md' + (g || 'x') + uid0;
+  const defs = `<defs>
+    <radialGradient id="${id}b" cx=".5" cy=".3" r=".8"><stop offset="0" stop-color="#C4B4FF"/><stop offset=".55" stop-color="#7B5CFA"/><stop offset="1" stop-color="#4A2BE0"/></radialGradient>
+    <linearGradient id="${id}s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE3CF"/><stop offset="1" stop-color="#F3C2A0"/></linearGradient>
+    <linearGradient id="${id}n" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E2A986"/><stop offset="1" stop-color="#EDB896"/></linearGradient>
+    <linearGradient id="${id}h" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3B2470"/><stop offset="1" stop-color="#1B1035"/></linearGradient>
+    <linearGradient id="${id}c1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2C2840"/><stop offset="1" stop-color="#15121F"/></linearGradient>
+    <linearGradient id="${id}c2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E4DCFF"/></linearGradient>
+    <linearGradient id="${id}g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#DCD2FF"/></linearGradient>
+    <clipPath id="${id}k"><circle cx="60" cy="60" r="60"/></clipPath></defs>
+    <circle cx="60" cy="60" r="60" fill="url(#${id}b)"/><circle cx="60" cy="60" r="59" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="2"/>`;
+  const _eye = (x, y, f) => `<ellipse cx="${x}" cy="${y}" rx="2.5" ry="3" fill="#1E1438"/><circle cx="${x + .9}" cy="${y - 1}" r=".9" fill="#fff"/>${f ? `<path d="M${x + (x < 60 ? -2.4 : 2.4)} ${y - 2.2}l${x < 60 ? -1.8 : 1.8} -1.2" stroke="#1E1438" stroke-width="1.2" stroke-linecap="round"/>` : ''}`;
+  return `<svg class="mdl ghost" viewBox="0 0 120 120">${defs}<g clip-path="url(#${id}k)">
+    <ellipse cx="60" cy="102" rx="22" ry="4.4" fill="#2B1B78" opacity=".35" class="gh-sh"/>
+    <g class="gh-b">
+      <path d="M36 58c0-16 10.6-28 24-28s24 12 24 28v28c0 3.4-3.4 4.6-5.6 2.2-2.6-2.8-5.6-2.8-8 0s-5.4 2.8-7.8 0c-1.6-1.8-3.6-2.8-5.2-.4-2.6 3.2-5.6 3.2-8 .4-2.4-2.8-5.4-2.8-8 0-2 2.2-5.4 1-5.4-2.2z" fill="url(#${id}g)"/>
+      <path d="M43 50c1.6-7.6 7-12.6 13.6-13.6" stroke="#fff" stroke-width="3.6" fill="none" stroke-linecap="round"/>
+      <ellipse cx="51.5" cy="58" rx="3.8" ry="5" fill="#1E1438"/><ellipse cx="68.5" cy="58" rx="3.8" ry="5" fill="#1E1438"/>
+      <circle cx="52.8" cy="56" r="1.4" fill="#fff"/><circle cx="69.8" cy="56" r="1.4" fill="#fff"/>
+      <ellipse cx="45" cy="66" rx="4" ry="2.2" fill="#B8A6FF" opacity=".75"/><ellipse cx="75" cy="66" rx="4" ry="2.2" fill="#B8A6FF" opacity=".75"/>
+      <path d="M56.6 66q3.4 3 6.8 0" stroke="#1E1438" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M36.4 70q-6 2-7 7M83.6 70q6 2 7 7" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" opacity=".95"/>
+    </g></g></svg>`;
+}
 function avatarHtml(cls = '') {
   const p = S.profile || {};
-  return p.photo ? `<span class="ava ${cls}"><img src="${p.photo}" alt=""></span>` : `<span class="ava ${cls}">${esc(initials(t(displayName())))}</span>`;
+  return p.photo ? `<span class="ava ${cls}"><img src="${p.photo}" alt=""></span>` : `<span class="ava mdl-ava ${cls}">${kmModel('', cls)}</span>`;
 }
 
 /* ================= NAV ================= */
@@ -478,7 +494,7 @@ function renderHome0() {
       <div class="t-s">${t('Ortasha')}: ${short(week.reduce((a, w) => a + w.v, 0) / 7)}</div></div>
   </section>` : ''}
 
-  ${tps.length ? `<div class="sec-h"><h3>${t('Tez qosıw')}</h3><span class="badge ink">MAX</span></div>
+  ${tps.length ? `<div class="sec-h"><h3>${t('Tez qosıw')}</h3></div>
   <div class="hscroll tp-row">${tps.map((p, i) => { const c = catById(p.cat); return `<button class="tp" data-tp="${i}"><span class="ci" style="background:${c.color}">${ic(c.icon)}</span><span class="tp-t"><b class="ell">${esc(t(p.note))}</b><small class="num">${grp(p.amount)}</small></span>${ic('plus')}</button>`; }).join('')}</div>` : ''}
 
   <div class="sec-h"><h3>${t('Qarjı planı')}</h3></div>
@@ -584,7 +600,7 @@ function kmCatPicker(type, cur, onPick) {
   Sheet.open({ title: t('Kategoriya saylaw'),
     html: () => `<label class="km-search">${ic('search')}<input id="cpQ" placeholder="${t('Izlew')}" autocomplete="off"></label><div class="cp-g" id="cpG"></div>`,
     mount: el => { const draw = () => { const qq = toLat(q.toLowerCase()); const l = kmCatOrder(type).filter(c => !qq || toLat(t(c.name)).toLowerCase().includes(qq) || toLat(c.name).toLowerCase().includes(qq));
-        $('#cpG', el).innerHTML = l.length ? l.map(c => `<button class="cp ${c.id === cur ? 'on' : ''}" data-cp="${c.id}"><span class="tc-ic" style="background:${c.color}">${ic(c.icon)}</span><small>${esc(t(c.name))}</small></button>`).join('') : `<div class="km-empty">${t('Tabılmadı')}</div>`;
+        $('#cpG', el).innerHTML = l.length ? l.map(c => `<button class="cpk ${c.id === cur ? 'on' : ''}" data-cp="${c.id}"><span class="tc-ic" style="background:${c.color}">${ic(c.icon)}</span><small>${esc(t(c.name))}</small></button>`).join('') : `<div class="km-empty">${t('Tabılmadı')}</div>`;
         refreshIcons(); $$('[data-cp]', el).forEach(b => b.onclick = () => { vib(5); onPick(b.dataset.cp); Sheet.back(); }); };
       $('#cpQ', el).oninput = e => { q = e.target.value; draw(); }; draw(); } });
 }
@@ -887,7 +903,7 @@ function renderStats0() {
     ${hm ? `<section class="card heat-card"><div class="sec-h" style="margin:0"><h3>${t('Kalendar')}</h3><span class="badge">${t(MONTHS[hm.getMonth()])}</span></div><div class="heat2">${heat}</div>
       <div class="legend"><span><i class="legend-dot" style="background:var(--violet)"></i>${t('Ortashadan kóp')}</span><span><i class="legend-dot" style="background:var(--lav-2)"></i>${t('Az')}</span><span><i class="legend-dot hatch"></i>${t('Shıǵım joq')}</span></div></section>` : ''}
 
-    ${max ? `<div class="card fc"><div class="fc-top"><span class="ell">${t('Ay aqırına prognoz')}</span><span class="badge ink">MAX</span></div>
+    ${max ? `<div class="card fc"><div class="fc-top"><span class="ell">${t('Ay aqırına prognoz')}</span></div>
         <div class="fc-v num">${short(fc.proj)} <i>${cur()}</i></div>
         <div class="cr-bar ${S.budget.total && fc.proj > S.budget.total ? 'over' : ''}"><i style="width:${S.budget.total ? clamp(fc.proj / S.budget.total * 100, 0, 100) : 60}%"></i></div>
         <div class="t-s">${S.budget.total ? (fc.proj > S.budget.total ? t(`Usı pátte byudjetten ${short(fc.proj - S.budget.total)} swm asıp ketiwi múmkin`) : t(`Byudjette ${short(S.budget.total - fc.proj)} swm qalıwı kútiledi`)) : t('Byudjet ornatılmaǵan')}</div></div>`
@@ -1153,46 +1169,31 @@ function renderProfile0() {
   const sw = (id, icon, title, sub, on) => `<button class="row" id="${id}" role="switch" aria-checked="${on}"><span class="r-ic">${ic(icon)}</span><span class="r-t"><div>${t(title)}</div>${sub ? `<small>${t(sub)}</small>` : ''}</span><span class="switch ${on ? 'on' : ''}"></span></button>`;
   el.innerHTML = `
     <section class="pf">
-      <div class="pf-band"><span class="pf-plan">${ic(max ? 'gem' : 'zap')}${max ? 'MAX' : 'PRO'}</span><button class="circ" id="pfEdit" aria-label="edit">${ic('pencil')}</button></div>
+      <div class="pf-band"><span></span><button class="circ" id="pfEdit" aria-label="edit">${ic('pencil')}</button></div>
       <div class="pf-ava-wrap"><button id="pfAva" class="pf-ava-btn" aria-label="photo">${avatarHtml('xl')}<span class="pf-cam">${ic('camera')}</span></button></div>
       <h2 class="pf-name">${esc(t(displayName()))}</h2>
       <div class="pf-sub">${p.phone ? `<span class="num">+998 ${esc(fmtPhone(p.phone))}</span>` : `<button class="link" id="pfAddPh">${ic('plus')}${t('Telefon nomerin qosıw')}</button>`}</div>
-      <div class="pf-status"><span class="status-chip ${max ? 'biz' : ''}">${ic(max ? 'briefcase-business' : 'user-round')}${max ? 'BUSINESS' : t('Paydalanıwshı')}</span>
-        <small class="muted">${max && S.planUntil ? `${t('MAX ámel etedi')}: ${S.planUntil.split('-').reverse().join('.')}` : t('PRO tarif aktiv')}</small></div>
       <div class="pf-metrics">
         <div><b class="num">${S.tx.length}</b><small>${t('operaciya')}</small></div>
-        <div><b class="num">${streak()}</b><small>${t('kún izbe-iz')}</small></div>
-        <div><b class="num">${rate}%</b><small>${t('jinaq')}</small></div>
         <div><b class="num">${S.wallets.length}</b><small>${t('hamyan')}</small></div>
       </div>
       <div class="pf-quick">
-        <button id="pqPlan">${ic(max ? 'gem' : 'crown')}<span>${t('Tarif')}</span></button>
+        <button id="pqPlan">${ic('calendar-range')}<span>${t('Kalendar')}</span></button>
         <button id="pqStyle">${ic('palette')}<span>${t('Stil')}</span></button>
         <button id="pqReport">${ic('file-chart-column')}<span>${t('Esabat')}</span></button>
       </div>
     </section>
-    ${max ? `<section class="biz-card">
-        <div class="bz-top"><span class="bz-logo">${ic('gem')}</span><div style="flex:1;min-width:0"><b>BUSINESS</b><small class="ell">${t('MAX múmkinshilikleri aktiv')}</small></div><span class="bz-chip">${S.autoRenew ? t('Avto') : t('Qolda')}</span></div>
-        <div class="bz-grid">
-          <button id="bzBiz">${ic('briefcase-business')}<span>${t('Biznes')}</span></button>
-          <button id="bzRep">${ic('file-chart-column')}<span>${t('Esabat')}</span></button>
-          <button id="bzCal">${ic('calendar-range')}<span>${t('Kalendar')}</span></button>
-          <button id="bzFc">${ic('trending-up')}<span>${t('Prognoz')}</span></button>
-        </div></section>`
-      : `<button class="max-banner" id="pfMax"><span class="mb-gem">${ic('gem')}</span><span class="mb-t"><small>${t('Jańa dárejege kóteriliń')}</small><b>Qarjı AI MAX</b><span class="mb-f">${['Sheksiz AI', 'Biznes paneli', 'Aurora'].map(f => `<i>${t(f)}</i>`).join('')}</span></span><span class="mb-go">${ic('arrow-up-right')}</span></button>`}
-
     <div class="group"><h4>${t('QARJÍ')}</h4><div class="card list">
       ${row('pfWallets', 'wallet', 'Hamyanlar', `${S.wallets.length} ${t('hamyan')} · ${grp(totalBal())} ${cur()}`)}
       ${row('pfCats', 'shapes', 'Kategoriyalar', `${S.cats.length} ${t('kategoriya')}`)}
       ${row('pfBudget', 'chart-pie', 'Byudjet hám limitler', S.budget.total ? `${t('Ayına')} ${grp(S.budget.total)} ${cur()}` : t('Ornatılmaǵan'))}
       ${row('pfGoals', 'target', 'Jinaq maqsetleri', `${S.goals.length} ${t('maqset')}`)}
-      ${row('pfDebts', 'sparkles', 'Qarjı AI', `${S.debts.filter(d => !d.paid).length} ${t('aktiv qarız')}`)}
+      ${row('pfDebts', 'hand-coins', 'Qarızlar', `${S.debts.filter(d => !d.paid).length} ${t('aktiv qarız')}`)}
       ${row('pfRec', 'calendar-clock', 'Turaqlı tólemler', `${S.recurring.length} ${t('tólem')}`)}
     </div></div>
 
-    <div class="group"><h4>MAX</h4><div class="card list">
+    <div class="group"><h4>${t('QOSÍMSHA QURALLAR')}</h4><div class="card list">
       ${row('pfBiz', 'briefcase-business', 'Biznes paneli', t('Klientler hám hisob-fakturalar'), lock || ic('chevron-right'))}
-      ${row('pfRep', 'file-chart-column', 'AI ay esabatı', t('Qarjı densawlıǵı balı'), lock || ic('chevron-right'))}
       ${row('pfCal', 'calendar-range', 'Tólem kalendarı', t('Barlıq tólemler bir kalendarda'), lock || ic('chevron-right'))}
     </div></div>
 
@@ -1217,25 +1218,21 @@ function renderProfile0() {
     </div></div>
 
     <div class="group"><h4>${t('BASQA')}</h4><div class="card list">
-      ${row('pfPlans', max ? 'gem' : 'crown', 'Tarifler', max ? 'MAX · BUSINESS' : 'PRO')}
-      ${row('pfAds', 'megaphone', 'Reklama ushın arza', S.ads.length ? `${S.ads.length} ${t('arza jiberilgen')}` : t('Biznesińizdi usınıń'))}
       ${row('pfNotif', 'bell', 'Xabarlamalar', `${unread()} ${t('jańa')}`)}
       ${row('pfData', 'database', 'Maǵlıwmatlar', t('Eksport, rezerv nusqa, tazalaw'))}
       ${row('pfHelp', 'circle-help', 'Járdem hám sorawlar')}
       ${row('pfRate', 'star', 'Qosımshanı bahalaw', S.rated ? '★'.repeat(S.rated) : '')}
-      ${row('pfIntro', 'play', 'Introdı qayta kóriw')}
       ${row('pfAbout', 'info', 'Qosımsha haqqında', 'Qarjı AI v3.0')}
     </div></div>
-    <p class="muted" style="text-align:center;font-size:.75rem;margin:4px 0 0">Qarjı AI · ${t('Jaratıwshı')}: ${t('Qonarbaev Damir')}</p>
   `;
   $('#pfEdit').onclick = openProfileEdit; $('#pfAva').onclick = openProfileEdit;
   const aph = $('#pfAddPh'); if (aph) aph.onclick = openProfileEdit;
-  $('#pqPlan').onclick = () => openPlans(); $('#pqReport').onclick = openReport;
+  $('#pqPlan').onclick = () => openCalendar(); $('#pqReport').onclick = openReport;
   $('#pqStyle').onclick = () => $('#grpStyle').scrollIntoView({ behavior: 'smooth', block: 'center' });
   const pm = $('#pfMax'); if (pm) pm.onclick = () => openPlans('max');
   const bb = $('#bzBiz'); if (bb) { bb.onclick = openBusiness; $('#bzRep').onclick = openReport; $('#bzCal').onclick = openCalendar; $('#bzFc').onclick = () => setTab('stats'); }
   $('#pfWallets').onclick = openWallets; $('#pfCats').onclick = openCats; $('#pfBudget').onclick = openBudget; $('#pfGoals').onclick = openGoals;
-  $('#pfDebts').onclick = openDebts; $('#pfRec').onclick = openRecurring; $('#pfBiz').onclick = openBusiness; $('#pfRep').onclick = openReport; $('#pfCal').onclick = openCalendar;
+  $('#pfDebts').onclick = openDebts; $('#pfRec').onclick = openRecurring; $('#pfBiz').onclick = openBusiness; $('#pfCal').onclick = openCalendar;
   $$('[data-style]', el).forEach(b => b.onclick = () => {
     const st = b.dataset.style;
     
@@ -1246,8 +1243,8 @@ function renderProfile0() {
   $$('[data-lang]', el).forEach(b => b.onclick = () => { S.lang = b.dataset.lang; save(); renderAll(); });
   $('#pfPin').onclick = openPinSetup;
   $('#pfHide').onclick = () => { S.hideBal = !S.hideBal; save(); renderView(); };
-  $('#pfPlans').onclick = () => openPlans(); $('#pfAds').onclick = openAds; $('#pfNotif').onclick = openNotifs; $('#pfData').onclick = openData;
-  $('#pfHelp').onclick = openHelp; $('#pfRate').onclick = openRate; $('#pfIntro').onclick = () => runIntro(); $('#pfAbout').onclick = openAbout;
+  $('#pfNotif').onclick = openNotifs; $('#pfData').onclick = openData;
+  $('#pfHelp').onclick = openHelp; $('#pfRate').onclick = openRate; $('#pfAbout').onclick = openAbout;
 }
 function resizePhoto(file) {
   return new Promise((res, rej) => {
@@ -1266,7 +1263,7 @@ function resizePhoto(file) {
 }
 function openProfileEdit() {
   const p = { first: '', last: '', father: '', phone: '', photo: '', ...(S.profile || {}) };
-  const ava = () => p.photo ? `<img src="${p.photo}" alt="">` : `<span>${esc(initials(t([p.first, p.last].filter(Boolean).join(' ') || 'P')))}</span>`;
+  const ava = () => p.photo ? `<img src="${p.photo}" alt="">` : kmModel('', 'pe');
   Page.open({
     title: t('Profil maǵlıwmatları'), noRefresh: true, sub: t('Atı, familiyası, telefon hám súwret'),
     html: () => `
@@ -1960,14 +1957,10 @@ function openAbout() {
     title: t('Qosımsha haqqında'),
     html: () => `<div style="display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;padding:6px 0">
         <svg viewBox="0 0 118 118" width="92" height="92"><defs><linearGradient id="ab" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#C7B6FF"/><stop offset=".5" stop-color="#7B5CFA"/><stop offset="1" stop-color="#5233E0"/></linearGradient></defs>
-        <rect x="4" y="4" width="110" height="110" rx="34" fill="#7B5CFA"/><path d="M42 86V34h22a16 16 0 0 1 0 32H42" stroke="#fff" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="80" cy="82" r="7" stroke="#fff" stroke-width="5" fill="none"/></svg>
+        <rect x="4" y="4" width="110" height="110" rx="34" fill="#7B5CFA"/><path d="M59 31a28 28 0 1 1-0.1 0M69 71l18 18" stroke="#fff" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <div style="font-family:var(--f-display);font-weight:800;font-size:1.7rem;letter-spacing:-.03em">Qarjı AI</div><span class="badge">${t('Versiya')} 3.0</span></div>
       <p style="margin:0;line-height:1.55;text-align:center">${t('Qarjı AI — tolıǵı menen qaraqalpaq tilindegi kirim-shıǵımdı esaplaw qosımshası. Ol kúndelik qarjılarıńızdı jazıp barıwǵa, byudjet dúziwge, jinaq maqsetlerine jetiwge hám AI kómekshi arqalı ápiwayı tilde operaciya qosıwǵa járdem beredi.')}</p>
-      <div class="creator">
-        <span class="cr-ava">QD</span>
-        <div><small>${t('Jaratıwshı')}</small><b>${t('Qonarbaev Damir')}</b></div>
-      </div>
-      <p class="muted" style="text-align:center;font-size:.78rem;margin:0">© 2026 Qarjı AI</p>`
+      <p class="ab-foot">© 2026 Qarjı AI<br><span>${t('Jaratıwshı')} · ${t('Qonarbaev Damir')}</span></p>`
   });
 }
 /* PIN */
@@ -2410,7 +2403,7 @@ if (!RATES.CNY) { RATES.CNY = 1780; RATES.GBP = 16300; RATES.TRY = 375; RATES.KG
 
 /* ---------- BAS BET ---------- */
 const WIDGETS = {
-  month: ['calendar-range', 'Usı ay'], pending: ['clock', 'Kútilip atırǵan esaplar'], plan: ['target', 'Maqset hám Qarjı AI'],
+  month: ['calendar-range', 'Usı ay'], pending: ['clock', 'Kútilip atırǵan esaplar'], plan: ['target', 'Maqset hám qarızlar'],
   fx: ['banknote', 'Valyuta kursları'], recent: ['receipt', 'Sońǵı esabatlar']
 };
 function kmCatChips(list, type) {
@@ -2468,7 +2461,7 @@ function renderHome() {
         : `<span class="hp3-e">${ic('plus')}<small>${t('Shiyshe kopilka ashıń')}</small></span>`}
       </button>
       <button class="hp3-c hp3-d" id="hDebt">
-        <span class="hp3-tag">${ic('users')}${t('Qarjı AI')}</span>
+        <span class="hp3-tag">${ic('hand-coins')}${t('Qarızlar')}</span>
         <b class="hp3-n kw-h">${t('Kim qarızdar?')}</b>
         ${kmWho(true)}
       </button></div>`; },
@@ -2866,7 +2859,7 @@ function kmWho(compact) {
   const dd = m && m.due ? Math.round((fromIso(m.due) - fromIso(today())) / 864e5) : null;
   const avs = l => `<span class="kw-av">${l.slice(0, 3).map(d => `<i>${esc(initials(d.name))}</i>`).join('')}${l.length > 3 ? `<i class="more">+${l.length - 3}</i>` : ''}</span>`;
   const row = (l, cls, ic1, lbl) => `<div class="kw-r ${cls}"><span class="kw-ic">${ic(ic1)}</span><span class="kw-t"><small>${t(lbl)}</small><b class="num">${l.length ? (cls === 'in' ? '+' : '−') + short(sumOf(l)) : '0'}</b></span>${l.length ? avs(l) : `<span class="kw-none">${t('joq')}</span>`}</div>`;
-  return `<div class="kw ${compact ? 'cp' : ''}">
+  return `<div class="kw ${compact ? 'kwc' : ''}">
     ${row(G, 'in', 'arrow-down-left', 'Maǵan qaytaradı')}
     ${row(T, 'out', 'arrow-up-right', 'Men qaytaraman')}
     ${m ? `<div class="kw-next ${dd != null && dd < 0 ? 'late' : ''}">${ic('bell')}<span class="ell"><b>${esc(m.name)}</b> · ${dd == null ? t('múddetsiz') : dd < 0 ? -dd + ' ' + t('kún keshikti') : dd === 0 ? t('búgin') : dd + ' ' + t('kún qaldı')}</span></div>` : `<div class="kw-next">${ic('check')}<span>${t('Aktiv qarız joq')}</span></div>`}
@@ -2918,7 +2911,7 @@ function openDebtList(type) {
 }
 function openDebts() {
   Page.open({
-    title: t('Qarjı AI'),
+    title: t('Qarızlar'),
     right: `<button class="pg-btn" id="dAdd" aria-label="add">${ic('plus')}</button>`,
     html: () => {
       const act = S.debts.filter(d => !d.paid); const give = act.filter(d => d.type === 'given').reduce((a, d) => a + debtUZS(d), 0), take = act.filter(d => d.type === 'taken').reduce((a, d) => a + debtUZS(d), 0);
@@ -2931,7 +2924,7 @@ function openDebts() {
         ${m ? `<div class="qa-main-cap"><span>${ic('flame')}${t('Eń shuǵıl qarız')}</span></div>
           <div class="qa-main">${kmDebtRing(m)}${kmDebtCard(m)}</div>` : `<div class="card empty"><span class="e-ic">${ic('hand-coins')}</span>${t('Aktiv qarız joq. Esap teń!')}</div>`}
         ${others > 0 ? `<button class="qa-more" id="dMore"><span class="qa-stack">${S.debts.filter(d => d !== m).slice(0, 3).map(d => `<i>${esc(initials(d.name))}</i>`).join('')}</span><span class="r-t"><div>${t('Basqa qarızlar')}</div><small>${others} ${t('qarız')}</small></span>${ic('chevron-right')}</button>` : ''}
-        <div class="card qa-ins"><h4>${ic('sparkles')}${t('Qarjı AI keńesleri')}</h4>${kmInsights().map(([i, x]) => `<p>${ic(i)}<span>${x}</span></p>`).join('')}</div>
+        <div class="card qa-ins"><h4>${ic('sparkles')}${t('AI keńesleri')}</h4>${kmInsights().map(([i, x]) => `<p>${ic(i)}<span>${x}</span></p>`).join('')}</div>
         <button class="btn pri" id="dNew">${ic('plus')}${t('Qarız jaratıw')}</button>`;
     },
     mount: el => {
@@ -3051,7 +3044,7 @@ function kmPlanTiles() {
   const gs = g.reduce((a, x) => a + x.saved, 0), gt = g.reduce((a, x) => a + x.target, 0);
   return `<div class="km-two sv-two">
     <button class="pt lav" id="svG2"><span class="tag">${ic('target')}${t('Maqsetler')}</span><b class="pt-h num ell">${g.length ? Math.round(gs / (gt || 1) * 100) + '%' : ic('plus')}</b><span class="pt-t">${g.length} ${t('maqset')}</span>${g.length ? `<span class="bar"><i style="width:${clamp(gs / (gt || 1) * 100, 0, 100)}%"></i></span>` : ''}</button>
-    <button class="pt ink" id="svD2"><span class="tag">${ic('sparkles')}${t('Qarjı AI')}</span><b class="pt-h num ell">${short(d.reduce((a, x) => a + debtUZS(x), 0))}</b><span class="pt-t">${d.length} ${t('aktiv qarız')}</span></button></div>`;
+    <button class="pt ink" id="svD2"><span class="tag">${ic('hand-coins')}${t('Qarızlar')}</span><b class="pt-h num ell">${short(d.reduce((a, x) => a + debtUZS(x), 0))}</b><span class="pt-t">${d.length} ${t('aktiv qarız')}</span></button></div>`;
 }
 function kmGoalPlan(g) {
   const start = fromIso(g.start || g.created || today()); const end = g.due ? fromIso(g.due) : addDays(start, 365);
