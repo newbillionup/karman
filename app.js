@@ -567,13 +567,76 @@ function evalExpr(e) {
   for (const k of toks) { if (k === '+' || k === '-') op = k; else total = op === '+' ? total + +k : total - +k; }
   return Math.max(0, total);
 }
+/* ---- Operaciya qosıw: kategoriyalar (kóp qollanılǵanı birinshi) ---- */
+function kmCatOrder(type) {
+  const n = {}; S.tx.forEach(x => { if (x.type === type) n[x.cat] = (n[x.cat] || 0) + 1; });
+  const base = ['food', 'transport', 'cafe', 'home', 'utility', 'comm', 'health', 'cloth', 'fun', 'gift', 'edu', 'other', 'salary', 'biz', 'bonus', 'gift_in', 'invest', 'other_in'];
+  const rank = c => (n[c.id] || 0) * 1000 + (base.includes(c.id) ? 100 - base.indexOf(c.id) : 0);
+  return S.cats.filter(c => c.type === type).sort((a, b) => rank(b) - rank(a));
+}
+function kmTxCats(st) {
+  const all = kmCatOrder(st.type); const top = all.slice(0, 10); const sel = all.find(c => c.id === st.cat);
+  const list = sel ? [sel, ...all.filter(c => c !== sel).slice(0, 9)] : top;
+  return list.map(c => `<button class="tc ${c.id === st.cat ? 'on' : ''}" data-c="${c.id}"><span class="tc-ic" style="background:${c.color}">${ic(c.icon)}</span><span class="tc-n">${esc(t(c.name))}</span></button>`).join('');
+}
+function kmCatPicker(type, cur, onPick) {
+  let q = '';
+  Sheet.open({ title: t('Kategoriya saylaw'),
+    html: () => `<label class="km-search">${ic('search')}<input id="cpQ" placeholder="${t('Izlew')}" autocomplete="off"></label><div class="cp-g" id="cpG"></div>`,
+    mount: el => { const draw = () => { const qq = toLat(q.toLowerCase()); const l = kmCatOrder(type).filter(c => !qq || toLat(t(c.name)).toLowerCase().includes(qq) || toLat(c.name).toLowerCase().includes(qq));
+        $('#cpG', el).innerHTML = l.length ? l.map(c => `<button class="cp ${c.id === cur ? 'on' : ''}" data-cp="${c.id}"><span class="tc-ic" style="background:${c.color}">${ic(c.icon)}</span><small>${esc(t(c.name))}</small></button>`).join('') : `<div class="km-empty">${t('Tabılmadı')}</div>`;
+        refreshIcons(); $$('[data-cp]', el).forEach(b => b.onclick = () => { vib(5); onPick(b.dataset.cp); Sheet.back(); }); };
+      $('#cpQ', el).oninput = e => { q = e.target.value; draw(); }; draw(); } });
+}
+/* ---- Sáne saylaw: kún / ay / jıl barabanları ---- */
+const MON_FULL = ['Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'Iyun', 'Iyul', 'Avgust', 'Sentyabr', 'Oktyabr', 'Noyabr', 'Dekabr'];
+function kmDateShort(d) { const x = fromIso(d); const diff = Math.round((fromIso(today()) - x) / 864e5); const b = `${x.getDate()} ${t(MON3[x.getMonth()])}${x.getFullYear() !== new Date().getFullYear() ? ' ' + x.getFullYear() : ''}`; return diff === 0 ? `${t('Búgin')}, ${b}` : diff === 1 ? `${t('Keshe')}, ${b}` : b; }
+function kmDateLabel(d) {
+  const x = fromIso(d); const diff = Math.round((fromIso(today()) - x) / 864e5);
+  const base = `${x.getDate()} ${t(MON_FULL[x.getMonth()]).toLowerCase()}${x.getFullYear() !== new Date().getFullYear() ? ' ' + x.getFullYear() : ''}`;
+  return diff === 0 ? `${t('Búgin')}, ${base}` : diff === 1 ? `${t('Keshe')}, ${base}` : base;
+}
+function kmDatePick(cur, onPick) {
+  const d0 = fromIso(cur || today()); const st = { d: d0.getDate(), m: d0.getMonth(), y: d0.getFullYear() };
+  const Y0 = new Date().getFullYear() - 6, YN = 8; const H = 44;
+  const dim = () => new Date(st.y, st.m + 1, 0).getDate();
+  const col = (k, items) => `<div class="wh" data-wh="${k}"><div class="wh-pad"></div>${items.map((v, i) => `<div class="wh-i" data-i="${i}">${v}</div>`).join('')}<div class="wh-pad"></div></div>`;
+  Sheet.open({ title: t('Sáneni saylań'),
+    html: () => `<div class="dq">${[[0, 'Búgin'], [1, 'Keshe'], [2, 'Aldınǵı kún']].map(([n, l]) => `<button class="chip" data-dq="${n}">${t(l)}</button>`).join('')}</div>
+      <div class="wheel"><div class="wh-band"></div>
+        ${col('d', [...Array(31)].map((_, i) => i + 1))}
+        ${col('m', MON_FULL.map(m => t(m)))}
+        ${col('y', [...Array(YN)].map((_, i) => Y0 + i))}
+      </div>
+      <div class="dp-prev" id="dpPrev"></div>
+      <button class="btn pri" id="dpOk">${ic('check')}${t('Saylaw')}</button>`,
+    mount: el => {
+      const W = k => $(`[data-wh="${k}"]`, el);
+      const idx = { d: () => st.d - 1, m: () => st.m, y: () => st.y - Y0 };
+      const paint = () => {
+        const max = dim(); if (st.d > max) st.d = max;
+        $$('[data-wh="d"] .wh-i', el).forEach((e, i) => e.classList.toggle('off', i >= max));
+        ['d', 'm', 'y'].forEach(k => $$(`[data-wh="${k}"] .wh-i`, el).forEach((e, i) => e.classList.toggle('on', i === idx[k]())));
+        const iso2 = `${st.y}-${pad(st.m + 1)}-${pad(st.d)}`; $('#dpPrev', el).innerHTML = `${ic('calendar-check')}<span>${kmDateLabel(iso2)}</span><small>${t(['Ekshembi', 'Dúysenbi', 'Siyshembi', 'Sárshembi', 'Piyshembi', 'Juma', 'Shembi'][fromIso(iso2).getDay()])}</small>`; refreshIcons();
+      };
+      const go = (k, smooth) => W(k).scrollTo({ top: idx[k]() * H, behavior: smooth ? 'smooth' : 'auto' });
+      ['d', 'm', 'y'].forEach(k => { const w = W(k); let tm;
+        w.addEventListener('scroll', () => { clearTimeout(tm); tm = setTimeout(() => { let i = Math.round(w.scrollTop / H);
+          if (k === 'd') { i = clamp(i, 0, dim() - 1); st.d = i + 1; } else if (k === 'm') { st.m = clamp(i, 0, 11); } else st.y = Y0 + clamp(i, 0, YN - 1);
+          if (Math.abs(w.scrollTop - i * H) > 1) w.scrollTo({ top: i * H, behavior: 'smooth' }); paint(); if (k !== 'd') go('d', true); vib(3); }, 90); });
+        $$('.wh-i', w).forEach(e => e.onclick = () => { w.scrollTo({ top: +e.dataset.i * H, behavior: 'smooth' }); }); });
+      $$('[data-dq]', el).forEach(b => b.onclick = () => { const x = addDays(new Date(), -b.dataset.dq); st.d = x.getDate(); st.m = x.getMonth(); st.y = x.getFullYear(); paint(); ['m', 'y', 'd'].forEach(k => go(k, true)); });
+      requestAnimationFrame(() => { ['d', 'm', 'y'].forEach(k => go(k)); paint(); });
+      $('#dpOk', el).onclick = () => { onPick(`${st.y}-${pad(st.m + 1)}-${pad(st.d)}`); Sheet.back(); };
+    } });
+}
 function openTx(type = 'expense', preset = null, edit = null) {
   const st = edit ? { ...edit, expr: String(edit.amount) } : {
     type, expr: preset?.amount ? String(preset.amount) : '', cat: preset?.cat || null, wallet: preset?.wallet || (S.homeWallet !== 'all' ? S.homeWallet : S.wallets[0]?.id),
     date: preset?.date || today(), note: preset?.note || ''
   };
   const cats = () => S.cats.filter(c => c.type === st.type);
-  if (!st.cat || !cats().some(c => c.id === st.cat)) st.cat = cats()[0]?.id;
+  if (!st.cat || !cats().some(c => c.id === st.cat)) st.cat = kmCatOrder(st.type)[0]?.id;
   const keyHandler = e => {
     if (!$('#txKeys')) return;
     if (document.activeElement && ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
@@ -591,7 +654,7 @@ function openTx(type = 'expense', preset = null, edit = null) {
   function paintAmount() {
     const v = evalExpr(st.expr);
     $('#txAmt').innerHTML = `${st.type === 'income' ? '+' : '−'}${grp(v)} <small>${cur()}</small>`;
-    $('#txAmt').classList.toggle('in', st.type === 'income');
+    $('#txAmt').classList.toggle('in', st.type === 'income'); $('#txAmt').classList.toggle('zero', !v);
     $('#txExpr').textContent = /[+\-]/.test(st.expr) ? st.expr.replace(/(\d+)/g, m => grp(m)) : '';
   }
   function commit() {
@@ -612,11 +675,12 @@ function openTx(type = 'expense', preset = null, edit = null) {
     onClose: () => document.removeEventListener('keydown', keyHandler),
     html: () => `
       <div class="seg violet"><button data-ty="expense" class="${st.type === 'expense' ? 'on' : ''}">${t('Shıǵım')}</button><button data-ty="income" class="${st.type === 'income' ? 'on' : ''}">${t('Kirim')}</button></div>
-      <div class="amount-box"><div class="a-v num" id="txAmt"></div><div class="a-expr num" id="txExpr"></div></div>
-      <div class="cat-grid" id="txCats">${cats().map(c => `<button class="cat ${c.id === st.cat ? 'on' : ''}" data-c="${c.id}"><span class="c-ic" style="background:${c.color}">${ic(c.icon)}</span><span>${esc(t(c.name))}</span></button>`).join('')}</div>
+      <div class="amount-box"><small class="a-lbl">${t(st.type === 'income' ? 'Kirim summası' : 'Shıǵım summası')}</small><div class="a-v num" id="txAmt"></div><div class="a-expr num" id="txExpr"></div></div>
+      <div class="field tx-cf"><label>${t('Kategoriya')}<button class="link" id="txAllCats">${t('Barlıǵı')} (${cats().length})${ic('chevron-right')}</button></label>
+        <div class="tx-cats" id="txCats">${kmTxCats(st)}</div></div>
       <div class="field"><label>${t('Hamyan')}</label><div class="chips">${S.wallets.map(w => `<button class="chip ${w.id === st.wallet ? 'on' : ''}" data-wl="${w.id}">${ic(w.icon)}<span class="ell">${esc(t(w.name))}</span></button>`).join('')}</div></div>
       <div class="row2">
-        <div class="field"><label>${t('Sáne')}</label><input class="inp" type="date" id="txDate" value="${st.date}" max="${iso(addDays(new Date(), 365))}"></div>
+        <div class="field"><label>${t('Sáne')}</label><button class="inp dp-btn" id="txDate">${ic('calendar-days')}<span id="txDateL">${kmDateShort(st.date)}</span></button></div>
         <div class="field"><label>${t('Eskertpe')}</label><input class="inp" id="txNote" value="${esc(st.note)}" placeholder="${t('Mısalı: bazar')}" maxlength="60"></div>
       </div>
       <div class="keypad" id="txKeys">
@@ -627,10 +691,12 @@ function openTx(type = 'expense', preset = null, edit = null) {
       // keypad layout: make ok key span (no row span in 4-col grid with 16 keys); keep simple
       const ok = $('[data-k="ok"]', el); ok.style.gridRow = 'auto'; ok.style.height = '54px';
       paintAmount();
-      $$('[data-ty]', el).forEach(b => b.onclick = () => { st.type = b.dataset.ty; st.cat = cats()[0]?.id; st.note = $('#txNote').value; st.date = $('#txDate').value || st.date; Sheet.refresh(); });
-      $$('[data-c]', el).forEach(b => b.onclick = () => { st.cat = b.dataset.c; $$('[data-c]', el).forEach(x => x.classList.toggle('on', x === b)); vib(5); });
+      $$('[data-ty]', el).forEach(b => b.onclick = () => { st.type = b.dataset.ty; st.cat = kmCatOrder(st.type)[0]?.id; st.note = $('#txNote').value; Sheet.refresh(); });
+      const bindCats = () => $$('[data-c]', el).forEach(b => b.onclick = () => { st.cat = b.dataset.c; $$('[data-c]', el).forEach(x => x.classList.toggle('on', x === b)); vib(5); });
+      bindCats();
+      $('#txAllCats').onclick = () => { st.note = $('#txNote').value; kmCatPicker(st.type, st.cat, id => { st.cat = id; }); };
       $$('[data-wl]', el).forEach(b => b.onclick = () => { st.wallet = b.dataset.wl; $$('[data-wl]', el).forEach(x => x.classList.toggle('on', x === b)); });
-      $('#txDate').onchange = e => st.date = e.target.value || today();
+      $('#txDate').onclick = () => { st.note = $('#txNote').value; kmDatePick(st.date, d => { st.date = d; }); };
       $$('[data-k]', el).forEach(b => b.onclick = () => press(b.dataset.k));
       const d = $('#txDel'); if (d) d.onclick = async () => {
         if (await ask('Óshiriw', 'Bul operaciyanı óshiriwdi qáleysiz be?', 'Óshiriw', true)) {
