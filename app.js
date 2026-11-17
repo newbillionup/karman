@@ -1,4 +1,4 @@
-/* KARMAN AI — Qaraqalpaqsha kirim-shıǵım qosımshası
+/* Qarjı AI — Qaraqalpaqsha kirim-shıǵım qosımshası
    Jaratıwshı: Qonarbaev Damir
    HTML + CSS + JS, maǵlıwmatlar brauzerdiń localStorage ında saqlanadı. */
 'use strict';
@@ -22,7 +22,7 @@ function refreshIcons() {
 }
 
 /* ================= Transliteration: Qaraqalpaq Latın → Kiril ================= */
-const PROTECT = /(KARMAN AI|KARMAN|KARMAN AI|BUSINESS|MAX|Aurora|JPG|PNG|Liquid Glass|Classic|Glass|Uzcard|Humo|Visa|Mastercard|Click|Payme|Paynet|Beeline|Ucell|Mobiuz|Uzmobile|Humans|Uzonline|Sarkor|Comnet|TPS|UzDigital|ATTO|PRO|PIN|CSV|JSON|UZS|USD|EUR|RUB|KZT|AI|ID|QR|GAI|YHXB|SMS|v\d[\d.]*)/g;
+const PROTECT = /(BUSINESS|MAX|Aurora|JPG|PNG|Liquid Glass|Classic|Glass|Uzcard|Humo|Visa|Mastercard|Click|Payme|Paynet|Beeline|Ucell|Mobiuz|Uzmobile|Humans|Uzonline|Sarkor|Comnet|TPS|UzDigital|ATTO|PRO|PIN|CSV|JSON|UZS|USD|EUR|RUB|KZT|AI|ID|QR|GAI|YHXB|SMS|v\d[\d.]*)/g;
 const DI = { Sh: 'Ш', SH: 'Ш', sh: 'ш', Ch: 'Ч', CH: 'Ч', ch: 'ч', Yu: 'Ю', YU: 'Ю', yu: 'ю', Ya: 'Я', YA: 'Я', ya: 'я', Yo: 'Ё', yo: 'ё' };
 const MONO = {
   'Á': 'Ә', 'á': 'ә', 'Ǵ': 'Ғ', 'ǵ': 'ғ', 'Í': 'Ы', 'ı': 'ы', 'Ń': 'Ң', 'ń': 'ң', 'Ó': 'Ө', 'ó': 'ө', 'Ú': 'Ү', 'ú': 'ү',
@@ -197,7 +197,7 @@ function plan() {
   if (S.plan === 'max' && S.planUntil && S.planUntil < today()) {
     const w = walletById(S.planWallet) ? S.planWallet : S.wallets[0]?.id;
     if (S.autoRenew && w && walletBal(w) >= PLANS.max.price) {
-      S.tx.push({ id: uid(), type: 'expense', amount: PLANS.max.price, cat: 'other', wallet: w, date: today(), note: 'KARMAN AI MAX (avto)', ts: Date.now() });
+      S.tx.push({ id: uid(), type: 'expense', amount: PLANS.max.price, cat: 'other', wallet: w, date: today(), note: 'Qarjı AI MAX (avto)', ts: Date.now() });
       S.planUntil = iso(addDays(fromIso(S.planUntil), 30)); if (S.planUntil < today()) S.planUntil = iso(addDays(new Date(), 30));
       setTimeout(() => toast(t('MAX tarifi avtomat jańalandı'), { icon: 'gem' }), 4200);
     } else { S.plan = 'pro'; S.planUntil = null;  }
@@ -223,7 +223,7 @@ function notifications() {
   });
   S.goals.filter(g => g.saved >= g.target).forEach(g => out.push({ id: 'g-' + g.id, icon: 'target', title: `${t('Maqsetke jettińiz')}: ${esc(t(g.name))}`, text: money(g.target), raw: true }));
   try { hubLoad().broadcasts.slice().reverse().forEach(b => out.unshift({ id: 'bc-' + b.id, icon: 'megaphone', title: esc(t(b.title)), text: esc(t(b.text)) + ' · ' + b.date.split('-').reverse().join('.'), raw: true })); } catch (e) {}
-  out.push({ id: 'welcome', icon: 'sparkles', title: t('KARMAN AI ǵa xosh keldińiz!'), text: t('AI tuymesin basıp, «taksi 25 mıń» dep jazıp kóriń.'), raw: true });
+  out.push({ id: 'welcome', icon: 'sparkles', title: t('Qarjı AI ǵa xosh keldińiz!'), text: t('AI tuymesin basıp, «taksi 25 mıń» dep jazıp kóriń.'), raw: true });
   return out;
 }
 const unread = () => notifications().filter(n => !S.seen.includes(n.id)).length;
@@ -874,7 +874,7 @@ const SVC_GROUP = { mobile: 'comm', elec: 'util', gas: 'util', water: 'util', he
 const SVC_GROUPS = [['all', 'Barlıǵı'], ['util', 'Kommunal'], ['comm', 'Baylanıs'], ['fin', 'Qarjı'], ['gov', 'Mámleket'], ['life', 'Turmıs']];
 const SVC_GNAME = { util: 'Kommunal', comm: 'Baylanıs', fin: 'Qarjı', gov: 'Mámleket', life: 'Turmıs' };
 const FX_CHG = { USD: .12, EUR: -.08, RUB: .31, KZT: -.05 };
-function renderServices0() {
+function renderServicesOld() {
   const el = $('#v-services'); const q = toLat(UI.svcQuery.trim()); const g = UI.svcGroup || 'all';
   const shown = SERVICES.filter(s => (g === 'all' || SVC_GROUP[s.id] === g) && (!q || toLat(s.name).includes(q) || (s.prov || []).some(p => toLat(p).includes(q))));
   const recent = []; const seen = new Set();
@@ -1113,7 +1113,7 @@ function renderProfile0() {
           <button id="bzCal">${ic('calendar-range')}<span>${t('Kalendar')}</span></button>
           <button id="bzFc">${ic('trending-up')}<span>${t('Prognoz')}</span></button>
         </div></section>`
-      : `<button class="max-banner" id="pfMax"><span class="mb-gem">${ic('gem')}</span><span class="mb-t"><small>${t('Jańa dárejege kóteriliń')}</small><b>KARMAN AI MAX</b><span class="mb-f">${['Sheksiz AI', 'Biznes paneli', 'Aurora'].map(f => `<i>${t(f)}</i>`).join('')}</span></span><span class="mb-go">${ic('arrow-up-right')}</span></button>`}
+      : `<button class="max-banner" id="pfMax"><span class="mb-gem">${ic('gem')}</span><span class="mb-t"><small>${t('Jańa dárejege kóteriliń')}</small><b>Qarjı AI MAX</b><span class="mb-f">${['Sheksiz AI', 'Biznes paneli', 'Aurora'].map(f => `<i>${t(f)}</i>`).join('')}</span></span><span class="mb-go">${ic('arrow-up-right')}</span></button>`}
 
     <div class="group"><h4>${t('QARJÍ')}</h4><div class="card list">
       ${row('pfWallets', 'wallet', 'Hamyanlar', `${S.wallets.length} ${t('hamyan')} · ${grp(totalBal())} ${cur()}`)}
@@ -1158,9 +1158,9 @@ function renderProfile0() {
       ${row('pfHelp', 'circle-help', 'Járdem hám sorawlar')}
       ${row('pfRate', 'star', 'Qosımshanı bahalaw', S.rated ? '★'.repeat(S.rated) : '')}
       ${row('pfIntro', 'play', 'Introdı qayta kóriw')}
-      ${row('pfAbout', 'info', 'Qosımsha haqqında', 'KARMAN AI v3.0')}
+      ${row('pfAbout', 'info', 'Qosımsha haqqında', 'Qarjı AI v3.0')}
     </div></div>
-    <p class="muted" style="text-align:center;font-size:.75rem;margin:4px 0 0">KARMAN AI · ${t('Jaratıwshı')}: ${t('Qonarbaev Damir')}</p>
+    <p class="muted" style="text-align:center;font-size:.75rem;margin:4px 0 0">Qarjı AI · ${t('Jaratıwshı')}: ${t('Qonarbaev Damir')}</p>
   `;
   $('#pfEdit').onclick = openProfileEdit; $('#pfAva').onclick = openProfileEdit;
   const aph = $('#pfAddPh'); if (aph) aph.onclick = openProfileEdit;
@@ -1552,13 +1552,13 @@ function openPlans(pref) {
         Sheet.open({
           title: t('Tastıyıqlaw'),
           html: () => `<div class="receipt"><span class="r-logo">${ic('gem')}</span><div class="r-amt num">${grp(P.price)}<span style="font-size:1.1rem;color:var(--muted);letter-spacing:0"> ${cur()}</span></div>
-            <div class="muted">KARMAN AI MAX · 30 ${t('kún')}</div><hr>
+            <div class="muted">Qarjı AI MAX · 30 ${t('kún')}</div><hr>
             <div class="kv"><span>${t('Hamyan')}</span><span>${walletName(wallet)}</span></div>
             <div class="kv"><span>${t('Avto sheship alıw')}</span><span>${S.autoRenew ? t('Qosılǵan') : t('Óshirilgen')}</span></div></div>
             <div class="slider" id="slider"><div class="s-fill"></div><div class="s-txt">${t('Tólew ushın súyreń')}</div><div class="knob">${ic('chevrons-right')}</div></div>
             <div class="demo-note">${ic('shield-check')}${t('Demo rejim: summa hamyannan shıǵım retinde jazıladı')}</div>`,
           mount: e2 => slideToConfirm($('#slider', e2), () => {
-            S.tx.push({ id: uid(), type: 'expense', amount: P.price, cat: 'other', wallet, date: today(), note: 'KARMAN AI MAX', ts: Date.now() });
+            S.tx.push({ id: uid(), type: 'expense', amount: P.price, cat: 'other', wallet, date: today(), note: 'Qarjı AI MAX', ts: Date.now() });
             S.plan = 'max'; S.planUntil = iso(addDays(new Date(), 30)); S.planWallet = wallet; save();
             Sheet.replace({
               title: '', html: () => `<div class="success"><span class="ok-c">${ic('gem')}</span><h3>${t('MAX aktivlestirildi!')}</h3><span class="status-chip biz">${ic('briefcase-business')}BUSINESS</span><div class="muted" style="margin-top:4px">${t('Statusıńız BUSINESS ke ózgerdi')}</div></div>
@@ -1660,7 +1660,7 @@ function openCalendar() {
       S.recurring.forEach(p => add(iso(new Date(y, m, Math.min(p.day, nd))), { icon: 'repeat', name: t(p.name), amount: p.amount, kind: t('Turaqlı tólem'), done: p.paid === `${y}-${pad(m + 1)}` }));
       S.debts.filter(d => !d.paid).forEach(d => add(d.due, { icon: 'hand-coins', name: d.name, amount: d.amount, kind: t(d.type === 'given' ? 'Qarız qaytarıladı' : 'Qarızdı tólew') }));
       S.invoices.filter(i => !i.paid).forEach(i => add(i.due, { icon: 'file-text', name: i.client, amount: i.amount, kind: t('Hisob-faktura') }));
-      if (S.plan === 'max' && S.planUntil) add(S.planUntil, { icon: 'gem', name: 'KARMAN AI MAX', amount: PLANS.max.price, kind: t('Tarif jańalanıwı') });
+      if (S.plan === 'max' && S.planUntil) add(S.planUntil, { icon: 'gem', name: 'Qarjı AI MAX', amount: PLANS.max.price, kind: t('Tarif jańalanıwı') });
       const txd = {}; S.tx.filter(x => x.type === 'expense' && x.date.startsWith(`${y}-${pad(m + 1)}`)).forEach(x => txd[x.date] = (txd[x.date] || 0) + x.amount);
       const evs = ev[sel] || []; const dayTx = S.tx.filter(x => x.date === sel);
       return `<div class="cal-head"><button class="circ" id="calP">${ic('chevron-left')}</button><b>${t(MONTHS[m])} ${y}</b><button class="circ" id="calN">${ic('chevron-right')}</button></div>
@@ -1693,7 +1693,7 @@ function openAds() {
   const st = { kind: 'Baner', dur: '1 ay' };
   Sheet.open({
     title: t('Reklama ushın arza'), full: true,
-    html: () => `<div class="card tile ink" style="gap:8px"><span class="chip-ic">${ic('megaphone')}</span><div style="font-weight:700">${t('Biznesińizdi KARMAN AI paydalanıwshılarına kórsetiń')}</div>
+    html: () => `<div class="card tile ink" style="gap:8px"><span class="chip-ic">${ic('megaphone')}</span><div style="font-weight:700">${t('Biznesińizdi Qarjı AI paydalanıwshılarına kórsetiń')}</div>
         <div class="t-s" style="white-space:normal">${t('Arzanı jiberiń, biz siz benen 24 saat ishinde baylanısamız.')}</div></div>
       <div class="field"><label>${t('Kompaniya yamasa brend atı')}</label><input class="inp" id="adN" maxlength="40"></div>
       <div class="row2"><div class="field"><label>${t('Baylanıs adamı')}</label><input class="inp" id="adP" maxlength="30"></div>
@@ -1732,18 +1732,110 @@ function toCSV() {
   [...S.tx].sort((a, b) => a.date.localeCompare(b.date)).forEach(x => rows.push([x.date, t(x.type === 'income' ? 'Kirim' : x.type === 'expense' ? 'Shıǵım' : 'Awdarma'), x.type === 'transfer' ? '' : t(catById(x.cat).name), walletName(x.wallet) + (x.to ? ' → ' + walletName(x.to) : ''), x.amount, x.note || '']));
   return '﻿' + rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(';')).join('\n');
 }
+/* ===== Shiyrayli Excel (.xlsx) esabatı — kitapxanasız ===== */
+function kmZip(files) {
+  const enc = new TextEncoder(); const crcT = kmZip.t || (kmZip.t = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })());
+  const crc = b => { let c = 0xFFFFFFFF; for (let i = 0; i < b.length; i++) c = crcT[(c ^ b[i]) & 255] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; };
+  const parts = [], cen = []; let off = 0;
+  const u16 = v => [v & 255, (v >>> 8) & 255], u32 = v => [v & 255, (v >>> 8) & 255, (v >>> 16) & 255, (v >>> 24) & 255];
+  for (const [name, text] of files) {
+    const nb = enc.encode(name), db = enc.encode(text), c = crc(db);
+    const lh = new Uint8Array([...u32(0x04034b50), ...u16(20), ...u16(0x0800), ...u16(0), ...u16(0), ...u16(0x21), ...u32(c), ...u32(db.length), ...u32(db.length), ...u16(nb.length), ...u16(0)]);
+    parts.push(lh, nb, db);
+    cen.push(new Uint8Array([...u32(0x02014b50), ...u16(20), ...u16(20), ...u16(0x0800), ...u16(0), ...u16(0), ...u16(0x21), ...u32(c), ...u32(db.length), ...u32(db.length), ...u16(nb.length), ...u16(0), ...u16(0), ...u16(0), ...u16(0), ...u32(0), ...u32(off)]), nb);
+    off += lh.length + nb.length + db.length;
+  }
+  const cs = cen.reduce((a, b) => a + b.length, 0);
+  const end = new Uint8Array([...u32(0x06054b50), ...u16(0), ...u16(0), ...u16(files.length), ...u16(files.length), ...u32(cs), ...u32(off), ...u16(0)]);
+  return new Blob([...parts, ...cen, end], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+}
+function exportXLSX() {
+  const X = v => String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const col = i => String.fromCharCode(65 + i);
+  const list = [...S.tx].sort((a, b) => b.date.localeCompare(a.date) || (b.ts || 0) - (a.ts || 0));
+  const inc = sum(list, 'income'), exp = sum(list, 'expense');
+  const rows = []; let r = 0;
+  const cell = (c, v, st, num) => num ? `<c r="${col(c)}${r}" s="${st}"><v>${v}</v></c>` : `<c r="${col(c)}${r}" s="${st}" t="inlineStr"><is><t xml:space="preserve">${X(v)}</t></is></c>`;
+  const row = (cells, ht) => { r++; rows.push(`<row r="${r}"${ht ? ` ht="${ht}" customHeight="1"` : ''}>${cells.map(f => f()).join('')}</row>`); };
+  row([() => cell(0, t('Qarjı AI — operaciyalar esabatı'), 2)], 30);
+  row([() => cell(0, `${t('Jaratılǵan sáne')}: ${today().split('-').reverse().join('.')} · ${list.length} ${t('operaciya')}`, 9)], 18);
+  row([], 8);
+  row([() => cell(0, t('Jámi kirim'), 7), () => cell(1, '', 7), () => cell(2, inc, 10, 1)], 22);
+  row([() => cell(0, t('Jámi shıǵım'), 7), () => cell(1, '', 7), () => cell(2, -exp, 11, 1)], 22);
+  row([() => cell(0, t('Qaldıq'), 12), () => cell(1, '', 12), () => cell(2, inc - exp, 13, 1)], 24);
+  row([], 10);
+  const hr = r + 1;
+  row([t('№'), t('Sáne'), t('Túri'), t('Kategoriya'), t('Hamyan'), t('Izoh'), t('Summa (UZS)')].map((h, i) => () => cell(i, h, 1)), 26);
+  list.forEach((x, i) => { const z = i % 2 ? 1 : 0; const ty = x.type === 'income' ? t('Kirim') : x.type === 'expense' ? t('Shıǵım') : t('Awdarma');
+    const amt = x.type === 'income' ? x.amount : x.type === 'expense' ? -x.amount : x.amount;
+    row([() => cell(0, i + 1, z ? 15 : 14, 1), () => cell(1, x.date.split('-').reverse().join('.'), z ? 5 : 3), () => cell(2, ty, z ? 5 : 3), () => cell(3, x.type === 'transfer' ? '—' : t(catById(x.cat).name), z ? 5 : 3),
+      () => cell(4, walletName(x.wallet) + (x.to ? ' → ' + walletName(x.to) : ''), z ? 5 : 3), () => cell(5, x.note || '', z ? 5 : 3),
+      () => cell(6, amt, x.type === 'income' ? (z ? 17 : 16) : (z ? 6 : 4), 1)], 20); });
+  const last = r;
+  const sheet = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
+<sheetPr><tabColor rgb="FF7B5CFA"/></sheetPr>
+<sheetViews><sheetView workbookViewId="0" showGridLines="0"><pane ySplit="${hr}" topLeftCell="A${hr + 1}" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews>
+<cols><col min="1" max="1" width="7" customWidth="1"/><col min="2" max="2" width="13" customWidth="1"/><col min="3" max="3" width="12" customWidth="1"/><col min="4" max="4" width="24" customWidth="1"/><col min="5" max="5" width="20" customWidth="1"/><col min="6" max="6" width="34" customWidth="1"/><col min="7" max="7" width="18" customWidth="1"/></cols>
+<sheetData>${rows.join('')}</sheetData>
+${list.length ? `<autoFilter ref="A${hr}:G${last}"/>` : ''}
+<mergeCells count="5"><mergeCell ref="A1:G1"/><mergeCell ref="A2:G2"/><mergeCell ref="A4:B4"/><mergeCell ref="A5:B5"/><mergeCell ref="A6:B6"/></mergeCells>
+<pageMargins left="0.5" right="0.5" top="0.6" bottom="0.6" header="0.3" footer="0.3"/><pageSetup orientation="landscape" fitToWidth="1" fitToHeight="0"/>
+</worksheet>`;
+  const V = 'FF7B5CFA', VD = 'FF2B1B78', L = 'FFF4F1FF', B = 'FFDCD5F7';
+  const styles = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
+<numFmts count="2"><numFmt numFmtId="164" formatCode="#,##0;[Red]\-#,##0"/><numFmt numFmtId="165" formatCode="+#,##0;-#,##0;0"/></numFmts>
+<fonts count="7"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><color rgb="FFFFFFFF"/><name val="Calibri"/></font><font><b/><sz val="18"/><color rgb="${VD}"/><name val="Calibri"/></font>
+<font><b/><sz val="11"/><color rgb="FF1C1C1C"/><name val="Calibri"/></font><font><sz val="10"/><color rgb="FF8A8798"/><name val="Calibri"/></font><font><b/><sz val="12"/><color rgb="FFFFFFFF"/><name val="Calibri"/></font><font><b/><sz val="11"/><color rgb="FF5B3EE6"/><name val="Calibri"/></font></fonts>
+<fills count="5"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="${V}"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="${L}"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="${VD}"/></patternFill></fill></fills>
+<borders count="2"><border/><border><left style="thin"><color rgb="${B}"/></left><right style="thin"><color rgb="${B}"/></right><top style="thin"><color rgb="${B}"/></top><bottom style="thin"><color rgb="${B}"/></bottom></border></borders>
+<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>
+<cellXfs count="18">
+<xf numFmtId="0" fontId="0" fillId="0" borderId="0"/>
+<xf numFmtId="0" fontId="1" fillId="2" borderId="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf>
+<xf numFmtId="0" fontId="2" fillId="0" borderId="0" applyFont="1" applyAlignment="1"><alignment vertical="center"/></xf>
+<xf numFmtId="0" fontId="0" fillId="0" borderId="1" applyBorder="1" applyAlignment="1"><alignment vertical="center"/></xf>
+<xf numFmtId="164" fontId="3" fillId="0" borderId="1" applyNumberFormat="1" applyFont="1" applyBorder="1" applyAlignment="1"><alignment horizontal="right" vertical="center"/></xf>
+<xf numFmtId="0" fontId="0" fillId="3" borderId="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment vertical="center"/></xf>
+<xf numFmtId="164" fontId="3" fillId="3" borderId="1" applyNumberFormat="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="right" vertical="center"/></xf>
+<xf numFmtId="0" fontId="3" fillId="3" borderId="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment vertical="center"/></xf>
+<xf numFmtId="0" fontId="0" fillId="0" borderId="0"/>
+<xf numFmtId="0" fontId="4" fillId="0" borderId="0" applyFont="1"/>
+<xf numFmtId="165" fontId="6" fillId="3" borderId="1" applyNumberFormat="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="right" vertical="center"/></xf>
+<xf numFmtId="164" fontId="3" fillId="3" borderId="1" applyNumberFormat="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="right" vertical="center"/></xf>
+<xf numFmtId="0" fontId="5" fillId="4" borderId="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment vertical="center"/></xf>
+<xf numFmtId="164" fontId="5" fillId="4" borderId="1" applyNumberFormat="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="right" vertical="center"/></xf>
+<xf numFmtId="0" fontId="4" fillId="0" borderId="1" applyFont="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>
+<xf numFmtId="0" fontId="4" fillId="3" borderId="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>
+<xf numFmtId="165" fontId="6" fillId="0" borderId="1" applyNumberFormat="1" applyFont="1" applyBorder="1" applyAlignment="1"><alignment horizontal="right" vertical="center"/></xf>
+<xf numFmtId="165" fontId="6" fillId="3" borderId="1" applyNumberFormat="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="right" vertical="center"/></xf>
+</cellXfs>
+<cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles>
+</styleSheet>`;
+  const files = [
+    ['[Content_Types].xml', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>'],
+    ['_rels/.rels', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>'],
+    ['xl/workbook.xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="${X(t('Esabat'))}" sheetId="1" r:id="rId1"/></sheets>${list.length ? `<definedNames><definedName name="_xlnm._FilterDatabase" localSheetId="0" hidden="1">'${X(t('Esabat'))}'!$A$${hr}:$G$${last}</definedName></definedNames>` : ''}</workbook>`],
+    ['xl/_rels/workbook.xml.rels', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>'],
+    ['xl/styles.xml', styles], ['xl/worksheets/sheet1.xml', sheet]];
+  const blob = kmZip(files);
+  try { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `qarji-ai-${today()}.xlsx`; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 800); } catch (e) {}
+  toast(t('Excel esabatı júklendi'), { icon: 'file-spreadsheet' });
+  return blob;
+}
 function openData() {
   Sheet.open({
     title: t('Maǵlıwmatlar'),
     html: () => `<div class="card list">
-      <button class="row" id="dtCsv"><span class="r-ic">${ic('file-spreadsheet')}</span><span class="r-t"><div>${t('CSV eksport (Excel)')}</div><small>${S.tx.length} ${t('operaciya')}</small></span>${ic('download')}</button>
+      <button class="row" id="dtCsv"><span class="r-ic">${ic('file-spreadsheet')}</span><span class="r-t"><div>${t('Excel esabatı (.xlsx)')}</div><small>${S.tx.length} ${t('operaciya')}</small></span>${ic('download')}</button>
       <button class="row" id="dtBak"><span class="r-ic">${ic('database-backup')}</span><span class="r-t"><div>${t('Rezerv nusqa (JSON)')}</div><small>${t('Barlıq maǵlıwmattı saqlaw yamasa tiklew')}</small></span>${ic('chevron-right')}</button>
       <button class="row" id="dtDemo"><span class="r-ic">${ic('eraser')}</span><span class="r-t"><div>${t('Operaciyalardı tazalaw')}</div><small>${t('Sazlawlar saqlanadı, jazıwlar óshiriledi')}</small></span>${ic('chevron-right')}</button>
       <button class="row" id="dtReset"><span class="r-ic" style="background:rgba(229,72,77,.12);color:var(--bad)">${ic('trash-2')}</span><span class="r-t"><div style="color:var(--bad)">${t('Hámmesin baslanǵısh halına qaytarıw')}</div><small>${t('Demo maǵlıwmatlar menen qayta baslaw')}</small></span></button>
     </div>`,
     mount: () => {
-      $('#dtCsv').onclick = () => {
-        const csv = toCSV(); download(`pulcount-${today()}.csv`, csv, 'text/csv;charset=utf-8');
+      $('#dtCsv').onclick = () => { exportXLSX(); return;
+        const csv = toCSV(); download(`qarji-ai-${today()}.csv`, csv, 'text/csv;charset=utf-8');
         Sheet.open({ title: 'CSV', html: () => `<textarea class="inp" id="csvT" style="min-height:220px;font-size:.75rem" readonly>${esc(csv)}</textarea><button class="btn pri" id="csvC">${ic('copy')}${t('Nusqalaw')}</button>`, mount: () => $('#csvC').onclick = () => copyText(csv, $('#csvT')) });
       };
       $('#dtBak').onclick = () => {
@@ -1756,7 +1848,7 @@ function openData() {
             <button class="btn pri" id="bkR">${ic('rotate-ccw')}${t('Tiklew')}</button>`,
           mount: () => {
             $('#bkC').onclick = () => copyText(json, $('#bkT'));
-            $('#bkD').onclick = () => download(`pulcount-backup-${today()}.json`, json, 'application/json');
+            $('#bkD').onclick = () => download(`qarji-ai-backup-${today()}.json`, json, 'application/json');
             $('#bkR').onclick = () => {
               try { const d = JSON.parse($('#bkI').value); if (!d || !Array.isArray(d.tx) || !Array.isArray(d.wallets)) throw 0; S = Object.assign(defaults(false), d); save(); Sheet.close(); renderAll(); toast(t('Maǵlıwmatlar tiklendi')); }
               catch (e) { toast(t('Qáte format. JSON tekstti tekseriń'), { icon: 'circle-alert' }); }
@@ -1792,7 +1884,7 @@ function openHelp() {
 function openRate() {
   Sheet.open({
     title: t('Qosımshanı bahalaw'),
-    html: () => `<p class="muted" style="margin:0;text-align:center">${t('KARMAN AI sizge unadı ma?')}</p>
+    html: () => `<p class="muted" style="margin:0;text-align:center">${t('Qarjı AI sizge unadı ma?')}</p>
       <div style="display:flex;justify-content:center;gap:8px">${[1, 2, 3, 4, 5].map(i => `<button data-star="${i}" style="color:${i <= S.rated ? 'var(--violet)' : 'var(--line)'};font-size:2rem">${ic('star')}</button>`).join('')}</div>`,
     mount: el => $$('[data-star]', el).forEach(b => b.onclick = () => { S.rated = +b.dataset.star; save(); Sheet.close(); renderView(); if (S.rated === 5) confetti(80); })
   });
@@ -1803,13 +1895,13 @@ function openAbout() {
     html: () => `<div style="display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;padding:6px 0">
         <svg viewBox="0 0 118 118" width="92" height="92"><defs><linearGradient id="ab" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#C7B6FF"/><stop offset=".5" stop-color="#7B5CFA"/><stop offset="1" stop-color="#5233E0"/></linearGradient></defs>
         <rect x="4" y="4" width="110" height="110" rx="34" fill="#7B5CFA"/><path d="M42 86V34h22a16 16 0 0 1 0 32H42" stroke="#fff" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="80" cy="82" r="7" stroke="#fff" stroke-width="5" fill="none"/></svg>
-        <div style="font-family:var(--f-display);font-weight:800;font-size:1.7rem;letter-spacing:-.03em">KARMAN AI</div><span class="badge">${t('Versiya')} 3.0</span></div>
-      <p style="margin:0;line-height:1.55;text-align:center">${t('KARMAN AI — tolıǵı menen qaraqalpaq tilindegi kirim-shıǵımdı esaplaw qosımshası. Ol kúndelik qarjılarıńızdı jazıp barıwǵa, byudjet dúziwge, jinaq maqsetlerine jetiwge hám AI kómekshi arqalı ápiwayı tilde operaciya qosıwǵa járdem beredi.')}</p>
+        <div style="font-family:var(--f-display);font-weight:800;font-size:1.7rem;letter-spacing:-.03em">Qarjı AI</div><span class="badge">${t('Versiya')} 3.0</span></div>
+      <p style="margin:0;line-height:1.55;text-align:center">${t('Qarjı AI — tolıǵı menen qaraqalpaq tilindegi kirim-shıǵımdı esaplaw qosımshası. Ol kúndelik qarjılarıńızdı jazıp barıwǵa, byudjet dúziwge, jinaq maqsetlerine jetiwge hám AI kómekshi arqalı ápiwayı tilde operaciya qosıwǵa járdem beredi.')}</p>
       <div class="creator">
         <span class="cr-ava">QD</span>
         <div><small>${t('Jaratıwshı')}</small><b>${t('Qonarbaev Damir')}</b></div>
       </div>
-      <p class="muted" style="text-align:center;font-size:.78rem;margin:0">© 2026 KARMAN AI</p>`
+      <p class="muted" style="text-align:center;font-size:.78rem;margin:0">© 2026 Qarjı AI</p>`
   });
 }
 /* PIN */
@@ -1839,7 +1931,7 @@ function showLock(after) {
   if (!S.pin) { after && after(); return; }
   const lock = document.createElement('div'); lock.className = 'lock';
   let v = '';
-  lock.innerHTML = `<div class="orb"></div><h2>KARMAN AI</h2><p class="muted" style="margin:0">${t('PIN-kodtı kirgiziń')}</p><div class="pin-dots">${'<i></i>'.repeat(4)}</div>
+  lock.innerHTML = `<div class="orb"></div><h2>Qarjı AI</h2><p class="muted" style="margin:0">${t('PIN-kodtı kirgiziń')}</p><div class="pin-dots">${'<i></i>'.repeat(4)}</div>
     <div class="keypad">${['1', '2', '3', '4', '5', '6', '7', '8', '9', '', '0', 'del'].map(k => k ? `<button class="key" data-lk="${k}">${k === 'del' ? ic('delete') : k}</button>` : '<span></span>').join('')}</div>
     <button class="link" id="lkForgot" style="margin-top:12px">${t('PIN-kodtı umıttım')}</button>`;
   document.body.appendChild(lock); refreshIcons();
@@ -1907,7 +1999,7 @@ function aiAnswer(raw) {
   const top = Object.entries(by).sort((a, b) => b[1] - a[1]);
   const amt = parseAmount(s);
   const isQ = /\?|qansha|neshe|qayda|qayerge|qanday|keńes|kenes|maslahat|balans|byudjet|budjet|analiz|esabat|statistika|kórset|korset|únem|tejew|maqset|jinaq|qarız|qariz|limit/.test(s);
-  if (/s[aá]lem|assalaw|hello|privet/.test(s) && !amt) return { text: t(`Sálem, ${S.name}! Men KARMAN AI. Maǵan operaciyanı ápiwayı tilde jazıń yamasa qarjılarıńız haqqında soraw beriń.`) };
+  if (/s[aá]lem|assalaw|hello|privet/.test(s) && !amt) return { text: t(`Sálem, ${S.name}! Men Qarjı AI. Maǵan operaciyanı ápiwayı tilde jazıń yamasa qarjılarıńız haqqında soraw beriń.`) };
   if (/raxmet|rahmet|sag bol/.test(s)) return { text: t('Arzımaydı! Jáne ne járdem kerek?') };
   if (amt && !isQ) {
     const type = KW.income.some(k => s.includes(k)) ? 'income' : 'expense';
@@ -1966,14 +2058,14 @@ function openAI(prefill) {
     ['receipt', 'Operaciya jazıw', 'Taksi 25 mıń', 'v'], ['chart-pie', 'Analiz', 'Eń kóp qayda jumsadım?', 'k'],
     ['lightbulb', 'Keńes alıw', 'Keńes ber', 'l'], ['wallet', 'Balans', 'Balansım qansha?', 'w']
   ];
-  const welcome = () => `<div class="welcome">${orbHtml('big')}<h3>${t('Sálem')}, <span>${esc(t(firstName()))}</span>!</h3><p class="muted">${t('Men KARMAN AI. Operaciyanı ápiwayı jazıń yamasa qarjılarıńız haqqında soraw beriń.')}</p>
+  const welcome = () => `<div class="welcome">${orbHtml('big')}<h3>${t('Sálem')}, <span>${esc(t(firstName()))}</span>!</h3><p class="muted">${t('Men Qarjı AI. Operaciyanı ápiwayı jazıń yamasa qarjılarıńız haqqında soraw beriń.')}</p>
     <div class="cap-grid">${caps.map(([i, a, ex, cl]) => `<button class="cap ${cl}" data-sg="${ex}"><span class="ci2">${ic(i)}</span><span><b>${t(a)}</b><small>«${t(ex)}»</small></span></button>`).join('')}</div></div>`;
   const sugg = ['Taksi 25 mıń', 'Bazar 180 000 naq', 'Aylıq 6,5 mln keldi', 'Bul ay qansha jumsadım?', 'Byudjet jaǵdayı', 'Maqsetlerim'];
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   const left = () => isMax() ? t('Sheksiz') : `${t('Búgin qaldı')}: ${30 - (S.aiCount.d === today() ? S.aiCount.n : 0)}`;
   Page.open({
     raw: true, noRefresh: true,
-    head: `<div class="ai-top"><span id="aiOrb">${orbHtml()}</span><div style="min-width:0"><b>KARMAN AI</b><small><span class="live"></span><span id="aiLeft" class="ell">${t('Onlayn')} · ${left()}</span></small></div></div>`,
+    head: `<div class="ai-top"><span id="aiOrb">${orbHtml()}</span><div style="min-width:0"><b>Qarjı AI</b><small><span class="live"></span><span id="aiLeft" class="ell">${t('Onlayn')} · ${left()}</span></small></div></div>`,
     right: `<span class="ai-hr"><button class="pg-btn" id="aiCal" aria-label="calendar">${ic('calendar-days')}</button><button class="pg-btn" id="aiClear" aria-label="clear">${ic('rotate-ccw')}</button></span>`,
     html: () => `<div class="chat" id="chat">${S.ai.length ? S.ai.map(msgHtml).join('') : welcome()}</div>
       <div class="ai-sugg">${sugg.map(s => `<button data-sg="${s}">${t(s)}</button>`).join('')}</div>
@@ -2044,7 +2136,7 @@ function runIntro(after) {
   $('#introTag', I).textContent = t('Kirim-shıǵımıńız endi bir qolda');
   $('#introSkip', I).textContent = t('Ótkerip jiberiw');
   // scramble word
-  const W = 'KARMAN', CH = '0123456789+−₽$%KARMN'; const wEl = $('#introWord', I);
+  const W = 'QARJI', CH = '0123456789+−₽$%QARJI'; const wEl = $('#introWord', I);
   wEl.innerHTML = W.split('').map((c, i) => `<span class="${i >= 3 ? 'v' : ''}">${c}</span>`).join('');
   const spans = $$('span', wEl); const t0 = performance.now() + 1500;
   (function scr(now) {
@@ -2085,7 +2177,7 @@ function hubDefault() {
   return {
     v: 1,
     promos: [
-      { id: 'demo-max', title: 'KARMAN AI MAX', text: 'BUSINESS statusı, sheksiz AI, Biznes paneli hám Aurora stili — barlıǵı bir tarifte.', cta: 'Tolıǵıraq', action: 'plans', phone: '', link: '', color: '#7B5CFA', image: '', active: true, order: 1, created: today(), demo: true },
+      { id: 'demo-max', title: 'Qarjı AI MAX', text: 'BUSINESS statusı, sheksiz AI, Biznes paneli hám Aurora stili — barlıǵı bir tarifte.', cta: 'Tolıǵıraq', action: 'plans', phone: '', link: '', color: '#7B5CFA', image: '', active: true, order: 1, created: today(), demo: true },
       { id: 'demo-slot', title: 'Reklama ornı', text: 'Bul jerde sizdiń biznesińiz turıwı múmkin. Arza qaldırıń — biz siz benen baylanısamız.', cta: 'Arza qaldırıw', action: 'apply', phone: '', link: '', color: '#1c1c1c', image: '', active: true, order: 2, created: today(), demo: true }
     ],
     stats: {}, applications: [], broadcasts: [], prices: { pro: 19900, max: 499000 }, rates: { USD: 12850, EUR: 13920, RUB: 132, KZT: 25.4 },
@@ -2182,7 +2274,7 @@ window.addEventListener('storage', e => {
 
 
 /* =====================================================================
-   KARMAN AI — admin talapları (v4)
+   Qarjı AI — admin talapları (v4)
    ===================================================================== */
 (function kmMigrate() {
   if (!S.km4) {
@@ -2310,11 +2402,9 @@ function renderHome() {
         : `<span class="hp3-e">${ic('plus')}<small>${t('Shiyshe kopilka ashıń')}</small></span>`}
       </button>
       <button class="hp3-c hp3-d" id="hDebt">
-        <span class="hp3-tag">${ic('scale')}${t('Qarjı AI')}</span>
-        <div class="hp3-tz">${kmScale(give, take)}</div>
-        <b class="hp3-n">${net > 0 ? t('Sizge qaytadı') : net < 0 ? t('Siz qaytarasız') : t('Tarazı teń')}</b>
-        <span class="hp3-v num">${net > 0 ? '+' : net < 0 ? '−' : ''}${short(Math.abs(net))}</span>
-        <span class="hp3-s">${act.length ? act.length + ' ' + t('aktiv qarız') : t('Aktiv qarız joq')}</span>
+        <span class="hp3-tag">${ic('users')}${t('Qarjı AI')}</span>
+        <b class="hp3-n kw-h">${t('Kim qarızdar?')}</b>
+        ${kmWho(true)}
       </button></div>`; },
     fx: () => `<div class="sec-h"><h3>${t('Valyuta kursları')} <span class="badge">3</span></h3><button class="link" id="hFxAll">${t('Barlıǵı')}${ic('arrow-up-right')}</button></div>
       <div class="card list">${['RUB', 'USD', 'EUR'].map(fxRow).join('')}</div>`,
@@ -2572,7 +2662,7 @@ function openCats() {
       ${grp('mine', 'Jeke kategoriyalar', 'circle-user', '#7B5CFA', mine, true)}
       ${userGroups.map(g => grp(g.id, g.name, 'folder', g.color || '#5B3EE6', cats.filter(c => c.grp === g.id), true)).join('')}
       <button class="cg-new" id="cgNew"><span>${ic('plus')}</span><span class="r-t"><div>${t('Jańa gruppa')}</div><small>${t('Kategoriyalarıńızdı óz gruppańızǵa jıynań')}</small></span></button>
-      <small class="cg-cap">${t('KARMAN AI gruppaları')}</small>
+      <small class="cg-cap">${t('Qarjı AI gruppaları')}</small>
       ${KM_GROUPS.map(([id, name, icon, color]) => grp(id, name, icon, color, cats.filter(c => c.bg === id && !c.grp), false)).join('')}`;
   };
   const addIn = g => { const before = new Set(S.cats.map(c => c.id)); UI.cOpen[g] = true; const kg = KM_GROUPS.find(x => x[0] === g); openCatEdit(null, kg ? kg[4] : 'expense');
@@ -2639,7 +2729,7 @@ function openDebtNew(type = 'given') {
         const phone = $('#dP', el).value.replace(/\D/g, '');
         const d = { id: uid(), name: n, phone, amount: a, cur: st.cur, wallet: st.wallet, type: st.type, date: $('#dF', el).value || today(), due: $('#dD', el).value || today(), note: $('#dT', el).value.trim(), sms: st.sms, paid: false };
         S.debts.push(d); save(); Page.back(); renderView(); toast(t('Qarız jaratıldı'), { icon: 'check' });
-        if (st.sms && phone.length >= 9) { const body = `${t('Sálem')}, ${n}! ${st.type === 'given' ? t('Sizge berilgen qarız') : t('Sizden alınǵan qarız')}: ${grp(a)} ${st.cur}. ${t('Qaytarıw sánesi')}: ${d.due.split('-').reverse().join('.')}. — KARMAN AI`; location.href = `sms:+998${phone}?body=${encodeURIComponent(body)}`; }
+        if (st.sms && phone.length >= 9) { const body = `${t('Sálem')}, ${n}! ${st.type === 'given' ? t('Sizge berilgen qarız') : t('Sizden alınǵan qarız')}: ${grp(a)} ${st.cur}. ${t('Qaytarıw sánesi')}: ${d.due.split('-').reverse().join('.')}. — Qarjı AI`; location.href = `sms:+998${phone}?body=${encodeURIComponent(body)}`; }
       };
     }
   });
@@ -2700,10 +2790,30 @@ function kmBindDebts(el) {
         <div class="qa-share">${d.phone ? `<button class="btn pri" id="rmS">${ic('message-square-text')}SMS</button>` : ''}<button class="btn ink" id="rmTg">${ic('send')}Telegram</button><button class="btn ghost" id="rmC">${ic('copy')}${t('Kóshiriw')}</button></div>`,
       mount: () => { const v = () => $('#rmT').value;
         if ($('#rmS')) $('#rmS').onclick = () => location.href = `sms:+998${d.phone}?body=${encodeURIComponent(v())}`;
-        $('#rmTg').onclick = () => window.open(`https://t.me/share/url?url=${encodeURIComponent('KARMAN AI')}&text=${encodeURIComponent(v())}`, '_blank');
+        $('#rmTg').onclick = () => window.open(`https://t.me/share/url?url=${encodeURIComponent('Qarjı AI')}&text=${encodeURIComponent(v())}`, '_blank');
         $('#rmC').onclick = () => { navigator.clipboard?.writeText(v()); toast(t('Kóshirildi'), { icon: 'copy' }); }; } }); });
 }
 /* Tarazı — kim kimge qarızdar, kórinip turadı */
+function kmWho(compact) {
+  const act = S.debts.filter(d => !d.paid); const G = act.filter(d => d.type === 'given'), T = act.filter(d => d.type === 'taken');
+  const sumOf = l => l.reduce((a, d) => a + debtUZS(d), 0); const m = kmMainDebt();
+  const dd = m && m.due ? Math.round((fromIso(m.due) - fromIso(today())) / 864e5) : null;
+  const avs = l => `<span class="kw-av">${l.slice(0, 3).map(d => `<i>${esc(initials(d.name))}</i>`).join('')}${l.length > 3 ? `<i class="more">+${l.length - 3}</i>` : ''}</span>`;
+  const row = (l, cls, ic1, lbl) => `<div class="kw-r ${cls}"><span class="kw-ic">${ic(ic1)}</span><span class="kw-t"><small>${t(lbl)}</small><b class="num">${l.length ? (cls === 'in' ? '+' : '−') + short(sumOf(l)) : '0'}</b></span>${l.length ? avs(l) : `<span class="kw-none">${t('joq')}</span>`}</div>`;
+  return `<div class="kw ${compact ? 'cp' : ''}">
+    ${row(G, 'in', 'arrow-down-left', 'Maǵan qaytaradı')}
+    ${row(T, 'out', 'arrow-up-right', 'Men qaytaraman')}
+    ${m ? `<div class="kw-next ${dd != null && dd < 0 ? 'late' : ''}">${ic('bell')}<span class="ell"><b>${esc(m.name)}</b> · ${dd == null ? t('múddetsiz') : dd < 0 ? -dd + ' ' + t('kún keshikti') : dd === 0 ? t('búgin') : dd + ' ' + t('kún qaldı')}</span></div>` : `<div class="kw-next">${ic('check')}<span>${t('Aktiv qarız joq')}</span></div>`}
+  </div>`;
+}
+function kmShake(give, take, compact) {
+  const tot = give + take; const gp = tot ? Math.round(give / tot * 100) : 50;
+  return `<div class="hs ${compact ? 'cp' : ''}">
+    <div class="hs-ico"><span class="hs-ring"></span><span class="hs-ring b"></span><span class="hs-hand">${ic('handshake')}</span>
+      ${compact ? `<i class="hs-c l num">${short(give)}</i><i class="hs-c r num">${short(take)}</i>` : ''}</div>
+    ${compact ? '' : `<div class="hs-sides"><span><small>${ic('arrow-down-left')}${t('Maǵan qaytadı')}</small><b class="num">${short(give)}</b></span><span class="r"><small>${t('Men qaytaraman')}${ic('arrow-up-right')}</small><b class="num">${short(take)}</b></span></div>`}
+    <div class="hs-bar"><i style="width:${gp}%"></i></div></div>`;
+}
 function kmScale(give, take) {
   const tot = give + take; const ang = tot ? clamp((take - give) / tot, -1, 1) * 14 : 0;
   return `<div class="tz" style="--a:${ang}deg">
@@ -2748,12 +2858,12 @@ function openDebts() {
       const act = S.debts.filter(d => !d.paid); const give = act.filter(d => d.type === 'given').reduce((a, d) => a + debtUZS(d), 0), take = act.filter(d => d.type === 'taken').reduce((a, d) => a + debtUZS(d), 0);
       const net = give - take; const m = kmMainDebt(); const others = S.debts.length - (m ? 1 : 0);
       return `<section class="qa-hero">
-          <div class="qa-top"><span class="qa-ai">${ic('scale')}</span><div><b>${t('Qarız tarazısı')}</b><small>${net > 0 ? t('Tarazı sizdiń tárepke awǵan') : net < 0 ? t('Tarazı qarızlar tárepke awǵan') : t('Tarazı teń')}</small></div>
+          <div class="qa-top"><span class="qa-ai">${ic('users')}</span><div><b>${t('Kim qarızdar?')}</b><small>${net > 0 ? t('Sizge qaytatuǵın kóbirek') : net < 0 ? t('Siz qaytaratuǵın kóbirek') : t('Esap teń')}</small></div>
             <div class="qa-net"><small>${t('Sap jaǵday')}</small><b class="num">${net >= 0 ? '+' : '−'}${short(Math.abs(net))}</b></div></div>
-          ${kmScale(give, take)}
+          ${kmWho()}
         </section>
         ${m ? `<div class="qa-main-cap"><span>${ic('flame')}${t('Eń shuǵıl qarız')}</span></div>
-          <div class="qa-main">${kmDebtRing(m)}${kmDebtCard(m)}</div>` : `<div class="card empty"><span class="e-ic">${ic('hand-coins')}</span>${t('Aktiv qarız joq. Tarazı teń!')}</div>`}
+          <div class="qa-main">${kmDebtRing(m)}${kmDebtCard(m)}</div>` : `<div class="card empty"><span class="e-ic">${ic('hand-coins')}</span>${t('Aktiv qarız joq. Esap teń!')}</div>`}
         ${others > 0 ? `<button class="qa-more" id="dMore"><span class="qa-stack">${S.debts.filter(d => d !== m).slice(0, 3).map(d => `<i>${esc(initials(d.name))}</i>`).join('')}</span><span class="r-t"><div>${t('Basqa qarızlar')}</div><small>${others} ${t('qarız')}</small></span>${ic('chevron-right')}</button>` : ''}
         <div class="card qa-ins"><h4>${ic('sparkles')}${t('Qarjı AI keńesleri')}</h4>${kmInsights().map(([i, x]) => `<p>${ic(i)}<span>${x}</span></p>`).join('')}</div>
         <button class="btn pri" id="dNew">${ic('plus')}${t('Qarız jaratıw')}</button>`;
@@ -2762,7 +2872,7 @@ function openDebts() {
       kmBindDebts(el);
       const mo = $('#dMore', el); if (mo) mo.onclick = () => openDebtList();
       $('#dNew', el).onclick = $('#dAdd', el).onclick = () => openDebtNew(UI.dTab || 'given');
-      const tz = $('.tz', el); if (tz) { const a = tz.style.getPropertyValue('--a'); tz.style.setProperty('--a', '0deg'); requestAnimationFrame(() => setTimeout(() => tz.style.setProperty('--a', a), 60)); }
+      const tz = null; if (tz) { const a = tz.style.getPropertyValue('--a'); tz.style.setProperty('--a', '0deg'); requestAnimationFrame(() => setTimeout(() => tz.style.setProperty('--a', a), 60)); }
     }
   });
 }
@@ -2780,15 +2890,15 @@ function kmPig(g, from, uidp = '') {
       const jx = x + ((row * 7 + x) % 5) - 2, jy = y + ((x * 3 + row) % 3) - 1; if (!inBody(jx, jy)) continue;
       if (jy < lvl(p) + mound(jx)) continue;
       const isNew = from != null && jy < lvl(f) + mound(jx); const r = ((row * 13 + x) % 21) - 10;
-      coins += `<g transform="translate(${jx} ${jy}) rotate(${r})"><g class="cn ${isNew ? 'nw' : ''}" ${isNew ? `style="animation-delay:${(.85 + n++ * .035).toFixed(2)}s"` : ''}><ellipse cy="3" rx="13.5" ry="4.8" fill="#5E5A78"/><ellipse rx="13.5" ry="4.8" fill="url(#${id}c)"/><ellipse rx="9.4" ry="3" fill="none" stroke="rgba(255,255,255,.6)" stroke-width=".9"/></g></g>`;
+      coins += `<g transform="translate(${jx} ${jy}) rotate(${r})"><g class="cn ${isNew ? 'nw' : ''}" ${isNew ? `style="animation-delay:${(.85 + n++ * .035).toFixed(2)}s"` : ''}><ellipse cy="3" rx="13.5" ry="4.8" fill="#8A5A04"/><ellipse rx="13.5" ry="4.8" fill="url(#${id}c)"/><ellipse rx="9.4" ry="3" fill="none" stroke="rgba(255,248,210,.75)" stroke-width=".9"/></g></g>`;
     }
   }
   // shiyshege súyengen tik tıyınlar (haqıyqıy kórinis ushın)
-  const side = p > .08 ? [[46, lvl(p) + 18, -12], [154, lvl(p) + 20, 14]].filter(([x, y]) => y < 206).map(([x, y, r]) => `<g transform="translate(${x} ${y}) rotate(${r})"><g class="cn ${from != null ? 'nw' : ''}" ${from != null ? `style="animation-delay:${(.9 + n * .035).toFixed(2)}s"` : ''}><rect x="-3" y="-13" width="6" height="26" rx="3" fill="#7E7A98"/><ellipse cx="1.5" rx="4.6" ry="13" fill="url(#${id}c)"/></g></g>`).join('') : '';
+  const side = p > .08 ? [[46, lvl(p) + 18, -12], [154, lvl(p) + 20, 14]].filter(([x, y]) => y < 206).map(([x, y, r]) => `<g transform="translate(${x} ${y}) rotate(${r})"><g class="cn ${from != null ? 'nw' : ''}" ${from != null ? `style="animation-delay:${(.9 + n * .035).toFixed(2)}s"` : ''}><rect x="-3" y="-13" width="6" height="26" rx="3" fill="#9C6A08"/><ellipse cx="1.5" rx="4.6" ry="13" fill="url(#${id}c)"/></g></g>`).join('') : '';
   return `<div class="cj ${p >= 1 ? 'full' : ''} ${from != null ? 'drop' : ''}">
   <svg viewBox="0 0 200 250" aria-hidden="true">
     <defs>
-      <linearGradient id="${id}c" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".5" stop-color="#DAD6EB"/><stop offset="1" stop-color="#9590B2"/></linearGradient>
+      <linearGradient id="${id}c" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF6C8"/><stop offset=".35" stop-color="#FFD54A"/><stop offset=".7" stop-color="#E8A817"/><stop offset="1" stop-color="#A86F05"/></linearGradient>
       <linearGradient id="${id}g" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="rgba(235,228,255,.34)"/><stop offset=".18" stop-color="rgba(235,228,255,.06)"/><stop offset=".8" stop-color="rgba(235,228,255,.04)"/><stop offset="1" stop-color="rgba(235,228,255,.3)"/></linearGradient>
       <linearGradient id="${id}m" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F4F2FA"/><stop offset=".45" stop-color="#B9B4CF"/><stop offset=".55" stop-color="#8F8AAB"/><stop offset="1" stop-color="#D9D5EA"/></linearGradient>
       <clipPath id="${id}k"><path d="${body}"/></clipPath>
@@ -2854,7 +2964,7 @@ function openGoals() {
           <button class="btn pri" id="gOk">${t('Saqlaw')}</button>`,
         mount: e2 => { bindMoney(e2); let icon = 'target';
           $$('[data-gi]', e2).forEach(b => b.onclick = () => { icon = b.dataset.gi; $$('[data-gi]', e2).forEach(x => x.classList.toggle('on', x === b)); });
-          $('#gOk').onclick = () => { const n = $('#gN').value.trim(), tg = parseMoney($('#gT').value); if (!n || !tg) return toast(t('Barlıq maydanlardı toltırıń'), { icon: 'circle-alert' }); const id = uid(); S.goals.push({ id, name: n, target: tg, saved: 0, icon, due: $('#gD').value || '' }); S.mainGoal = id; save(); Sheet.close(); renderView(); }; }
+          $('#gOk').onclick = () => { const n = $('#gN').value.trim(), tg = parseMoney($('#gT').value); if (!n || !tg) return toast(t('Barlıq maydanlardı toltırıń'), { icon: 'circle-alert' }); const id = uid(); S.goals.push({ id, name: n, target: tg, saved: 0, icon, due: $('#gD').value || '', start: today() }); S.mainGoal = id; save(); Sheet.close(); renderView(); }; }
       });
       $('#gNew', el).onclick = nw; $('#gAdd', el).onclick = nw;
       const g = kmMainGoal(); if ($('#gIn', el)) $('#gIn', el).onclick = () => kmGoalAdd(g);
@@ -2877,11 +2987,100 @@ function kmPlanTiles() {
     <button class="pt lav" id="svG2"><span class="tag">${ic('target')}${t('Maqsetler')}</span><b class="pt-h num ell">${g.length ? Math.round(gs / (gt || 1) * 100) + '%' : ic('plus')}</b><span class="pt-t">${g.length} ${t('maqset')}</span>${g.length ? `<span class="bar"><i style="width:${clamp(gs / (gt || 1) * 100, 0, 100)}%"></i></span>` : ''}</button>
     <button class="pt ink" id="svD2"><span class="tag">${ic('sparkles')}${t('Qarjı AI')}</span><b class="pt-h num ell">${short(d.reduce((a, x) => a + debtUZS(x), 0))}</b><span class="pt-t">${d.length} ${t('aktiv qarız')}</span></button></div>`;
 }
+function kmGoalPlan(g) {
+  const start = fromIso(g.start || g.created || today()); const end = g.due ? fromIso(g.due) : addDays(start, 365);
+  const n = clamp(Math.ceil((end - start) / (864e5 * 30.4)), 1, 36); const per = Math.ceil(g.target / n); const done = Math.min(n, Math.floor(g.saved / per + 1e-9));
+  return { n, per, done };
+}
+function openCalc() {
+  let ex = '';
+  const calc = v => { try { const r = Function('"use strict";return (' + v.replace(/×/g, '*').replace(/÷/g, '/').replace(/−/g, '-').replace(/,/g, '.').replace(/%/g, '/100') + ')')(); return isFinite(r) ? Math.round(r * 100) / 100 : ''; } catch (e) { return ''; } };
+  Sheet.open({ title: t('Kalkulyator'),
+    html: () => `<div class="calc"><div class="calc-d"><small id="clE">&nbsp;</small><b class="num" id="clR">0</b></div>
+      <div class="calc-k">${['C', '⌫', '%', '÷', '7', '8', '9', '×', '4', '5', '6', '−', '1', '2', '3', '+', '00', '0', ',', '='].map(k => `<button class="ck ${/[÷×−+=]/.test(k) ? 'op' : /[C⌫%]/.test(k) ? 'fn' : ''} ${k === '=' ? 'eq' : ''}" data-k="${k}">${k}</button>`).join('')}</div></div>`,
+    mount: el => { const E = $('#clE', el), R = $('#clR', el);
+      const show = () => { E.textContent = ex || ' '; const r = calc(ex); R.textContent = r === '' ? (ex ? '…' : '0') : String(r).replace('.', ','); };
+      $$('[data-k]', el).forEach(b => b.onclick = () => { const k = b.dataset.k; vib(4);
+        if (k === 'C') ex = ''; else if (k === '⌫') ex = ex.slice(0, -1); else if (k === '=') { const r = calc(ex); ex = r === '' ? ex : String(r).replace('.', ','); } else ex += k; show(); }); } });
+}
+function openSaveCalc() {
+  Sheet.open({ title: t('Jinaq kalkulyatorı'),
+    html: () => `<div class="field"><label>${t('Qansha jıynaw kerek')}</label>${moneyInput('scT')}</div>
+      <div class="field"><label>${t('Házir bar')}</label>${moneyInput('scH')}</div>
+      <div class="field"><label>${t('Neshe ayda')}</label><input class="inp" id="scM" inputmode="numeric" value="12"></div>
+      <div class="card kc-res" id="scR"></div>`,
+    mount: el => { bindMoney(el); const r = () => { const tg = parseMoney($('#scT').value), h = parseMoney($('#scH').value), m = Math.max(1, +$('#scM').value || 1); const left = Math.max(0, tg - h);
+        $('#scR').innerHTML = `<div><small>${t('Ayına jıynaw kerek')}</small><b class="num">${grp(Math.ceil(left / m))} ${cur()}</b></div><div><small>${t('Hápte sayın')}</small><b class="num">${grp(Math.ceil(left / (m * 4.345)))}</b></div><div><small>${t('Kúnine')}</small><b class="num">${grp(Math.ceil(left / (m * 30.4)))}</b></div>`; };
+      $$('input', el).forEach(i => i.addEventListener('input', r)); r(); } });
+}
+function openDiscount() {
+  Sheet.open({ title: t('Skidka kalkulyatorı'),
+    html: () => `<div class="field"><label>${t('Baha')}</label>${moneyInput('dsP')}</div>
+      <div class="field"><label>${t('Skidka')} %</label><div class="chips">${[5, 10, 15, 20, 30, 50].map(v => `<button class="chip ${v === 20 ? 'on' : ''}" data-dp="${v}">${v}%</button>`).join('')}</div></div>
+      <div class="card kc-res" id="dsR"></div>`,
+    mount: el => { bindMoney(el); let pc = 20; const r = () => { const p = parseMoney($('#dsP').value); const off = Math.round(p * pc / 100);
+        $('#dsR').innerHTML = `<div><small>${t('Tólenetuǵın baha')}</small><b class="num">${grp(p - off)} ${cur()}</b></div><div><small>${t('Únemleysiz')}</small><b class="num">${grp(off)}</b></div>`; };
+      $('#dsP').addEventListener('input', r); $$('[data-dp]', el).forEach(b => b.onclick = () => { pc = +b.dataset.dp; $$('[data-dp]', el).forEach(x => x.classList.toggle('on', x === b)); r(); }); r(); } });
+}
+function openSplit() {
+  Sheet.open({ title: t('Esaptı bólisiw'),
+    html: () => `<div class="field"><label>${t('Jámi summa')}</label>${moneyInput('spT')}</div>
+      <div class="field"><label>${t('Adamlar sanı')}</label><div class="kc-step"><button class="pg-btn" id="spM">${ic('minus')}</button><b class="num" id="spN">2</b><button class="pg-btn" id="spP">${ic('plus')}</button></div></div>
+      <div class="field"><label>${t('Shay puli')}</label><div class="chips">${[0, 5, 10, 15].map(v => `<button class="chip ${v === 0 ? 'on' : ''}" data-tp="${v}">${v}%</button>`).join('')}</div></div>
+      <div class="card kc-res" id="spR"></div>`,
+    mount: el => { bindMoney(el); let n = 2, tp = 0; const r = () => { const tot = parseMoney($('#spT').value) * (1 + tp / 100); $('#spN').textContent = n;
+        $('#spR').innerHTML = `<div><small>${t('Hár adamǵa')}</small><b class="num">${grp(Math.ceil(tot / n))} ${cur()}</b></div><div><small>${t('Jámi')}</small><b class="num">${grp(Math.round(tot))}</b></div>`; };
+      $('#spT').addEventListener('input', r); $('#spM').onclick = () => { n = Math.max(1, n - 1); r(); }; $('#spP').onclick = () => { n = Math.min(50, n + 1); r(); };
+      $$('[data-tp]', el).forEach(b => b.onclick = () => { tp = +b.dataset.tp; $$('[data-tp]', el).forEach(x => x.classList.toggle('on', x === b)); r(); }); r(); } });
+}
+function openPercent() {
+  Sheet.open({ title: t('Procent kalkulyatorı'),
+    html: () => `<div class="field"><label>${t('Summa')}</label>${moneyInput('pcA')}</div><div class="field"><label>%</label><input class="inp" id="pcP" inputmode="decimal" value="12"></div><div class="card kc-res" id="pcR"></div>`,
+    mount: el => { bindMoney(el); const r = () => { const a = parseMoney($('#pcA').value), p = parseFloat(String($('#pcP').value).replace(',', '.')) || 0; const v = Math.round(a * p / 100);
+        $('#pcR').innerHTML = `<div><small>${p}% ${t('muǵdarı')}</small><b class="num">${grp(v)}</b></div><div><small>${t('Qosılǵanda')}</small><b class="num">${grp(a + v)}</b></div><div><small>${t('Alınǵanda')}</small><b class="num">${grp(a - v)}</b></div>`; };
+      $$('input', el).forEach(i => i.addEventListener('input', r)); r(); } });
+}
 function renderServices() {
-  renderServices0();
-  const el = $('#v-services'); const anchor = $('.grp-chips', el);
-  if (anchor) anchor.insertAdjacentHTML('beforebegin', `<div class="sec-h"><h3>${t('Maqsetler hám Qarjı AI')}</h3></div>` + kmPlanTiles());
-  const a = $('#svG2'), b = $('#svD2'); if (a) a.onclick = openGoals; if (b) b.onclick = openDebts;
+  const el = $('#v-services'); const fxDay = S.fx && S.fx.day;
+  const goals = S.goals; const act = S.debts.filter(d => !d.paid); const m = kmMainDebt();
+  const ppl = {}; act.forEach(d => { const k = d.name.trim(); (ppl[k] = ppl[k] || { name: k, give: 0, take: 0, due: d.due, n: 0 }); const p = ppl[k]; if (d.type === 'given') p.give += debtUZS(d); else p.take += debtUZS(d); p.n++; if (d.due && (!p.due || d.due < p.due)) p.due = d.due; });
+  const people = Object.values(ppl).sort((a, b) => (a.due || '9').localeCompare(b.due || '9'));
+  el.innerHTML = `
+    <div class="page-head"><div><h1 class="page-title">${t('Xızmetler')}</h1><p>${t('Qurallar, kurslar, maqset hám qarızlar')}</p></div></div>
+    <div class="sec-h"><h3>${t('Valyuta kursları')}</h3><button class="link" id="svFxAll">${fxDay ? t('MB kursı') : t('Demo kurs')}${ic('chevron-right')}</button></div>
+    <div class="card fx-list">${['USD', 'EUR', 'RUB'].map(c => { const ch = FX_CHG[c] || 0; return `<button class="fx2" data-rate="${c}"><span class="fx2-l"><b class="num">${fxNum(RATES[c] || 0)}</b><small><span class="fdot ${ch > 0 ? 'up' : ''}"></span>1 ${c} · ${ch >= 0 ? '▲ +' : '▼ '}${String(Math.round(ch * 100) / 100).replace('.', ',')} UZS</small></span><span class="fx2-go">${ic('arrow-up-right')}</span></button>`; }).join('')}</div>
+    <div class="sec-h"><h3>${t('Qarjı qurallari')}</h3></div>
+    <div class="tool-tiles">
+      <button class="tt v" id="tlFx"><span class="tt-top"><span class="tt-ic">${ic('repeat')}</span><span class="tt-go">${ic('arrow-up-right')}</span></span><b>${t('Valyuta konvertorı')}</b></button>
+      <button class="tt card" id="tlCredit"><span class="tt-top"><span class="tt-ic">${ic('landmark')}</span><span class="tt-go">${ic('arrow-up-right')}</span></span><b>${t('Kredit kalkulyatorı')}</b></button>
+      <button class="tt lav" id="tlDep"><span class="tt-top"><span class="tt-ic">${ic('coins')}</span><span class="tt-go">${ic('arrow-up-right')}</span></span><b>${t('Depozit kalkulyatorı')}</b></button>
+      <button class="tt ink" id="tlCsv"><span class="tt-top"><span class="tt-ic">${ic('file-spreadsheet')}</span><span class="tt-go">${ic('download')}</span></span><b>${t('Excel eksport')}</b></button>
+    </div>
+    <div class="sec-h"><h3>${t('Maqsetler')}</h3><button class="link" id="svGoals">${t('Barlıǵı')}${ic('chevron-right')}</button></div>
+    ${goals.length ? goals.map(g => { const pl = kmGoalPlan(g); const p = clamp(g.saved / g.target * 100, 0, 100);
+      return `<div class="card sg">
+        <div class="sg-h"><span class="sg-ic">${ic(g.icon)}</span><div class="r-t"><div class="ell">${esc(t(g.name))}</div><small class="num">${short(g.saved)} / ${short(g.target)} · ${t('ayına')} ${short(pl.per)}</small></div><b class="num sg-p">${Math.round(p)}%</b></div>
+        <div class="sg-m">${[...Array(pl.n)].map((_, i) => { const st = i < pl.done ? 'ok' : i === pl.done && p < 100 ? 'next' : '';
+          return `<button class="mc ${st}" ${st === 'next' ? `data-gm="${g.id}"` : 'disabled'}><span class="mc-b">${st === 'ok' ? ic('check') : st === 'next' ? ic('plus') : ''}</span><small>${i + 1}-${t('ay')}</small></button>`; }).join('')}</div>
+        <small class="sg-f">${pl.done}/${pl.n} ${t('ay orınlandı')}${p < 100 ? ` · ${t('keyingi')}: <b class="num">${short(pl.per)}</b>` : ` · ${t('Maqsetke jettińiz!')}`}</small>
+      </div>`; }).join('') : `<div class="card empty"><span class="e-ic">${ic('target')}</span>${t('Ele maqset joq')}</div>`}
+    <button class="btn ghost" id="svGoalNew">${ic('plus')}${t('Jańa maqset')}</button>
+    <div class="sec-h"><h3>${t('Qarızlar')}</h3><button class="link" id="svDebts">${t('Barlıǵı')}${ic('chevron-right')}</button></div>
+    ${m ? `<div class="sv-main">${kmDebtCard(m)}</div>` : ''}
+    ${people.length ? `<div class="card list sv-ppl">${people.map(p => { const dd = p.due ? Math.round((fromIso(p.due) - fromIso(today())) / 864e5) : null; const net = p.give - p.take;
+      return `<button class="row" data-pp="${esc(p.name)}"><span class="qa-av">${esc(initials(p.name))}</span><span class="r-t"><div class="ell">${esc(p.name)}</div><small>${net >= 0 ? t('maǵan qaytaradı') : t('men qaytaraman')} · ${dd == null ? t('múddetsiz') : dd < 0 ? -dd + ' ' + t('kún keshikti') : dd + ' ' + t('kún qaldı')}</small></span><b class="num ${net >= 0 ? 'pos' : 'neg'}">${net >= 0 ? '+' : '−'}${short(Math.abs(net))}</b></button>`; }).join('')}</div>`
+      : `<div class="card empty"><span class="e-ic">${ic('hand-coins')}</span>${t('Aktiv qarız joq')}</div>`}
+    <button class="btn ghost" id="svDebtNew">${ic('plus')}${t('Qarız jaratıw')}</button>`;
+  $('#svFxAll').onclick = openFxAll;
+  $$('[data-rate]', el).forEach(b => b.onclick = () => openFx(b.dataset.rate));
+  $('#tlCsv').onclick = () => exportXLSX();
+ $('#tlFx').onclick = () => openFx('USD'); $('#tlCredit').onclick = openCreditCalc; $('#tlDep').onclick = openDepositCalc;
+  $('#svGoals').onclick = openGoals; $('#svDebts').onclick = openDebts; $('#svDebtNew').onclick = () => openDebtNew('given');
+  $('#svGoalNew').onclick = () => { openGoals(); setTimeout(() => { const b = $('#gNew') || $('#gAdd'); b && b.click(); }, 350); };
+  $$('[data-gm]', el).forEach(b => b.onclick = () => { const g = S.goals.find(x => x.id === b.dataset.gm); const pl = kmGoalPlan(g); const add = Math.min(pl.per * (pl.done + 1) - g.saved, g.target - g.saved);
+    g.saved += add; save(); vib(10); renderView(); toast(`${pl.done + 1}-${t('ay')}: +${grp(add)} ${t('maqsetke qosıldı')}`, { icon: 'check', undo: () => { g.saved -= add; save(); renderView(); } }); if (g.saved >= g.target) confetti(120); });
+  $$('[data-pp]', el).forEach(b => b.onclick = () => openDebtList());
+  kmBindDebts(el);
   refreshIcons();
 }
 function renderProfile() { renderProfile0(); }
