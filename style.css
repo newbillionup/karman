@@ -2003,12 +2003,12 @@ html{font-size:15px}
 .kw-next.late{background:#fff;color:#2B1B78}
 .kw-next b{font-weight:800}
 /* bas bettegi kishi variant */
-.kw.cp{gap:6px;margin-top:4px}
-.kw.cp .kw-r{padding:7px 8px;gap:7px;border-radius:13px}
-.kw.cp .kw-ic{width:26px;height:26px;border-radius:9px}.kw.cp .kw-ic svg{width:14px;height:14px}
-.kw.cp .kw-t small{font-size:.6rem}.kw.cp .kw-t b{font-size:.92rem}
-.kw.cp .kw-av,.kw.cp .kw-none{display:none}
-.kw.cp .kw-next{padding:7px 9px;font-size:.66rem;border-radius:11px}
+.kw.kwc{gap:6px;margin-top:4px}
+.kw.kwc .kw-r{padding:7px 8px;gap:7px;border-radius:13px}
+.kw.kwc .kw-ic{width:26px;height:26px;border-radius:9px}.kw.kwc .kw-ic svg{width:14px;height:14px}
+.kw.kwc .kw-t small{font-size:.6rem}.kw.kwc .kw-t b{font-size:.92rem}
+.kw.kwc .kw-av,.kw.kwc .kw-none{display:none}
+.kw.kwc .kw-next{padding:7px 9px;font-size:.66rem;border-radius:11px}
 .hp3-d .kw-h{margin-top:8px}
 .hp3-d .hp3-n:not(.kw-h),.hp3-d .hp3-v,.hp3-d .hp3-s{display:none}
 /* ===== NAVBAR v7: ortada + túymesi ===== */
@@ -2103,10 +2103,10 @@ html{font-size:15px}
 .tc.on{border-color:var(--violet);background:var(--violet-soft);color:var(--violet);box-shadow:0 6px 16px -10px rgba(91,62,230,.9)}
 :root[data-mode="dark"] .tc.on{color:#C7B6FF}
 .cp-g{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}
-.cp{display:flex;flex-direction:column;align-items:center;gap:7px;padding:12px 6px;border-radius:18px;background:var(--card-2);border:1.5px solid transparent;color:var(--fg);min-width:0}
-.cp .tc-ic{width:40px;height:40px}.cp .tc-ic svg{width:19px;height:19px}
-.cp small{font-size:.72rem;font-weight:700;text-align:center;line-height:1.2;overflow-wrap:anywhere}
-.cp.on{border-color:var(--violet);background:var(--violet-soft)}
+.cpk{display:flex;flex-direction:column;align-items:center;gap:7px;padding:12px 6px;border-radius:18px;background:var(--card-2);border:1.5px solid transparent;color:var(--fg);min-width:0}
+.cpk .tc-ic{width:40px;height:40px}.cpk .tc-ic svg{width:19px;height:19px}
+.cpk small{font-size:.72rem;font-weight:700;text-align:center;line-height:1.2;overflow-wrap:anywhere}
+.cpk.on{border-color:var(--violet);background:var(--violet-soft)}
 /* sáne túymesi */
 .dp-btn{display:flex;align-items:center;gap:8px;text-align:left;cursor:pointer;color:var(--fg);font:inherit;font-weight:600;white-space:nowrap;overflow:hidden}
 .dp-btn svg{width:18px;height:18px;color:var(--violet);flex:none}
@@ -2126,3 +2126,30 @@ html{font-size:15px}
 .dp-prev{display:flex;align-items:center;gap:8px;margin:14px 2px;font-weight:700}
 .dp-prev svg{width:18px;height:18px;color:var(--violet)}
 .dp-prev small{margin-left:auto;color:var(--muted);font-weight:600}
+/* v9 dúzetiwler */
+.ab-foot{text-align:center;font-size:.74rem;color:var(--muted);margin:6px 0 0;line-height:1.6}
+.ab-foot span{font-size:.7rem;opacity:.8}
+.wr-c.sel{outline:none;box-shadow:inset 0 0 0 2px var(--violet),var(--shadow)}
+.km-wrow{padding-top:4px;padding-bottom:8px}
+.kw.kwc{background:none;border:0;box-shadow:none;padding:0}
+.hp3-d .kw-r{color:#fff}
+.pf-band>span:first-child{flex:1}
+/* ===== 2D modeller: Hayal / Erkek / Ghost ===== */
+.mdl-ava{padding:0!important;overflow:hidden;background:none!important}
+.mdl{width:100%;height:100%;display:block}
+.mdl.ghost .gh-b{animation:ghFloat 3.2s ease-in-out infinite;transform-origin:60px 60px}
+.mdl.ghost .gh-sh{animation:ghSh 3.2s ease-in-out infinite;transform-origin:60px 104px}
+@keyframes ghFloat{50%{transform:translateY(-5px) rotate(-2deg)}}
+@keyframes ghSh{50%{transform:scaleX(.8);opacity:.2}}
+.pe-ava .mdl{width:100%;height:100%}
+.pe-gender{padding:14px;display:flex;flex-direction:column;gap:10px}
+.pe-gender>label{font-size:.78rem;font-weight:700;color:var(--muted)}
+.pg-opts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.pg-o{display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 6px;border-radius:20px;background:var(--card-2);border:2px solid transparent;color:var(--fg);transition:transform .2s}
+.pg-m{width:64px;height:64px;border-radius:50%;overflow:hidden;display:block;box-shadow:0 8px 18px -10px rgba(91,62,230,.9)}
+.pg-o small{font-weight:700;font-size:.8rem}
+.pg-o.on{border-color:var(--violet);background:var(--violet-soft)}
+.pg-o.on small{color:var(--violet)}
+.pg-o:active{transform:scale(.95)}
+.pf-metrics{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+@media (prefers-reduced-motion:reduce){.mdl *{animation:none!important}}
